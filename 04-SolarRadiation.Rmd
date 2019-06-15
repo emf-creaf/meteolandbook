@@ -1,0 +1,255 @@
+# Estimation of solar radiation {#solarradiation}
+
+Incident daily solar radiation is not interpolated, but estimated from topography and measurements of temperature, humidity and precipitation.
+
+```{r, echo=FALSE}
+library(meteoland)
+```
+
+## Solar declination and solar constant
+
+The declination of the sun $\delta$ is the angle between the rays of the sun and the plan of the Earth's equator. Solar declination varies with years and seasons. However, the Earth's axial tilt changes slowly over thousands of years but it is nearly constant for shorter periods, so the change in solar declination during one year is nearly the same as during the next year. Solar constant ($I_0$) is normally given a nominal value of 1.361 $kW \cdot m^{-2}$ but in fact it also varies through the year and over years. Both can be calculated from Julian day ($J$), the number of days number of days since January 1, 4713 BCE at noon UTC. from Julian day. In **meteoland**, julian days, solar declination and solar constant are calculated using an adaptation of the code as in package [**insol**](https://CRAN.R-project.org/package=insol) by J.G. Corripio, which is based on Danby (1988) and Reda & Andreas (2003). 
+
+The following figures show the variation of solar declination and the value of solar constant over a year (see functions `radiation_solarDeclination()` and `radiation_solarConstant()`):
+
+```{r, echo=FALSE, fig.align='center', fig.width=7, fig.height=3.5}
+par(mar=c(3,4,1,3), mfrow=c(1,2))
+dates = seq(as.Date("2012-01-01"), as.Date("2012-12-31"), by="day")[1:365]
+J = radiation_julianDay(2012,1,1)+0:364
+delta = unlist(lapply(J,radiation_solarDeclination))
+plot(dates,delta, type="l", xlab="", ylab="Declination (radians)", cex=0.8, lwd=1.5)
+J2 = radiation_julianDay(1012,1,1)+0:364
+delta2 = unlist(lapply(J2,radiation_solarDeclination))
+lines(dates, delta2, col="red", lty=2)
+J3 = radiation_julianDay(12,1,1)+0:364
+delta2 = unlist(lapply(J3,radiation_solarDeclination))
+lines(dates, delta2, col="blue", lty=3)
+J4 = radiation_julianDay(3012,1,1)+0:364
+delta2 = unlist(lapply(J4,radiation_solarDeclination))
+lines(dates, delta2, col="brown", lty=4)
+legend("bottom", legend = paste0(c(3012,2012,1012,12), " AD"), col=c("brown","black","red","blue"), cex=0.8, lty=c(4,1,2,3), lwd=c(1,1.5,1,1), bty="n")
+axis(4, at=seq(-0.4, 0.4, by=0.2), labels=round(seq(-0.4, 0.4, by=0.2)*180/pi))
+mtext("Declination (degrees)", side=4, line=2)
+
+dates = seq(as.Date("2012-01-01"), as.Date("2012-12-31"), by="day")[1:365]
+J = radiation_julianDay(2012,1,1)+0:364
+sc = unlist(lapply(J,radiation_solarConstant))
+plot(dates,sc, type="l", xlab="", ylab="Solar constant (kw/m2)", cex=0.8, lwd=1.5)
+J2 = radiation_julianDay(1012,1,1)+0:364
+sc2 = unlist(lapply(J2,radiation_solarConstant))
+lines(dates, sc2, col="red", lty=2)
+J3 = radiation_julianDay(12,1,1)+0:364
+sc2 = unlist(lapply(J3,radiation_solarConstant))
+lines(dates, sc2, col="blue", lty=3)
+J4 = radiation_julianDay(3012,1,1)+0:364
+sc2 = unlist(lapply(J4,radiation_solarConstant))
+lines(dates, sc2, col="brown", lty=4)
+legend("top", legend = paste0(c(3012,2012,1012,12), " AD"), col=c("brown","black","red","blue"), cex=0.8, lty=c(4,1,2,3), lwd=c(1,1.5,1,1), bty="n")
+```
+
+
+
+\subsection{Day length}
+Calculation of sunrise and sunset on a horizontal surface is rather straightforward. The hour angles of sunrise and sunset ($sr$ and $ss$, both in radians) for a horizontal surface of latitude $\phi$ on a day with declination $\delta$ (both expressed in radians) are:
+\begin{eqnarray}
+sr &=& T_1 = \cos^{-1}\left(\max(\min(-\tan(\phi) \cdot \tan(\delta),1),-1)\right) \\
+ss &=& T_0 = - T_1
+\end{eqnarray}
+Knowing that each hour corresponds to 15 degrees of rotation, hour angles can be transformed to solar hours. The following figures show the seasonal variation of sunrise and sunset hours, as well as day length, for horizontal surfaces in three latitudes (40North, equator and 40South) (see functions \texttt{radiation\_sunRiseSet()} and  \texttt{radiation\_daylength()}):
+\begin{center}
+<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+par(mfrow=c(1,3))
+latrad1 = 40*(pi/180)
+latrad2 = 0
+latrad3 = -40*(pi/180)
+dll1 = rep(NA, length(delta))
+dll2 = rep(NA, length(delta))
+dll3 = rep(NA, length(delta))
+srl1 = rep(NA, length(delta))
+srl2 = rep(NA, length(delta))
+srl3 = rep(NA, length(delta))
+ssl1 = rep(NA, length(delta))
+ssl2 = rep(NA, length(delta))
+ssl3 = rep(NA, length(delta))
+for(i in 1:length(delta)) {
+  dll1[i]=radiation_daylength(latrad1, 0, 0, delta[i])
+  dll2[i]=radiation_daylength(latrad2, 0, 0, delta[i])
+  dll3[i]=radiation_daylength(latrad3, 0, 0, delta[i])
+  srl1[i]=radiation_sunRiseSet(latrad1, 0, 0, delta[i])[1]*12.0/pi
+  srl2[i]=radiation_sunRiseSet(latrad2, 0, 0, delta[i])[1]*12.0/pi
+  srl3[i]=radiation_sunRiseSet(latrad3, 0, 0, delta[i])[1]*12.0/pi
+  ssl1[i]=radiation_sunRiseSet(latrad1, 0, 0, delta[i])[2]*12.0/pi
+  ssl2[i]=radiation_sunRiseSet(latrad2, 0, 0, delta[i])[2]*12.0/pi
+  ssl3[i]=radiation_sunRiseSet(latrad3, 0, 0, delta[i])[2]*12.0/pi
+}
+plot(dates, srl1, type="l", xlab="", ylab="Sunrise (solar hour)")
+lines(dates, srl2, lty=2)
+lines(dates, srl3, lty=3)
+legend("topright", legend = c("40N","0 (equator)","40S"), cex=0.8, lty=1:3, bty="n")
+plot(dates, ssl1, type="l", xlab="", ylab="Sunset (solar hour)")
+lines(dates, ssl2, lty=2)
+lines(dates, ssl3, lty=3)
+legend("topright", legend = c("40N","0 (equator)","40S"), cex=0.8, lty=1:3, bty="n")
+plot(dates, dll1, type="l", xlab="", ylab="Hours of sunlight")
+lines(dates, dll2, lty=2)
+lines(dates, dll3, lty=3)
+legend("topright", legend = c("40N","0 (equator)","40S"), cex=0.8, lty=1:3, bty="n")
+@
+\end{center}
+
+For inclinated slopes, the calculation of day length is based on the concept of equivalent slopes, which are places on earth where the slope of earth's surface is equal to the slope of interest. The calculations start with the determination of the latitude $L_1$ of the equivalent slope:
+\begin{eqnarray}
+  L_1 &=& \sin^{-1}\left(\cos(Z_x)\cdot \sin(\phi)+\sin(Z_x) \cdot \cos(\phi) \cdot \cos(A)\right) \\
+  D &=& \cos(Z_x) \cdot \cos(\phi)-\sin(Z_x) \cdot \sin(\phi) \cdot \cos(A)
+\end{eqnarray}
+where $\phi$ is the latitude, $A$ is the azimuth of the slope (aspect) and $Z_x$ is the zenith angle of the vector normal to the slope (equal to the slope angle). Then $L_2$ is defined depending on the value of $D$. If $D < 0$ then:
+\begin{equation}
+  L_2 = \tan^{-1}\left(\frac{\sin(Z_x) \cdot \sin(A)}{D}\right)+\pi
+\end{equation}
+Otherwise, $L_2$ is calculated as:
+\begin{equation}
+L_2 =  \tan^{-1}\left(\frac{\sin(Z_x) \cdot \sin(A)}{D}\right)
+\end{equation}
+Once $L_1$ and $L_2$ are available, we can calculate solar hours on equivalent slopes:
+\begin{eqnarray}
+  T_7 &=& \cos^{-1}\left(\max(\min(-\tan(L_1) \cdot \tan(\delta), 1),-1)\right)-L2 \\ 
+  T_6 &=& - \cos^{-1}\left(\max(\min(-\tan(L_1) \cdot \tan(\delta), 1),-1)\right) -L2 
+\end{eqnarray}
+Being $T_6$ and $T_7$ the hour angle of sunrise and sunset on equivalent slopes, respectively. 
+and the hour angles of sunrise ($sr$) and sunset ($ss$) on the slope (both in radians) are found comparing the hour angles on equivalent surfaces with the hour angles on the horizontal surface:
+\begin{eqnarray}
+  sr &=& \max(T_0,T_6) \\
+  ss &=& \min(T_1,T_7)
+\end{eqnarray}
+
+The following three figures show the seasonal variation of sunrise and sunset hours, as well as day length, for slopes of 30 inclination, facing to the four cardinal points. Curves for flat surfaces are shown for comparison. If the slopes are at latitude 40North:
+\begin{center}
+<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+par(mfrow=c(1,3))
+slorad = 30*(pi/180)
+asprad1 = 0
+asprad2 = 90*(pi/180)
+asprad3 = 180*(pi/180)
+asprad4 = 270*(pi/180)
+dl1 = rep(NA, length(delta))
+dl2 = rep(NA, length(delta))
+dl3 = rep(NA, length(delta))
+dl4 = rep(NA, length(delta))
+sr1 = rep(NA, length(delta))
+sr2 = rep(NA, length(delta))
+sr3 = rep(NA, length(delta))
+sr4 = rep(NA, length(delta))
+ss1 = rep(NA, length(delta))
+ss2 = rep(NA, length(delta))
+ss3 = rep(NA, length(delta))
+ss4 = rep(NA, length(delta))
+for(i in 1:length(delta)) {
+  dl1[i]=radiation_daylength(latrad1, slorad, asprad1, delta[i])
+  dl2[i]=radiation_daylength(latrad1, slorad, asprad2, delta[i])
+  dl3[i]=radiation_daylength(latrad1, slorad, asprad3, delta[i])
+  dl4[i]=radiation_daylength(latrad1, slorad, asprad4, delta[i])
+  sr1[i]=radiation_sunRiseSet(latrad1, slorad, asprad1, delta[i])[1]*12.0/pi
+  sr2[i]=radiation_sunRiseSet(latrad1, slorad, asprad2, delta[i])[1]*12.0/pi
+  sr3[i]=radiation_sunRiseSet(latrad1, slorad, asprad3, delta[i])[1]*12.0/pi
+  sr4[i]=radiation_sunRiseSet(latrad1, slorad, asprad4, delta[i])[1]*12.0/pi
+  ss1[i]=radiation_sunRiseSet(latrad1, slorad, asprad1, delta[i])[2]*12.0/pi
+  ss2[i]=radiation_sunRiseSet(latrad1, slorad, asprad2, delta[i])[2]*12.0/pi
+  ss3[i]=radiation_sunRiseSet(latrad1, slorad, asprad3, delta[i])[2]*12.0/pi
+  ss4[i]=radiation_sunRiseSet(latrad1, slorad, asprad4, delta[i])[2]*12.0/pi
+}
+plot(dates, srl1, type="l", xlab="", ylab="Sunrise (solar hour)", ylim=c(-7.5,0), col="red", lwd=2)
+lines(dates, sr1, lty=1, col="black")
+lines(dates, sr2, lty=2, col="black")
+lines(dates, sr3, lty=3, col="black")
+lines(dates, sr4, lty=4, col="black")
+legend("top",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+plot(dates, ssl1, type="l", xlab="", ylab="Sunset (solar hour)", ylim=c(0,7.5), col="red", lwd=2)
+lines(dates, ss1, lty=1, col="black")
+lines(dates, ss2, lty=2, col="black")
+lines(dates, ss3, lty=3, col="black")
+lines(dates, ss4, lty=4, col="black")
+legend("bottom",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+plot(dates, dll1, type="l", xlab="", ylab="Hours of direct sunlight", ylim=c(0,15), col="red", lwd=2)
+lines(dates, dl1, lty=1, col="black")
+lines(dates, dl2, lty=2, col="black")
+lines(dates, dl3, lty=3, col="black")
+lines(dates, dl4, lty=4, col="black")
+legend("bottom",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+@
+\end{center}
+whereas if they are at Equator (i.e. $\phi = 0$):
+\begin{center}
+<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+par(mfrow=c(1,3))
+for(i in 1:length(delta)) {
+  dl1[i]=radiation_daylength(latrad2, slorad, asprad1, delta[i])
+  dl2[i]=radiation_daylength(latrad2, slorad, asprad2, delta[i])
+  dl3[i]=radiation_daylength(latrad2, slorad, asprad3, delta[i])
+  dl4[i]=radiation_daylength(latrad2, slorad, asprad4, delta[i])
+  sr1[i]=radiation_sunRiseSet(latrad2, slorad, asprad1, delta[i])[1]*12.0/pi
+  sr2[i]=radiation_sunRiseSet(latrad2, slorad, asprad2, delta[i])[1]*12.0/pi
+  sr3[i]=radiation_sunRiseSet(latrad2, slorad, asprad3, delta[i])[1]*12.0/pi
+  sr4[i]=radiation_sunRiseSet(latrad2, slorad, asprad4, delta[i])[1]*12.0/pi
+  ss1[i]=radiation_sunRiseSet(latrad2, slorad, asprad1, delta[i])[2]*12.0/pi
+  ss2[i]=radiation_sunRiseSet(latrad2, slorad, asprad2, delta[i])[2]*12.0/pi
+  ss3[i]=radiation_sunRiseSet(latrad2, slorad, asprad3, delta[i])[2]*12.0/pi
+  ss4[i]=radiation_sunRiseSet(latrad2, slorad, asprad4, delta[i])[2]*12.0/pi
+}
+plot(dates, srl2, type="l", xlab="", ylab="Sunrise (solar hour)", col="red", lwd=2)
+lines(dates, sr1, lty=1, col="black")
+lines(dates, sr2, lty=2, col="black")
+lines(dates, sr3, lty=3, col="black")
+lines(dates, sr4, lty=4, col="black")
+legend("bottom",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+plot(dates, ssl2, type="l", xlab="", ylab="Sunset (solar hour)", col="red", lwd=2)
+lines(dates, ss1, lty=1, col="black")
+lines(dates, ss2, lty=2, col="black")
+lines(dates, ss3, lty=3, col="black")
+lines(dates, ss4, lty=4, col="black")
+legend("top",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+plot(dates, dll2, type="l", xlab="", ylab="Hours of direct sunlight", col="red", lwd=2)
+lines(dates, dl1, lty=1, col="black")
+lines(dates, dl2, lty=2, col="black")
+lines(dates, dl3, lty=3, col="black")
+lines(dates, dl4, lty=4, col="black")
+legend("top",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+@
+\end{center}
+and if they are at latitude 40South:
+\begin{center}
+<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+par(mfrow=c(1,3))
+for(i in 1:length(delta)) {
+  dl1[i]=radiation_daylength(latrad3, slorad, asprad1, delta[i])
+  dl2[i]=radiation_daylength(latrad3, slorad, asprad2, delta[i])
+  dl3[i]=radiation_daylength(latrad3, slorad, asprad3, delta[i])
+  dl4[i]=radiation_daylength(latrad3, slorad, asprad4, delta[i])
+  sr1[i]=radiation_sunRiseSet(latrad3, slorad, asprad1, delta[i])[1]*12.0/pi
+  sr2[i]=radiation_sunRiseSet(latrad3, slorad, asprad2, delta[i])[1]*12.0/pi
+  sr3[i]=radiation_sunRiseSet(latrad3, slorad, asprad3, delta[i])[1]*12.0/pi
+  sr4[i]=radiation_sunRiseSet(latrad3, slorad, asprad4, delta[i])[1]*12.0/pi
+  ss1[i]=radiation_sunRiseSet(latrad3, slorad, asprad1, delta[i])[2]*12.0/pi
+  ss2[i]=radiation_sunRiseSet(latrad3, slorad, asprad2, delta[i])[2]*12.0/pi
+  ss3[i]=radiation_sunRiseSet(latrad3, slorad, asprad3, delta[i])[2]*12.0/pi
+  ss4[i]=radiation_sunRiseSet(latrad3, slorad, asprad4, delta[i])[2]*12.0/pi
+}
+plot(dates, srl3, type="l", xlab="", ylab="Sunrise (solar hour)", ylim=c(-7.5,0), col="red", lwd=2)
+lines(dates, sr1, lty=1, col="black", lwd=1)
+lines(dates, sr2, lty=2, col="black", lwd=1)
+lines(dates, sr3, lty=3, col="black", lwd=1)
+lines(dates, sr4, lty=4, col="black", lwd=1)
+legend("topright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+plot(dates, ssl3, type="l", xlab="", ylab="Sunset (solar hour)", ylim=c(0,7.5), col="red", lwd=2)
+lines(dates, ss1, lty=1, col="black", lwd=1)
+lines(dates, ss2, lty=2, col="black", lwd=1)
+lines(dates, ss3, lty=3, col="black", lwd=1)
+lines(dates, ss4, lty=4, col="black", lwd=1)
+legend("bottomright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+plot(dates, dll3, type="l", xlab="", ylab="Hours of direct sunlight", lwd=2, ylim=c(0,15), col="red")
+lines(dates, dl1, lty=1, col="black", lwd=1)
+lines(dates, dl2, lty=2, col="black", lwd=1)
+lines(dates, dl3, lty=3, col="black", lwd=1)
+lines(dates, dl4, lty=4, col="black", lwd=1)
+legend("bottomright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lwd=1, lty=c(1,1:4), bty="n")
+@
+\end{center}
