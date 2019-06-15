@@ -109,3 +109,50 @@ P_p = \frac{\sum_{i=1}^{n}{W_{o,i}\cdot P_i \cdot PO_i \cdot \left(\frac{1 + f}{
 \end{equation}
 where $f = \beta_0 + \beta_1 \cdot (z_p - z_i)$. Note the usage of interpolation weight $W_{o,i}$ (and not $W_{r,i}$). The form of prediction requires that $\lvert f \rvert < 1$. A parameter $f_{max}$ (with default $f_{max} = 0.95$ ) is introduced to force $\lvert f \rvert  = f_{max}$ whenever $\lvert f \rvert  > f_{max}$.
 
+
+## Wind
+
+Interpolation of wind characteristics depends on the amount of information available:
+
++ Interpolation of wind speed only
++ Interpolation of wind vectors (speed and direction)
++ Interpolation of wind vectors using wind fields
+
+The following subsections detail the calculations in each case.
+
+### Interpolation of wind speed
+
+The predicted wind speed $u_{p}$ for a target point $p$ is the weighted average of station wind speed values $\{u_{i}\}$  $i=(1,... , n)$ using the interpolation weights $W_i$ determined from the truncated Gaussian filter:
+\begin{equation}
+u_{p} = \frac{\sum_{i=1}^{n}{W_i \cdot u_{i}}}{\sum_{i=1}^{n}{W_i}}
+\end{equation}
+
+### Interpolation of wind vectors
+Interpolation of wind vectors for a target point $p$ is as follows. Let $\mathbf{v}_{i}$ be the wind vector in weather station $i$. $\mathbf{v}_{i}$ is initially expressed using polar coordinates. Indeed, we have $u_{i}$ and $\theta_{i}$, the wind speed and wind direction, respectively. If we express $\mathbf{v}_{i}$ in cartesian coordinates we have:
+\begin{equation}
+x_{i} = u_{i}\cdot \sin(\theta_{i}) \quad y_{i} = u_{i}\cdot \cos(\theta_{i})
+\end{equation}
+The predicted wind vector $\mathbf{v}_{p}$ is the weighted average of the wind vectors $\{\mathbf{v}_{i}\}$  $i=(1,... , n)$ predicted for point $p$ using the interpolation weights $W_i$ determined from the truncated Gaussian filter:
+\begin{equation}
+x_{p} = \frac{\sum_{i=1}^{n}{W_i \cdot x_{i}}}{\sum_{i=1}^{n}{W_i}}  \quad y_{p} = \frac{\sum_{i=1}^{n}{W_i \cdot y_{i}}}{\sum_{i=1}^{n}{W_i}}
+\end{equation}
+The polar coordinates of the predicted wind vector $\mathbf{v}_{p}$  are:
+\begin{equation}
+u_{p} = \sqrt{x^{2}_{p} + y^{2}_{p}} \quad \theta_{p} = \tan^{-1}(x_{p}/y_{p})
+\end{equation}
+
+### Interpolation of wind vectors using wind fields
+
+More precise wind interpolation of wind vectors requires a set of static wind fields covering the landscape of interest. Each of these wind fields has been calculated assuming a domain-level combination of wind speed and wind direction. The set of domain-level combinations should cover all possible winds in the landscape under study. For example, one could decide to include the combinations of eight different wind directions (i.e., N, NE, E, SE, ...) and three wind speed classes. The wind estimation of a given target point depends on both the wind observations at weather stations and these static wind fields.
+
+In a given day (and before processing target points) we begin by identifying, for each weather station $i = (1, ... ,n)$, the wind field $m_i$ corresponding to a minimum difference between the observed wind vector $\mathbf{v}_i$ and the wind vector of the station in the wind field (i.e., minimum distance between the corresponding cartesian coordinates). The set of wind fields $\{m_i\}$ $i = (1, ... ,n)$ chosen for each weather station conform the information for wind interpolation in a given day.
+
+Actual wind interpolation details for a target point $p$ are as follows. We first draw for each $i=(1,... , n)$ the wind vector $\mathbf{v}_{m_i,p}$ corresponding to the location of the target point $p$ in wind fields $m_i$. Let $u_{m_i,p}$ and $\theta_{m_i,p}$ be the wind speed and wind direction of $\mathbf{v}_{m_i,p}$, respectively. The cartesian coordinates of $\mathbf{v}_{m_i,p}$ are:
+\begin{equation}
+x_{m_i,p} = u_{m_i,p}\cdot \sin(\theta_{m_i,p}) \quad y_{m_i,p} = u_{m_i,p}\cdot \cos(\theta_{m_i,p})
+\end{equation}
+The predicted wind vector $\mathbf{v}_{p}$ is the weighted average of the wind vectors $\{\mathbf{v}_{m_i,p}\}$  $i=(1,... , n)$ predicted for point $p$ using the interpolation weights $W_i$ determined from the truncated Gaussian filter:
+\begin{equation}
+x_{p} = \frac{\sum_{i=1}^{n}{W_i \cdot x_{m_i,p}}}{\sum_{i=1}^{n}{W_i}}  \quad y_{p} = \frac{\sum_{i=1}^{n}{W_i \cdot y_{m_i,p}}}{\sum_{i=1}^{n}{W_i}}
+\end{equation}
+The polar coordinates of the predicted wind vector $\mathbf{v}_{p}$  are found as before.
