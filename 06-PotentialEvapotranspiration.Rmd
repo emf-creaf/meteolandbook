@@ -8,7 +8,7 @@ Penman (1948) proposed an equation to calculate daily potential evaporation that
 \begin{equation}
 E_{pot} = \frac{\Delta}{\Delta+\gamma}\cdot \frac{R_n}{\lambda}+\frac{\lambda}{\Delta + \lambda}\cdot E_a
 \end{equation}
-where $PET$ is the daily potential evaporation (in $mm \cdot day^{-1}$) from a saturated surface, $R_{n}$ is the daily radiation to the evaporating surface (in $MJ\cdot m^{-2}\cdot day^{-1}$), $\Delta$ is the slope of the vapour pressure curve ($kPa\cdot \degree C^{-1}$) at air temperature, $\gamma$ is the psychrometric constant ($kPa\cdot \degree C^{-1}$), and $\lambda$ is the latent heat of vaporization (in $MJ\cdot kg^{-1}$). $E_a$  (in $mm \cdot day^{-1}$) is a function of the average daily windspeed ($u$, in $m\cdot s^{-1}$), and vapour pressure deficit ($D$, in $kPa$):
+where $PET$ is the daily potential evaporation (in $mm \cdot day^{-1}$) from a saturated surface, $R_{n}$ is the daily radiation to the evaporating surface (in $MJ\cdot m^{-2}\cdot day^{-1}$), $\Delta$ is the slope of the vapour pressure curve ($kPa\cdot ^\circ C^{-1}$) at air temperature, $\gamma$ is the psychrometric constant ($kPa\cdot ^\circ C^{-1}$), and $\lambda$ is the latent heat of vaporization (in $MJ\cdot kg^{-1}$). $E_a$  (in $mm \cdot day^{-1}$) is a function of the average daily windspeed ($u$, in $m\cdot s^{-1}$), and vapour pressure deficit ($D$, in $kPa$):
 \begin{equation}
 E_a = f(u) \cdot D = f(u) \cdot (v_a^*-v_a)
 \end{equation}
@@ -21,7 +21,7 @@ If wind speed is not available, an alternative formulation for $E_{pot}$ is used
 \begin{equation}
 PET \simeq 0.047\cdot R_s \cdot (T_a+9.5)^{0.5}-2.4\cdot (\frac{R_s}{R_{pot}})^2+0.09\cdot(T_a-20)\cdot(1-\frac{RH_{mean}}{100})
 \end{equation}
-where $R_s$ is the incoming solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$), $T_a$ is the mean daily temperature (in $\degree C$), $R_{pot}$ is the potential (i.e. extraterrestrial) solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$) and $RH_{mean}$ is the mean relative humidity (in percent). 
+where $R_s$ is the incoming solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$), $T_a$ is the mean daily temperature (in $^\circ C$), $R_{pot}$ is the potential (i.e. extraterrestrial) solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$) and $RH_{mean}$ is the mean relative humidity (in percent). 
 
 
 ## Penman-Monteith formulation
