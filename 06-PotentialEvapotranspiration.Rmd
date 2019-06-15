@@ -1,0 +1,33 @@
+# Estimation of potential evapo-transpiration {#potentialevapotranspiration}
+
+Package **meteoland** allows calculating daily potential evapo-transpiration (PET) using Penman's formulation (Penman 1948; 1956) or Penman-Monteith formulation. PET is automatically calculated after meteorological data have been interpolated (i.e. within functions `interpolationpoints()` and `interpolationgrid()`) or downscaled (i.e. within functions `correctionpoints()` and `correctiongrid()`), but PET values can also be calculated for a single point using functions `penman()` or `penmanmonteith()`. For other formulations of PET, the reader is referred to the R package [**Evapotranspiration**](https://cran.r-project.org/package=Evapotranspiration).
+
+## Penman formulation
+
+Penman (1948) proposed an equation to calculate daily potential evaporation that combined an energy equation based on net incoming radiation with an aerodynamic approach. The Penman or Penman combination equation is:
+\begin{equation}
+E_{pot} = \frac{\Delta}{\Delta+\gamma}\cdot \frac{R_n}{\lambda}+\frac{\lambda}{\Delta + \lambda}\cdot E_a
+\end{equation}
+where $PET$ is the daily potential evaporation (in $mm \cdot day^{-1}$) from a saturated surface, $R_{n}$ is the daily radiation to the evaporating surface (in $MJ\cdot m^{-2}\cdot day^{-1}$), $\Delta$ is the slope of the vapour pressure curve ($kPa\cdot \degree C^{-1}$) at air temperature, $\gamma$ is the psychrometric constant ($kPa\cdot \degree C^{-1}$), and $\lambda$ is the latent heat of vaporization (in $MJ\cdot kg^{-1}$). $E_a$  (in $mm \cdot day^{-1}$) is a function of the average daily windspeed ($u$, in $m\cdot s^{-1}$), and vapour pressure deficit ($D$, in $kPa$):
+\begin{equation}
+E_a = f(u) \cdot D = f(u) \cdot (v_a^*-v_a)
+\end{equation}
+where $v_a^*$ is the saturation vapour pressure ($kPa$) and $v_a$ the actual vapour pressure ($kPa$) and $f(u)$ is a function of wind speed, for which there are two alternatives (Penman 1948; 1956):
+\begin{eqnarray}
+f(u) &=& 1.313 + 1.381 \cdot u\\
+f(u) &=& 2.626 + 1.381 \cdot u
+\end{eqnarray}
+If wind speed is not available, an alternative formulation for $E_{pot}$ is used as an approximation (Valiantzas 2006):
+\begin{equation}
+PET \simeq 0.047\cdot R_s \cdot (T_a+9.5)^{0.5}-2.4\cdot (\frac{R_s}{R_{pot}})^2+0.09\cdot(T_a-20)\cdot(1-\frac{RH_{mean}}{100})
+\end{equation}
+where $R_s$ is the incoming solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$), $T_a$ is the mean daily temperature (in $\degree C$), $R_{pot}$ is the potential (i.e. extraterrestrial) solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$) and $RH_{mean}$ is the mean relative humidity (in percent). 
+
+
+## Penman-Monteith formulation
+
+The Penman-Monteith combination equation:
+\begin{equation}
+E_{pot} = \frac{1}{\lambda} \cdot \frac{\Delta \cdot R_{n} + D \cdot (\rho \cdot C_p/r_a)}{\Delta + \gamma \cdot (1 + r_c/r_a)}
+\end{equation}
+where  $D$ is the vapour pressure deficit (in kPa), $\Delta$  is the slope of the saturated vapor pressure (in $Pa \cdot K^{-1}$), $\gamma$ is the psychrometer constant (in $kPa\cdot K^{-1}$), $\lambda$ is the latent heat vaporization of water (in $MJ\cdot kg^{-1}$) and $C_p$ is the specific heat of air (in $MJ\cdot kg^{-1}\cdot K^{-1}$). $r_c$ is the canopy resistance (in $s\cdot m^{-1}$). For simplicity, aerodynamic resistance ($r_a$) is currently set to $r_a = 208.0/u$ where $u$ is the input wind speed.  
