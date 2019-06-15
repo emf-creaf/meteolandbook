@@ -26,3 +26,98 @@ c_d = ecdf_x^{-1}(ecdf_u(u_d))
 where $ecdf_x$ and $ecdf_u$ are the empirical CDFs of $x$ and $u$ respectively. Values between percentiles are approximated using linear interpolation. A difficulty arises for quantile mapping when the variables bounded by zero, such as precipitation. As the models tend to drizzle (or may have lower frequency of precipitation events), the probability of precipitation in the model may be greater or lower than that observed. To correct this, when model precipitation is zero an observed value is randomly chosen in the interval where the observed cumulative frequency is less than or equal to the probability of no precipitation in the model. This procedure ensures that the probability of precipitation after correction is equal to that observed (Boé 2007).
 
 For each target location to be processed, the correction routine first determines which is the nearest climate model cell and extracts its weather data series for the reference period and the period of interest. Then, the correction method chosen by the user for each variable is applied. Statistical corrections are done for each of the twelve months separately to account for seasonal variation of distributional differences (Ruffault et al 2014).
+
+
+## Default approaches by variable
+
+Although users can choose their preferred correction method for each variable, meteoland has default approaches. 
+
+**Precipitation**
+
+By default, correction of precipitation is done using empirical quantile mapping. The following figures show the correction of RCM precipitation predictions for 2023 using interpolated data from 2002-2003 as observations for the reference period. Note that at least 15 years of observations (and not two!) would be needed for a correct estimation of monthly CDFs.
+
+```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=3.5}
+par(mfrow=c(1,2), mar=c(5,5,1,1))
+meteoplot(predicted, 1, "Precipitation", ylab="Precipitation (mm)", xlab="",ylim=c(0,80))
+#Add uncorrected mean temperature data (cell #5)
+lines(bc_dates,
+      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Precipitation"],
+      col="red", lty=3)
+legend("topleft", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,3), bty="n")
+plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Precipitation"], ylim=c(0,60), xlim=c(0,60),
+     predicted@data[[1]]$Precipitation, cex=0.1, asp=1,
+     ylab="Corrected precipitation (mm)", xlab="Uncorrected precipitation (mm)")
+abline(a=0,b=1,col="gray")
+```
+
+**Mean temperature**
+
+Unbiasing method is used by default to correct mean temperature. The following figures show the correction of RCM mean temperature predictions for 2023 using interpolated data from 2002-2003 as observations for the reference period:
+```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=3}
+par(mfrow=c(1,2), mar=c(5,5,1,1))
+#Plot predicted mean temperature for point 1
+meteoplot(predicted, 1, "MeanTemperature", ylab="Mean temperature (Celsius)", xlab="",ylim=c(-5,40))
+#Add uncorrected mean temperature data (cell #5)
+lines(bc_dates,
+      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MeanTemperature"],
+      col="red")
+legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
+plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MeanTemperature"],
+     predicted@data[[1]]$MeanTemperature, cex=0.1, asp=1,
+     ylab="Corrected mean temperature", xlab="Uncorrected mean temperature")
+abline(a=0,b=1,col="gray")
+```
+
+**Minimum and maximum temperatures**
+
+To correct minimum (respectively maximum) temperature values, by default scaling is applied to the difference between minimum (resp. maximum) temperature and mean temperature. 
+
+```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=6}
+par(mfrow=c(2,2), mar=c(5,5,1,1))
+meteoplot(predicted, 1, "MinTemperature", ylab="Minimum temperature (Celsius)", xlab="",ylim=c(-10,25))
+lines(bc_dates,
+      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MinTemperature"],
+      col="red")
+legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
+plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MinTemperature"],
+     predicted@data[[1]]$MinTemperature, cex=0.1, asp=1,
+     ylab="Corrected minimum temperature", xlab="Uncorrected minimum temperature")
+abline(a=0,b=1,col="gray")
+meteoplot(predicted, 1, "MaxTemperature", ylab="Maximum temperature (Celsius)", xlab="",ylim=c(0,40))
+lines(bc_dates,
+      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MaxTemperature"],
+      col="red")
+legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
+plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MaxTemperature"],
+     predicted@data[[1]]$MaxTemperature, cex=0.1, asp=1,
+     ylab="Corrected maximum temperature", xlab="Uncorrected maximum temperature")
+abline(a=0,b=1,col="gray")
+```
+
+**Radiation**
+
+Radiation is by default corrected using the unbiasing procedure. The following figures show the correction of RCM radiation predictions for 2023 using interpolated data from 2002-2003 as observations for the reference period:
+
+```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=3.5}
+par(mfrow=c(1,2), mar=c(5,5,1,1))
+meteoplot(predicted, 1, "Radiation", ylab="Radiation (MJ m-2)", xlab="",ylim=c(0,40))
+#Add uncorrected mean temperature data (cell #5)
+lines(bc_dates,
+      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Radiation"],
+      col="red")
+legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
+#Scatter plot
+plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Radiation"],
+     predicted@data[[1]]$Radiation, cex=0.1, asp=1,
+     ylab="Corrected radiation", xlab="Uncorrected radiation")
+abline(a=0,b=1,col="gray")
+```
+
+**Relative humidity**
+
+Mean relative humidity is first transformed to specific humidity, the unbiasing method is applied by default to this variable and the result is back transformed to mean, minimum and maximum relative humidity using the previously corrected series of mean, maximum and minimum temperature, respectively.
+
+**Wind speed** 
+
+By default, wind speed is corrected using the scaling method. Since historic wind data is often not available, however, if wind speed data is missing the coarse-scale wind estimate is taken directly without correction.
+
