@@ -56,9 +56,9 @@ showClass("SpatialPixelsMeteorology")
 In addition to their corresponding inherited slots, `SpatialPointsMeteorology`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` have two additional slots: `dates` (a vector of days specifying a time period), and `data` (a vector of data frames with the meteorological data). Although the three classes have a `data` slot containing data frames, meteorological data is in different form in each class. In objects of `SpatialPointsMeteorology`, there is one data frame for each point where variables are in columns and dates are in rows. In objects of `SpatialGridMeteorology` and `SpatialPixelsMeteorology`, each data frame describes the meteorology over a complete grid, or a subset of cells, for a single day. In these cases, the data frame has grid cells in rows and variables in columns.
 
 
-### Reading and writing meteorological data
+## Reading and writing meteorological data
 
-#### Point meteorology
+### Point meteorology
 Objects of class `SpatialPointsMeteorology` are stored in the disk using one data file for each of their spatial points. Files can be stored in **ascii** format or **rds** (compressed) format. Package **meteoland** provides four input/output functions for point meteorology:
 
 + Function `readmeteorologypoint()` reads the meteorological data stored in one *ascii*/*rds* data file and returns a data frame.
@@ -66,7 +66,7 @@ Objects of class `SpatialPointsMeteorology` are stored in the disk using one dat
 + Function `readmeteorologypointfiles()` reads several *ascii*/*rds* files and returns an object of class `SpatialPointsMeteorology`.
 + Functions `writemeteorologypointfiles()` writes several *ascii*/*rds* files in the disk, one per spatial point. Metadata (i.e. the spatial coordinates of each point and the corresponding file path) is stored in an additional file.
 
-#### Grid meteorology
+### Grid meteorology
  Objects of class `SpatialGridMeteorology` are stored in the disk using one **netCDF** file per day. In this case, the **netCDF** file also contains the date and spatial projection. The following functions are available for input/output of meteorology over a full grid or on a subset of grid cells:
 
 + Functions `readmeteorologygrid()` and `readmeteorologypixels()` reads the meteorological data stored in one *netCDF* file and returns an object of class `SpatialGridDataframe` or `SpatialPixelsDataframe`, respectively.
@@ -77,7 +77,7 @@ Objects of class `SpatialPointsMeteorology` are stored in the disk using one dat
 As a special case, function `readmeteorologygridcells()` reads several netCDF files and returns an object of class `SpatialPointMeteorology` with the meteorological data of a set of specified grid cells.
 
 
-### Visualizing input topography and meteorological data
+## Visualizing input topography and meteorological data
 
 Although very simple, the package provides two kinds of functions to visualize the temporal and spatial variation of meteorology:
 
@@ -87,7 +87,7 @@ Although very simple, the package provides two kinds of functions to visualize t
 Similarly, function `spplot()` also accepts objects of classes `SpatialGridTopography` and `SpatialPixelsTopography`, so that topography can also be easily displayed.
 
 
-### Manipulating topographic and meteorological data
+## Manipulating topographic and meteorological data
 
 Following the design of package **sp**, package meteoland provides functions for switching between spatial structures. For example, it is possible to coerce an object of `SpatialPointsTopography` into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`. Subsetting is also allowed, so that estimations of daily meteorology can be performed in subsets of points or grids.
 
@@ -97,7 +97,7 @@ The package provides a few functions to extract/reshape meteorological data:
 + Function `extractpointdates()` extracts the meteorology of a set of dates from an object of class `SpatialPointsMeteorology`. It returns one data frame for each date, with points in rows and meteorology variables in columns.
 
 
-### Summarizing meteorological data
+## Summarizing meteorological data
 
 The package provides functions to generate temporal summaries of meteorological data. These accept meteorology objects as input and return their corresponding spatial dataframe structure with the summary statistics in columns:
 
@@ -106,10 +106,9 @@ The package provides functions to generate temporal summaries of meteorological 
 + Function `summaryinterpolationdata()` works similarly to `summarypoints()`, but takes an object of class `MeteorologyInterpolationData` as input.
 
 
+## Meteorology estimation functions
 
-### Meteorology estimation functions
-
-#### Spatial interpolation
+### Spatial interpolation
 Package **meteoland** provides two functions for interpolating meteorological data (i.e., one for each data structure):
 
 + Function `interpolationpoints()` interpolates weather for a set of locations given in `SpatialPointsTopography` and returns an object of class `SpatialPointsMeteorology`.
@@ -124,14 +123,14 @@ When calling functions `interpolationpoints()` or `interpolationgrid()`, the use
 Functions `interpolation.calibration()` and `interpolation.cv()` are included in **meteoland** to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them.
 
 
+### Statistical correction
 
-\subsubsection{Statistical correction}
-One function is available for statistical correction of meteorological data series (i.e., one function for each data structure). Function \texttt{correctionpoints()} performs statistical correction of weather data series on a set of locations and it returns an object of class \texttt{SpatialPointsMeteorology} containing corrected weather predictions. Statistical correction requires an object of class \texttt{`MeteorologyUncorrectedData'}, which contains the X-Y coordinates and the coarse-scale meteorological data to be corrected, which includes a reference (historic) period and projected (e.g. future) period:
-<<echo=FALSE>>=
+One function is available for statistical correction of meteorological data series (i.e., one function for each data structure). Function `correctionpoints()` performs statistical correction of weather data series on a set of locations and it returns an object of class `SpatialPointsMeteorology` containing corrected weather predictions. Statistical correction requires an object of class `MeteorologyUncorrectedData`, which contains the X-Y coordinates and the coarse-scale meteorological data to be corrected, which includes a reference (historic) period and projected (e.g. future) period:
+```{r echo=FALSE}
 showClass("MeteorologyUncorrectedData")
-@
-The reference (historical) period is compared with observed meteorological data of the same period, and the routine uses this information to correct the projected (e.g. future) period. Therefore, apart from the \texttt{`MeteorologyUncorrectedData'} object, the correction function requires accurate meteorological data (for a set of spatial points or a grid). Normally, these data will be the result of spatial interpolation.
+```
+The reference (historical) period is compared with observed meteorological data of the same period, and the routine uses this information to correct the projected (e.g. future) period. Therefore, apart from the ``MeteorologyUncorrectedData'} object, the correction function requires accurate meteorological data (for a set of spatial points or a grid). Normally, these data will be the result of spatial interpolation.
 
-As before, when calling functions \texttt{correctionpoints()}, the user may require the outputs to be written into the file system, instead of being returned in memory. If \texttt{correctionpoints()} is called with \texttt{export = TRUE}, the function will write the data frame produced for each point into an \textbf{ascii} text file or a \textbf{rds} file. Metadata files will also be written, so that results can later be loaded in memory.
+As before, when calling functions `correctionpoints()`, the user may require the outputs to be written into the file system, instead of being returned in memory. If `correctionpoints()` is called with `export = TRUE`, the function will write the data frame produced for each point into an *ascii* text file or a *rds* file. Metadata files will also be written, so that results can later be loaded in memory.
 
-Function \texttt{correctionpoints.errors()} was included in the package to evaluate the errors of the less accurate and more accurate series. Comparisons can be made before and after applying statistical corrections. In the latter case, cross-validation is also available.
+Function `correctionpoints.errors()` was included in the package to evaluate the errors of the less accurate and more accurate series. Comparisons can be made before and after applying statistical corrections. In the latter case, cross-validation is also available.

@@ -1,0 +1,28 @@
+# Spatial interpolation of weather records {#spatialinterpolation}
+
+## Overview
+
+Ecological research studies conducted for historical periods can be perfomed using meteorological records obtained from surface weather stations of the area under study. The general procedure for interpolation is very similar to the one that underpins the U.S. DAYMET dataset (https://daymet.ornl.gov/). For any target point, minimum temperature, maximum temperature and precipitation are interpolated from weather records using truncated Gaussian filters, while accounting for the relationship between these variables and elevation (Thornton et al. 1997). Relative humidity can be either interpolated (in fact, dew-point temperature is the variable being interpolated) or predicted from temperature estimates, depending on whether it has been measured in weather stations or not. Potential (i.e. top-of-atmosphere) solar radiation is estimated taking into account latitude, seasonality, aspect and slope, following Granier & Ohmura (1968). Potential solar radiation is then corrected to account for atmosphere transmittance using the predictions of temperature range, relative humidity and precipitation (Thornton & Running 1999). Finally, the wind vector (wind direction and wind speed) is interpolated by using weather station records and static wind fields. 
+
+In the following sections we detail the general algorithm used to obtain interpolation weights and the interpolation procedure for temperature, precipitation, relative humidity and wind. The estimation of potential and actual solar radiation is explained in the next chapter.
+
+
+## Interpolation weights
+
+Thornton et al. (1997) suggested interpolating meteorological data using a truncated Gaussian filter. Its form with respect to a central point $p$ is:
+\begin{equation}
+W(r) = e^{-\alpha \cdot (r/R_p)^2} - e^{-\alpha}
+\end{equation}
+if $r \leq R_p$ and $W(r) = 0$ otherwise. Here $r$ is the radial distance from $p$, $R_p$ is the truncation distance and $\alpha$ is the shape parameter. The spatial convolution of this filter with a set of weather station locations results, for each target point, in a vector of weights associated with observations. The following figure illustrates the Gaussian filter for $R_p = 500$ and either $\alpha = 3.0$ (continuous line) or $\alpha = 6.25$ (dashed line):
+
+```{r, fig.width=4, fig.height=4, fig.align='center', echo = FALSE}
+r = 0:1000
+R_p = 500
+gf1 = exp(-3.0*((r/R_p)^2.0)) - exp(-3.0)
+gf2 = exp(-6.25*((r/R_p)^2.0)) - exp(-6.25)
+gf1[r>R_p] = 0
+gf2[r>R_p] = 0
+plot(r, gf1, type="l", ylab = "W(r)", xlab ="r")
+lines(r, gf2, lty=2)
+legend("topright", legend = c("alpha = 3", "alpha = 6.25"), lty=c(1,2), bty="n")
+```
