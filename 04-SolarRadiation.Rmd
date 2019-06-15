@@ -48,16 +48,16 @@ legend("top", legend = paste0(c(3012,2012,1012,12), " AD"), col=c("brown","black
 ```
 
 
+## Day length
 
-\subsection{Day length}
 Calculation of sunrise and sunset on a horizontal surface is rather straightforward. The hour angles of sunrise and sunset ($sr$ and $ss$, both in radians) for a horizontal surface of latitude $\phi$ on a day with declination $\delta$ (both expressed in radians) are:
 \begin{eqnarray}
 sr &=& T_1 = \cos^{-1}\left(\max(\min(-\tan(\phi) \cdot \tan(\delta),1),-1)\right) \\
 ss &=& T_0 = - T_1
 \end{eqnarray}
-Knowing that each hour corresponds to 15 degrees of rotation, hour angles can be transformed to solar hours. The following figures show the seasonal variation of sunrise and sunset hours, as well as day length, for horizontal surfaces in three latitudes (40North, equator and 40South) (see functions \texttt{radiation\_sunRiseSet()} and  \texttt{radiation\_daylength()}):
-\begin{center}
-<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+Knowing that each hour corresponds to 15 degrees of rotation, hour angles can be transformed to solar hours. The following figures show the seasonal variation of sunrise and sunset hours, as well as day length, for horizontal surfaces in three latitudes (40North, equator and 40South) (see functions `radiation_sunRiseSet()` and  `radiation_daylength()}):
+
+```{r, echo=FALSE, fig.align='center', fig.width=7, fig.height=4}
 par(mfrow=c(1,3))
 latrad1 = 40*(pi/180)
 latrad2 = 0
@@ -94,8 +94,7 @@ plot(dates, dll1, type="l", xlab="", ylab="Hours of sunlight")
 lines(dates, dll2, lty=2)
 lines(dates, dll3, lty=3)
 legend("topright", legend = c("40N","0 (equator)","40S"), cex=0.8, lty=1:3, bty="n")
-@
-\end{center}
+```
 
 For inclinated slopes, the calculation of day length is based on the concept of equivalent slopes, which are places on earth where the slope of earth's surface is equal to the slope of interest. The calculations start with the determination of the latitude $L_1$ of the equivalent slope:
 \begin{eqnarray}
@@ -123,8 +122,8 @@ and the hour angles of sunrise ($sr$) and sunset ($ss$) on the slope (both in ra
 \end{eqnarray}
 
 The following three figures show the seasonal variation of sunrise and sunset hours, as well as day length, for slopes of 30 inclination, facing to the four cardinal points. Curves for flat surfaces are shown for comparison. If the slopes are at latitude 40North:
-\begin{center}
-<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+
+```{r, echo=FALSE, fig.align='center', fig.width=7, fig.height=4}
 par(mfrow=c(1,3))
 slorad = 30*(pi/180)
 asprad1 = 0
@@ -175,11 +174,11 @@ lines(dates, dl2, lty=2, col="black")
 lines(dates, dl3, lty=3, col="black")
 lines(dates, dl4, lty=4, col="black")
 legend("bottom",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
-@
-\end{center}
+```
+
 whereas if they are at Equator (i.e. $\phi = 0$):
-\begin{center}
-<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+
+```{r, echo=FALSE, fig.align='center', fig.width=7, fig.height=4}
 par(mfrow=c(1,3))
 for(i in 1:length(delta)) {
   dl1[i]=radiation_daylength(latrad2, slorad, asprad1, delta[i])
@@ -213,11 +212,11 @@ lines(dates, dl2, lty=2, col="black")
 lines(dates, dl3, lty=3, col="black")
 lines(dates, dl4, lty=4, col="black")
 legend("top",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
-@
-\end{center}
+```
+
 and if they are at latitude 40South:
-\begin{center}
-<<echo=FALSE, fig=TRUE, width=7.5, height=4>>=
+
+```{r, echo=FALSE, fig.align='center', fig.width=7, fig.height=4}
 par(mfrow=c(1,3))
 for(i in 1:length(delta)) {
   dl1[i]=radiation_daylength(latrad3, slorad, asprad1, delta[i])
@@ -251,5 +250,110 @@ lines(dates, dl2, lty=2, col="black", lwd=1)
 lines(dates, dl3, lty=3, col="black", lwd=1)
 lines(dates, dl4, lty=4, col="black", lwd=1)
 legend("bottomright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lwd=1, lty=c(1,1:4), bty="n")
-@
-\end{center}
+```
+
+
+## Potential radiation
+
+Potential solar radiation is the radiation that a surface on earth would receive if atmosphere was not present (i.e. without the effects of cloud reflection, scattering, ...). In **meteoland**, potential solar radiation is estimated from solar declination, latitude, aspect and slope according to Granier & Ohmura (1968). Daily potential radiation ($R_{pot}$, in $MJ \cdot m^{-2}$) is calculated by integrating instantaneous potential radiation $R_{pot,s}$ (in $kW \cdot m^{-2}$) over the day between sunrise ($sr$) and sunset ($ss$), using 10 min (i.e. 600 sec) intervals:
+\begin{equation}
+R_{pot} = \frac{1}{1000}\cdot \sum_{s = sr}^{ss}{600 \cdot R_{pot,s}}
+\end{equation}
+In turn, instantaneous potential solar radiation $R_{pot,s}$ is calculated using:
+\begin{eqnarray}
+R_{pot,s} &=& I_0 \cdot [(\sin{\phi}\cdot \cos{H})(-\cos{A}\cdot \sin{Z_x})  -\sin{H}\cdot (\sin{A}\cdot \sin{Z_x}) \nonumber \\
+ & & + [(\cos{\phi}\cdot \cos{H})\cdot \cos{Z_x}]\cdot \cos{\delta} \nonumber \\
+ & & + [\cos{\phi}\cdot (\cos{A}\cdot \sin{Z_x})+ \sin{\phi}\cdot \cos{Z_x}]\cdot \sin{\delta}]
+\end{eqnarray}
+where $I_0$ is the solar constant, $\phi$ is the latitude, $H$ is the hour angle measured from solar noon, positively towards the west, $A$ is the azimuth of the slope (aspect), $Z_x$ is the zenith angle of the vector normal to the slope (equal to the slope angle) and $\delta$ is the sun's declination. Note that in the case of a flat surface the previous equation reduces to:
+\begin{equation}
+R_{pot,s} = I_0 \cdot [\cos{\phi}\cdot \cos{H}\cdot \cos{\delta} + \sin{\phi}\cdot \sin{\delta}]= I_0 \cdot \sin{\beta}
+\end{equation}
+where $\beta$ is called the solar elevation angle.
+
+The following figures illustrate seasonal variation of potential solar radiation for the horizontal inclinated surfaces presented above (see function `radiation_potentialRadiation()`):
+
+```{r, echo=FALSE, fig.align='center', fig.width=7, fig.height=7.5}
+par(mfrow=c(2,2))
+inl1 = rep(NA, length(delta))
+inl2 = rep(NA, length(delta))
+inl3 = rep(NA, length(delta))
+for(i in 1:length(delta)) {
+  inl1[i]=radiation_potentialRadiation(sc[i],latrad1, 0, 0, delta[i])
+  inl2[i]=radiation_potentialRadiation(sc[i],latrad2, 0, 0, delta[i])
+  inl3[i]=radiation_potentialRadiation(sc[i],latrad3, 0, 0, delta[i])
+}
+plot(dates, inl1, type="l", xlab="", ylab="Potential radiation (MJ m-2 d-1)", main="Horizontal surfaces")
+lines(dates, inl2, lty=2)
+lines(dates, inl3, lty=3)
+legend("topright", legend = c("40N","0 (equator)","40S"), cex=0.8, lty=1:3, bty="n")
+in1 = rep(NA, length(delta))
+in2 = rep(NA, length(delta))
+in3 = rep(NA, length(delta))
+in4 = rep(NA, length(delta))
+for(i in 1:length(delta)) {
+  in1[i]=radiation_potentialRadiation(sc[i],latrad1, slorad, asprad1, delta[i])
+  in2[i]=radiation_potentialRadiation(sc[i],latrad1, slorad, asprad2, delta[i])
+  in3[i]=radiation_potentialRadiation(sc[i],latrad1, slorad, asprad3, delta[i])
+  in4[i]=radiation_potentialRadiation(sc[i],latrad1, slorad, asprad4, delta[i])
+}
+plot(dates, inl1, type="l", xlab="", ylab="Potential radiation (MJ m-2 d-1)",
+     main = "Slopes at 40North", ylim=c(0,45), col="red", lwd=2)
+lines(dates, in1, lty=1, col="black")
+lines(dates, in2, lty=2, col="black")
+lines(dates, in3, lty=3, col="black")
+lines(dates, in4, lty=4, col="black")
+legend("bottom",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+for(i in 1:length(delta)) {
+  in1[i]=radiation_potentialRadiation(sc[i],latrad2, slorad, asprad1, delta[i])
+  in2[i]=radiation_potentialRadiation(sc[i],latrad2, slorad, asprad2, delta[i])
+  in3[i]=radiation_potentialRadiation(sc[i],latrad2, slorad, asprad3, delta[i])
+  in4[i]=radiation_potentialRadiation(sc[i],latrad2, slorad, asprad4, delta[i])
+}
+plot(dates, inl2, type="l", xlab="", main = "Slopes at the Equator", ylab="Potential radiation (MJ m-2 d-1)", ylim=c(0,45), col="red", lwd=2)
+lines(dates, in1, lty=1, col="black")
+lines(dates, in2, lty=2, col="black")
+lines(dates, in3, lty=3, col="black")
+lines(dates, in4, lty=4, col="black")
+legend("bottom",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+for(i in 1:length(delta)) {
+  in1[i]=radiation_potentialRadiation(sc[i],latrad3, slorad, asprad1, delta[i])
+  in2[i]=radiation_potentialRadiation(sc[i],latrad3, slorad, asprad2, delta[i])
+  in3[i]=radiation_potentialRadiation(sc[i],latrad3, slorad, asprad3, delta[i])
+  in4[i]=radiation_potentialRadiation(sc[i],latrad3, slorad, asprad4, delta[i])
+}
+plot(dates, inl3, type="l", xlab="", ylab="Potential radiation (MJ m-2 d-1)", 
+     main = "Slopes at 40South", ylim=c(0,45), col="red", lwd=2)
+lines(dates, in1, lty=1, col="black")
+lines(dates, in2, lty=2, col="black")
+lines(dates, in3, lty=3, col="black")
+lines(dates, in4, lty=4, col="black")
+legend("bottomright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lty=c(1,1:4), bty="n")
+```
+
+
+## Incident solar radiation
+
+Incident solar radiation is the amount of (direct) solar radiation reaching the surface after accounting for the atmosphere. Improving the method proposed in Thornton et al. (1997), Thornton & Running (1999) calculate incident daily total solar radiation $R_{g}$ as:
+\begin{equation}
+R_g = R_{pot} \cdot T_{t,max} \cdot T_{f,max}
+\end{equation}
+where $T_{t,max}$ is the maximum (cloud-free) daily total transmittance and $T_{f,max}$ is the proportion of $T_{t,max}$ realized on a given day (cloud correction). The maximum daily total transmittance $T_{t,max}$ is estimated as:
+\begin{equation}
+T_{t,max} = \left[\frac{\sum_{s = sr}^{ss}{R_{pot,s} \cdot \tau^{(P_z/P_0)\cdot m_{\theta}}}}{\sum_{s = sr}^{ss}{R_{pot,s}}}\right] + (\alpha_{e_p} \cdot {e_p})
+\end{equation}
+where $\tau = 0.87$ is the instantaneous transmittance at sea level, at nadir, for a dry atmosphere; ${e_p}$ is the actual water vapor pressure (in kPa), estimated as explained before; $\alpha_{e_p} = -6.1\cdot 10^{-2}$kPa$^{-1}$ is a parameter describing the effect of vapour pressure on $T_{t,max}$; $m_{\theta} = 1/\cos{\theta}$ is the optical air mass at solar zenith angle $\cos(\theta) = \sin{\phi}\cdot \sin{\delta}+\cos{\phi}\cdot \cos{\delta} \cdot \cos{H}$; and $P_z/P_0$ is the ratio between air pressure at elevation $z_p$ and air pressure at the sea level, calculated as:
+\begin{equation}
+(P_z/P_0) = (1.0 -2.2569\cdot 10^{-5}\cdot z_p)^{5.2553}
+\end{equation}
+In turn, $T_{f,max}$ was empirically related to $\Delta T = T_{\max} - T_{\min}$, the difference between maximum and minimum temperatures for the target point:
+\begin{equation}
+T_{f,max} = 1.0 - 0.9\cdot e^{-B \cdot {\Delta T}^{C}}
+\end{equation}
+being $C = 1.5$ and $B$ calculated from:
+\begin{equation}
+B = b_0 + b_1 \cdot e^{-b_2 \cdot {\hat{\Delta T}}}
+\end{equation}
+with $b_0 = 0.031$, $b_1 = 0.201$ and $b_2 = 0.185$. In this last equation,  $\hat{\Delta T}$ is a 30-day moving average for the temperature range $\Delta T$. For computational reasons, we do not estimate $\hat{\Delta T}$ from the 30-day moving window average of predicted $\Delta T$ values, but from the interpolation of pre-calculated $\hat{\Delta T}$ values in weather stations. On wet days (i.e. if $P_p > 0$) the estimation of $T_{f,max}$ is multiplied by a factor of $0.75$ to account for clouds.
+
+Although the calculation of incident solar radiation can be done independently of interpolation (see function `radiation_solarRadiation()`), it is automatically done in functions `interpolationpoints()` and `interpolationgrid()`. 
