@@ -2,14 +2,14 @@
 
 ## Overview
 
-Ecological research studies conducted for historical periods can be perfomed using meteorological records obtained from surface weather stations of the area under study. The general procedure for interpolation is very similar to the one that underpins the U.S. DAYMET dataset (https://daymet.ornl.gov/). For any target point, minimum temperature, maximum temperature and precipitation are interpolated from weather records using truncated Gaussian filters, while accounting for the relationship between these variables and elevation (Thornton et al. 1997). Relative humidity can be either interpolated (in fact, dew-point temperature is the variable being interpolated) or predicted from temperature estimates, depending on whether it has been measured in weather stations or not. Potential (i.e. top-of-atmosphere) solar radiation is estimated taking into account latitude, seasonality, aspect and slope, following Granier & Ohmura (1968). Potential solar radiation is then corrected to account for atmosphere transmittance using the predictions of temperature range, relative humidity and precipitation (Thornton & Running 1999). Finally, the wind vector (wind direction and wind speed) is interpolated by using weather station records and static wind fields. 
+Ecological research studies conducted for historical periods can be perfomed using meteorological records obtained from surface weather stations of the area under study. The general procedure for interpolation is very similar to the one that underpins the U.S. DAYMET dataset (https://daymet.ornl.gov/). For any target point, minimum temperature, maximum temperature and precipitation are interpolated from weather records using truncated Gaussian filters, while accounting for the relationship between these variables and elevation [@Thornton1997]. Relative humidity can be either interpolated (in fact, dew-point temperature is the variable being interpolated) or predicted from temperature estimates, depending on whether it has been measured in weather stations or not. Potential (i.e. top-of-atmosphere) solar radiation is estimated taking into account latitude, seasonality, aspect and slope, following @Garnier1968. Potential solar radiation is then corrected to account for atmosphere transmittance using the predictions of temperature range, relative humidity and precipitation [@Thornton1999]. Finally, the wind vector (wind direction and wind speed) is interpolated by using weather station records and static wind fields. 
 
 In the following sections we detail the general algorithm used to obtain interpolation weights and the interpolation procedure for temperature, precipitation, relative humidity and wind. The estimation of potential and actual solar radiation is explained in the next chapter.
 
 
 ## Interpolation weights
 
-Thornton et al. (1997) suggested interpolating meteorological data using a truncated Gaussian filter. Its form with respect to a central point $p$ is:
+@Thornton1997 suggested interpolating meteorological data using a truncated Gaussian filter. Its form with respect to a central point $p$ is:
 \begin{equation}
 W(r) = e^{-\alpha \cdot (r/R_p)^2} - e^{-\alpha}
 \end{equation}
@@ -45,12 +45,12 @@ R_p = \sqrt{\frac{N^*}{D_p \cdot \pi}}
 where $N^* = 2N$ for the first $I - 1$ iterations, and $N^* = N$ for the final iteration.
 4. The new $R_p$ is substituted in step (2) and steps (2-4) are iterated a specified number of times $I$. The final $R_p$ value is used to generate interpolation weights $W_i$.
 
-Thornton et al. (1997) suggested to use this algorithm only once per point (and variable to be estimated), but since missing meteorological values can occur only in some days, we apply the algorithm for each target point and day. The interpolation method for a given set of observations is defined by four parameters $R$, $I$, $N$ and $\alpha$. Following Thornton et al. (1997), we set $R = 140000$ meters and $I = 3$ by default (see parameters `initial_Rp` and `iterations` given in function `defaultInterpolationParams()`). The other parameters ($N$ and $\alpha$) depend on the variable to be interpolated.
+@Thornton1997 suggested to use this algorithm only once per point (and variable to be estimated), but since missing meteorological values can occur only in some days, we apply the algorithm for each target point and day. The interpolation method for a given set of observations is defined by four parameters $R$, $I$, $N$ and $\alpha$. Following @Thornton1997, we set $R = 140000$ meters and $I = 3$ by default (see parameters `initial_Rp` and `iterations` given in function `defaultInterpolationParams()`). The other parameters ($N$ and $\alpha$) depend on the variable to be interpolated.
 
 
 ## Temperature
 
-Predictions for minimum temperature and maximum temperature are done in the same way, so we refer to a general variable $T$. We focus on the prediction of $T_p$, the temperature at a single target point $p$ and for a single day, based on observations $T_i$ and interpolation weights $W_i$ for the $i = (1, ..., n)$ weather stations. Prediction of $T_p$ requires a correction for the effects of elevation differences between observation points $z_1, ..., z_n$ and the prediction point $z_p$. Thornton et al. (1997) established the relationship between elevation and temperature using transformed variables (temporal or spatial moving window averages) for temperature and elevation, instead of the original variables, but we did not implement this feature here. A weighted least-squares regression is used to assess the relationship between temperature and elevation. Instead of regressing $z_i$ on $T_i$, the independent variable is the difference in elevations associated with a pair of stations, and the dependent variable is the corresponding difference in temperatures. This gives a regression of the form:
+Predictions for minimum temperature and maximum temperature are done in the same way, so we refer to a general variable $T$. We focus on the prediction of $T_p$, the temperature at a single target point $p$ and for a single day, based on observations $T_i$ and interpolation weights $W_i$ for the $i = (1, ..., n)$ weather stations. Prediction of $T_p$ requires a correction for the effects of elevation differences between observation points $z_1, ..., z_n$ and the prediction point $z_p$. @Thornton1997 established the relationship between elevation and temperature using transformed variables (temporal or spatial moving window averages) for temperature and elevation, instead of the original variables, but we did not implement this feature here. A weighted least-squares regression is used to assess the relationship between temperature and elevation. Instead of regressing $z_i$ on $T_i$, the independent variable is the difference in elevations associated with a pair of stations, and the dependent variable is the corresponding difference in temperatures. This gives a regression of the form:
 \begin{equation}
 (T_1 - T_2) = \beta_0 + \beta_1 \cdot (z_1 - z_2)
 \end{equation}
@@ -63,7 +63,7 @@ where $z_p$ is the elevation of the target point and $z_i$ is the elevation of t
 
 ## Relative humidity
 
-Relative humidity is a parameter not always recorded in weather stations. When input station weather data does not include relative humidity, **meteoland** estimates it directly from minimum and maximum temperature (Thornton et al. 1997). Assuming that minimum daily air temperature $T_{min,p}$ at the target point is a good surrogate of dew-point temperature $T_{d,p}$ (i.e. $T_{d,p} = T_{min,p}$; note that this assumption may not be valid in arid climates), one can estimate actual vapor pressure $e_{p}$ (in kPa) as:
+Relative humidity is a parameter not always recorded in weather stations. When input station weather data does not include relative humidity, **meteoland** estimates it directly from minimum and maximum temperature [@Thornton1997]. Assuming that minimum daily air temperature $T_{min,p}$ at the target point is a good surrogate of dew-point temperature $T_{d,p}$ (i.e. $T_{d,p} = T_{min,p}$; note that this assumption may not be valid in arid climates), one can estimate actual vapor pressure $e_{p}$ (in kPa) as:
 \begin{equation}
 e_{p} = 0.61078 \cdot e^{\left(\frac{17.269\cdot T_{d,p}}{237.3+T_{d,p}}\right)}
 \end{equation}
@@ -76,7 +76,7 @@ where $T_{a,p} = 0.606 \cdot T_{max,p} + 0.394 \cdot T_{min,p}$ is the average d
 RH_p = 100 \cdot \frac{e_{p}}{e_{s,p}}
 \end{equation}
 
-When relative humidity has been measured at weather stations, interpolation should be preferred to estimation from minimum and maximum temperature. However, because relative humidity depends on temperature, relative humidity $RH_i$ of each weather station $i$ has to be converted to dew-point temperature $T_{d,i}$ before interpolation (Tymstra et al. 2010). To obtain the dew-point temperature one first needs to calculate vapor pressure:
+When relative humidity has been measured at weather stations, interpolation should be preferred to estimation from minimum and maximum temperature. However, because relative humidity depends on temperature, relative humidity $RH_i$ of each weather station $i$ has to be converted to dew-point temperature $T_{d,i}$ before interpolation [@Tymstra2010]. To obtain the dew-point temperature one first needs to calculate vapor pressure:
 \begin{equation}
 e_i = e_{s,i} \cdot (RH_i / 100)
 \end{equation}
@@ -93,13 +93,13 @@ From the interpolated dew-point temperature one can obtain actual vapour pressur
 
 ## Precipitation
 
-Predictions of precipitation are complicated by the need to predict both daily occurrence and, conditioned on this, daily precipitation amount. Thornton et al. (1997) define a binomial predictor of spatial precipitation occurrence as a function of the weighted occurrence at surrounding stations. The precipitation occurrence probability $POP_p$ is:
+Predictions of precipitation are complicated by the need to predict both daily occurrence and, conditioned on this, daily precipitation amount. @Thornton1997 define a binomial predictor of spatial precipitation occurrence as a function of the weighted occurrence at surrounding stations. The precipitation occurrence probability $POP_p$ is:
 \begin{equation}
 POP_p = \frac{\sum_{i=1}^{n}{W_{o,i}\cdot PO_i}}{\sum_{i=1}^{n}{W_{o,i}}}
 \end{equation}
 where $PO_i$ is the binomial precipitation occurrence in station $i$ (i.e., $PO_i = 0$ if $P_i = 0$ and $PO_i = 1$ if $P_i > 0$) and $W_{o,i}$ is the interpolation weight for precipitation occurrence. Once $POP_p$ is calculated, then precipitation occurs if $POP_p$ is smaller than a critical value (i.e. $PO_p = 1$ if $POP_p < POP_{crit}$ and $PO_p = 0$ otherwise). 
 
-Conditional on precipitation occurrence we calculate the prediction of daily total precipitation, $P_p$. Like with temperature, Thornton et al. (1997) established the relationship between elevation and precipitation using transformed variables (temporal or spatial moving window averages) for precipitation and elevation. Following their results, we transform precipitation values using a temporal window with side of 5 days. Weighted least-squares, where the weight associated with each point is the product of the interpolation weights associated with the stations in a pair, is used to account for elevation effects on precipitation. Unlike Thornton et al. (1997), who use the same set of interpolation weights (i.e. $W_{o,i}$) for precipitation occurrence and regression, we use a second set of interpolation weights $W_{r,i}$ for the calculation of regression weights. The dependent variable in the regression function is defined as the normalized difference of the precipitation observations $P_i$ for any given pair of stations:
+Conditional on precipitation occurrence we calculate the prediction of daily total precipitation, $P_p$. Like with temperature, @Thornton1997 established the relationship between elevation and precipitation using transformed variables (temporal or spatial moving window averages) for precipitation and elevation. Following their results, we transform precipitation values using a temporal window with side of 5 days. Weighted least-squares, where the weight associated with each point is the product of the interpolation weights associated with the stations in a pair, is used to account for elevation effects on precipitation. Unlike @Thornton1997, who use the same set of interpolation weights (i.e. $W_{o,i}$) for precipitation occurrence and regression, we use a second set of interpolation weights $W_{r,i}$ for the calculation of regression weights. The dependent variable in the regression function is defined as the normalized difference of the precipitation observations $P_i$ for any given pair of stations:
 \begin{equation}
 \left(\frac{P_1 - P_2}{P_1 + P_2}\right) = \beta_0 + \beta_1 \cdot (z_1 - z_2)
 \end{equation}

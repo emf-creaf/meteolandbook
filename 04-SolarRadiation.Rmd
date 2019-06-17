@@ -8,7 +8,7 @@ library(meteoland)
 
 ## Solar declination and solar constant
 
-The declination of the sun $\delta$ is the angle between the rays of the sun and the plan of the Earth's equator. Solar declination varies with years and seasons. However, the Earth's axial tilt changes slowly over thousands of years but it is nearly constant for shorter periods, so the change in solar declination during one year is nearly the same as during the next year. Solar constant ($I_0$) is normally given a nominal value of 1.361 $kW \cdot m^{-2}$ but in fact it also varies through the year and over years. Both can be calculated from Julian day ($J$), the number of days number of days since January 1, 4713 BCE at noon UTC. from Julian day. In **meteoland**, julian days, solar declination and solar constant are calculated using an adaptation of the code as in package [**insol**](https://CRAN.R-project.org/package=insol) by J.G. Corripio, which is based on Danby (1988) and Reda & Andreas (2003). 
+The declination of the sun $\delta$ is the angle between the rays of the sun and the plan of the Earth's equator. Solar declination varies with years and seasons. However, the Earth's axial tilt changes slowly over thousands of years but it is nearly constant for shorter periods, so the change in solar declination during one year is nearly the same as during the next year. Solar constant ($I_0$) is normally given a nominal value of 1.361 $kW \cdot m^{-2}$ but in fact it also varies through the year and over years. Both can be calculated from Julian day ($J$), the number of days number of days since January 1, 4713 BCE at noon UTC. from Julian day. In **meteoland**, julian days, solar declination and solar constant are calculated using an adaptation of the code as in package [**insol**](https://CRAN.R-project.org/package=insol) by J.G. Corripio, which is based on @Danby1988 and @Reda2008. 
 
 The following figures show the variation of solar declination and the value of solar constant over a year (see functions `radiation_solarDeclination()` and `radiation_solarConstant()`):
 
@@ -255,7 +255,7 @@ legend("bottomright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lw
 
 ## Potential radiation
 
-Potential solar radiation is the radiation that a surface on earth would receive if atmosphere was not present (i.e. without the effects of cloud reflection, scattering, ...). In **meteoland**, potential solar radiation is estimated from solar declination, latitude, aspect and slope according to Granier & Ohmura (1968). Daily potential radiation ($R_{pot}$, in $MJ \cdot m^{-2}$) is calculated by integrating instantaneous potential radiation $R_{pot,s}$ (in $kW \cdot m^{-2}$) over the day between sunrise ($sr$) and sunset ($ss$), using 10 min (i.e. 600 sec) intervals:
+Potential solar radiation is the radiation that a surface on earth would receive if atmosphere was not present (i.e. without the effects of cloud reflection, scattering, ...). In **meteoland**, potential solar radiation is estimated from solar declination, latitude, aspect and slope according to @Garnier1968. Daily potential radiation ($R_{pot}$, in $MJ \cdot m^{-2}$) is calculated by integrating instantaneous potential radiation $R_{pot,s}$ (in $kW \cdot m^{-2}$) over the day between sunrise ($sr$) and sunset ($ss$), using 10 min (i.e. 600 sec) intervals:
 \begin{equation}
 R_{pot} = \frac{1}{1000}\cdot \sum_{s = sr}^{ss}{600 \cdot R_{pot,s}}
 \end{equation}
@@ -334,7 +334,7 @@ legend("bottomright",c("flat", "N","E","S","W"), col=c("red",rep("black",4)), lt
 
 ## Incident solar radiation
 
-Incident solar radiation is the amount of (direct) solar radiation reaching the surface after accounting for the atmosphere. Improving the method proposed in Thornton et al. (1997), Thornton & Running (1999) calculate incident daily total solar radiation $R_{g}$ as:
+Incident solar radiation is the amount of (direct) solar radiation reaching the surface after accounting for the atmosphere. Improving the method proposed in @Thornton1997, @Thornton1999 calculate incident daily total solar radiation $R_{g}$ as:
 \begin{equation}
 R_g = R_{pot} \cdot T_{t,max} \cdot T_{f,max}
 \end{equation}
@@ -366,7 +366,7 @@ Potential and actual evapotranspiration calculations require estimating the ener
 \begin{equation}
 R_n = R_s\cdot (1 - \alpha) - R_{nl}
 \end{equation}
-where $R_s$ is the input solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$), $\alpha = 0.08$ accounts for surface albedo, and $R_{nl}$ is the net longwave radiation. Outgoing longwave radiation is the radiation emitted by earth. Following McMahon et al. (2013) to obtain $R_{nl}$ one first calculates clear sky radiation $R_{so}$ using:
+where $R_s$ is the input solar radiation (in $MJ\cdot m^{-2}\cdot day^{-1}$), $\alpha = 0.08$ accounts for surface albedo, and $R_{nl}$ is the net longwave radiation. Outgoing longwave radiation is the radiation emitted by earth. Following @McMahon2013 to obtain $R_{nl}$ one first calculates clear sky radiation $R_{so}$ using:
 \begin{equation}
   R_{so} = (0.75 + \cdot 0.00002 \cdot z) \cdot R_{pot}
 \end{equation}
@@ -429,7 +429,7 @@ legend("topleft", col=c("black","blue","red"), legend = c("Solar radiation", "Ou
 
 ## Diurnal trends in diffuse and direct radiation
 
-Ecological studies sometimes require radiation information at a subdaily scale. This is particularly true for modeling studies that need to calculate canopy photosynthesis. Although meteoland has been designed to assist studies requiring meteorological data at daily scale, a function called `radiation_directDiffuseDay()` is provided to divide daily radiation into instantaneous direct and diffuse radiation. Values of instantaneous direct and diffuse radiation (shortwave and photosynthetic active radiation) are calculated following Spitters et al. (1986). First, the ratio between daily diffuse and global radiation ($R_{d}/R_{g}$) is inferred from the ratio between daily potential and global radiation ($R_{g}/R_{pot}$):
+Ecological studies sometimes require radiation information at a subdaily scale. This is particularly true for modeling studies that need to calculate canopy photosynthesis. Although meteoland has been designed to assist studies requiring meteorological data at daily scale, a function called `radiation_directDiffuseDay()` is provided to divide daily radiation into instantaneous direct and diffuse radiation. Values of instantaneous direct and diffuse radiation (shortwave and photosynthetic active radiation) are calculated following @Spitters1986. First, the ratio between daily diffuse and global radiation ($R_{d}/R_{g}$) is inferred from the ratio between daily potential and global radiation ($R_{g}/R_{pot}$):
 \begin{eqnarray}
 R_{d}/R_{g} = 1 & & R_{g}/R_{pot}<0.07\\
 R_{d}/R_{g} = 1-2.3\cdot (R_{g}/R_{pot}-0.7)^2 & & 0.07\leq R_{g}/R_{pot} <0.35\\

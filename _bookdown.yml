@@ -1,5 +1,6 @@
 book_filename: "meteolandbook"
 delete_merged_file: true
+output_dir: "D:/Rservices/vegmod_web/static/meteolandbook"
 language:
   ui:
     chapter_name: "Chapter "

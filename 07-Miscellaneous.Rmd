@@ -25,7 +25,7 @@ External software is necessary to calculate the set of wind fields for the study
 
 The inputs for a basic run of WindNinja are an elevation data file for the study area, a domain-averaged input wind speed and direction and a specification of the dominant vegetation in the area. In order to obtain a set of pre-computed rasters of wind direction and speed, we suggest the following procedure:
 
-+ Export the elevation raster of the study area in one of the file formats accepted by WindNinja (*.asc*, *.tif* or *.img*). In the case of a large study area (e.g. > 100 x 100 km) one should run WindNinja in subsets of the area and then integrate the results (e.g., Sanjuan et al. 2014).
++ Export the elevation raster of the study area in one of the file formats accepted by WindNinja (*.asc*, *.tif* or *.img*). In the case of a large study area (e.g. > 100 x 100 km) one should run WindNinja in subsets of the area and then integrate the results [@Sanjuan2014].
 + Run WindNinja, using the elevation of the study area, for all combinations of wind direction and wind speed class (for each wind speed class an mean class value has to be chosen). Several combinations of domain-level wind speed and wind direction can be specified for a single run, and the program can also be run in batch mode.
 + Read raster files created by WindNinja (a wind speed file, a wind direction file) for each combination of domain-level wind speed and direction.
 
