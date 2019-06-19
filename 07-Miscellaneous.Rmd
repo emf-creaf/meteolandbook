@@ -60,3 +60,15 @@ s_{vp}(T) = 4098.0 \cdot \frac{0.6108 \cdot e^{(17.27 \cdot T)/(T + 237.3)}}{(T 
 \begin{equation}
 vp_{atm} = \frac{VP(T_{min}) \cdot (RH_{max}/100) + VP(T_{max}) \cdot (RH_{min}/100)}{2}
 \end{equation}
++ `utils_latentHeatVaporisation()`: Latent heat of vaporisation $\lambda_v$ in $MJ·kg^{-1}$ from temperature in degrees Celsius:
+\begin{equation}
+\lambda_v(T) = (2.5023-(0.00243054 \cdot T))
+\end{equation}
++ `utils_latentHeatVaporisationMol()`: Latent heat of vaporisation $\lambda_v$ in $J·mol^{-1}$ from temperature in degrees Celsius:
+\begin{equation}
+\lambda_v(T) = (2.5023\cdot 10^6-(2430.54\cdot T))\cdot 0.018
+\end{equation}
++ `utils_psychrometricConstant()`:  Psychrometric constant in $kPa· ^\circ C^{-1}$ from temperature in degrees Celsius and atmospheric pressure in kPa:
+\begin{equation}
+\gamma_v = \frac{0.00163 \cdot P_{atm}}{\lambda_v(T)}
+\end{equation}
