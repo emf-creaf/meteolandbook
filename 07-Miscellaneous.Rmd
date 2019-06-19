@@ -36,3 +36,27 @@ Function `readWindNinjaOutput()` can be used to conduct this last step. The func
 + An object `SpatialGridDataFrame` containing the wind directions (in degrees from North) for all WindNinja runs.
 + An object `SpatialGridDataFrame` containing the wind speeds (in m/s) for all WindNinja runs.
 
+## Physical utility functions {#physicalutils}
+
+Several utility functions are included in the package corresponding to physical calculations:
+
++ `utils_atmosphericPressure()`: Atmospheric pressure $P_{atm}$ in kPa from elevation $z$ in m.
+\begin{equation}
+P_{atm}(z) = 101.32500 \cdot \left[1.0 - 2.2569 \cdot 10^{-5} \cdot z \right]^{5.2353}
+\end{equation}
++ `utils_airDensity()`: Air density in $kg \cdot m^{-3}$ from temperature in Celsius and atmospheric pressure:
+\begin{equation}
+\rho_{air} = \frac{P_{atm}}{1.01 \cdot (T+273.16) \cdot 0.287}
+\end{equation}
++ `utils_saturationVP()`:  Saturation water vapour pressure $VP$ in kPa from temperature $T$ in degrees Celsius:
+\begin{equation}
+VP(T) = 0.61078 \cdot e^{\left(\frac{17.269\cdot T}{237.3+T}\right)}
+\end{equation}
++ `saturationVaporPressureCurveSlope()`: Saturation water vapour pressure curve slope $s_{vp}$ in $kPa \cdot ^\circ C^{-1}$ from temperature $T$ in degrees Celsius:
+\begin{equation}
+s_{vp}(T) = 4098.0 \cdot \frac{0.6108 \cdot e^{(17.27 \cdot T)/(T + 237.3)}}{(T + 237.3)^2}
+\end{equation}
++ `utils_averageDailyVP()`: Average daily water vapour pressure $vp_{atm}$ in kPa calculated from minimum and maximum temperatures and relative humidities:
+\begin{equation}
+vp_{atm} = \frac{VP(T_{min}) \cdot (RH_{max}/100) + VP(T_{max}) \cdot (RH_{min}/100)}{2}
+\end{equation}
