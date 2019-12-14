@@ -1,6 +1,9 @@
 --- 
 title: "The meteoland reference book"
-author: "Miquel De Cáceres"
+author: 
+  name: "Miquel De Cáceres"
+  affiliation: "Forest Science and Technology Center of Catalonia (CTFC)"
+  email: "miquelcaceres@gmail.com"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -15,3 +18,13 @@ library(meteoland)
 ```
 
 # Preface {-}
+
+## How to use this book {-}
+
+This reference book is meant to help you understand the data structures and functions included in package **meteoland** (ver. **`r packageVersion("meteoland")`**). Hands-on user guides can be found as package vignettes within the package. As any reference book, you are not expected to read the book linearly, but to jump to sections whenever you have doubts about the design of the package or implementation of certain calculations.
+
+The reference book describes in detail the design and functioning of the package. An introduction to the package was provided by De Cáceres et al. [-@DeCaceres2018] at the time of presenting the package, but this reference book should be preferred for an up-to-date description of the package.
+
+```{r, out.width='20%', fig.align="center", echo=FALSE}
+knitr::include_graphics("LOGO_Group.png")
+```
