@@ -85,7 +85,7 @@ Although very simple, the package provides two kinds of functions to visualize t
 Similarly, function `spplot()` also accepts objects of classes `SpatialGridTopography` and `SpatialPixelsTopography`, so that topography can also be easily displayed.
 
 
-## Manipulating and reshaping topographic/meteorological data structures
+## Manipulating and reshaping data structures
 
 Following the design of package **sp**, package meteoland provides functions for switching between spatial structures. For example, it is possible to coerce an object of `SpatialPointsTopography` into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`. Subsetting is also allowed, so that estimations of daily meteorology can be performed in subsets of points or grids.
 
