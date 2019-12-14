@@ -61,20 +61,18 @@ In addition to their corresponding inherited slots, `SpatialPointsMeteorology`, 
 ### Point meteorology
 Objects of class `SpatialPointsMeteorology` are stored in the disk using one data file for each of their spatial points. Files can be stored in **ascii** format or **rds** (compressed) format. Package **meteoland** provides four input/output functions for point meteorology:
 
-+ Function `readmeteorologypoint()` reads the meteorological data stored in one *ascii*/*rds* data file and returns a data frame.
-+ Function `writemeteorologypoint()` writes the meteorological data of a single point as an *ascii*/*rds* file in the file system.
-+ Function `readmeteorologypointfiles()` reads several *ascii*/*rds* files and returns an object of class `SpatialPointsMeteorology`.
-+ Functions `writemeteorologypointfiles()` writes several *ascii*/*rds* files in the disk, one per spatial point. Metadata (i.e. the spatial coordinates of each point and the corresponding file path) is stored in an additional file.
++ Function `readmeteorologypoint()` reads the meteorological data stored in one **ascii**/**rds** data file and returns a data frame.
++ Function `writemeteorologypoint()` writes the meteorological data of a single point as an **ascii**/**rds** file in the file system.
++ Function `readmeteorologypointfiles()` reads several **ascii**/**rds** files and returns an object of class `SpatialPointsMeteorology`.
++ Functions `writemeteorologypointfiles()` writes several **ascii**/**rds** files in the disk, one per spatial point. Metadata (i.e. the spatial coordinates of each point and the corresponding file path) is stored in an additional file.
 
-### Grid meteorology
- Objects of class `SpatialGridMeteorology` are stored in the disk using one **netCDF** file per day. In this case, the **netCDF** file also contains the date and spatial projection. The following functions are available for input/output of meteorology over a full grid or on a subset of grid cells:
+### Gridded meteorology
+[**NetCDF**](https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_introduction.html) is a set of libraries to write machine-independent data formats that support the creation and sharing of array-oriented scientific data. **NetCDF**  is very useful useful to store spatio-temporal datasets, as it allows storing the grid topology, the time period being described and the spatial projection as well as the actual data all in the same file. Moreover, **NetCDF** can be read and written lazily, without having to load all the file in memory. Package **meteoland** allows objects of classes  `SpatialPixelsMeteorology` and `SpatialGridMeteorology` to be stored in the disk as **NetCDF** thanks to the functions provided by [`ncdf4`](https://cran.r-project.org/package=ncdf4) R package, which provides an interface to Unidata's netCDF library (version 4 or earlier). 
 
-+ Functions `readmeteorologygrid()` and `readmeteorologypixels()` reads the meteorological data stored in one *netCDF* file and returns an object of class `SpatialGridDataframe` or `SpatialPixelsDataframe`, respectively.
-+ Functions `writemeteorologygrid()` and `writemeteorologypixels()`  write the meteorological data of the full grid or the subset of grid cells, for a single date in a *netCDF* file.
-+ Functions `readmeteorologygridfiles()` and `readmeteorologypixelsfiles()` read several *netCDF* files and returns an object of class `SpatialGridMeteorology` or `SpatialPixelsMeteorology`, respectively.
-+ Functions `writemeteorologygridfiles()` and `writemeteorologypixelsfiles()` write several *netCDF* files in the disk, one per date, of the full grid or the subset of grid cells. Metadata (i.e. the dates and their corresponding file path) is stored in an additional file.
+The following functions are available for input/output of meteorology over a full grid or on a subset of grid cells:
 
-As a special case, function `readmeteorologygridcells()` reads several netCDF files and returns an object of class `SpatialPointMeteorology` with the meteorological data of a set of specified grid cells.
++ Functions `readmeteorologygrid()` and `readmeteorologypixels()` read the meteorological data stored in a **NetCDF** file and return an object of class `SpatialGridMeteorology` or `SpatialPixelsMeteorology`, respectively. Users can read subsets of the time period stored in **NetCDF** by specifying parameter `dates`.
++ Functions `writemeteorologygrid()` and `writemeteorologypixels()`  write the meteorological data of the full grid or the subset of grid cells, for a **NetCDF**. The same functions allow adding and replacing data content in a previously existing **NetCDF**.
 
 
 ## Visualizing input topography and meteorological data
@@ -109,16 +107,17 @@ The package provides functions to generate temporal summaries of meteorological 
 ## Meteorology estimation functions
 
 ### Spatial interpolation
-Package **meteoland** provides two functions for interpolating meteorological data (i.e., one for each data structure):
+Package **meteoland** provides three functions for interpolating meteorological data (i.e., one for each data structure):
 
 + Function `interpolationpoints()` interpolates weather for a set of locations given in `SpatialPointsTopography` and returns an object of class `SpatialPointsMeteorology`.
++ Function `interpolationpixels()` interpolates weather for pixels in a grid specified in `SpatialPixelsTopography` and returns an object of class `SpatialPixelsMeteorology`.
 + Function `interpolationgrid()` interpolates weather for a whole grid specified in `SpatialGridTopography` and returns an object of class `SpatialGridMeteorology`.
 
 Both functions require an object of class `MeteorologyInterpolationData`, which contains the X-Y coordinates, the meteorological data and topography of a set of weather stations as well as weather interpolation parameters.
 ```{r, echo = FALSE}
 showClass("MeteorologyInterpolationData")
 ```
-When calling functions `interpolationpoints()` or `interpolationgrid()`, the user may require interpolation outputs to be written into the file system, instead of being returned in memory. If `interpolationpoints()} is called with `export = TRUE}, the function will write the data frame produced for each point into an *ascii* text file or a *rds* file. If `interpolationgrid()` is called with `export = TRUE`, the function will write an *netCDF* file for each day. Metadata files will also be written, so that results can later be loaded in memory. 
+When calling functions `interpolationpoints()`, `interpolationpixels()`, or `interpolationgrid()`, the user may require interpolation outputs to be written into the file system, instead of being stored in memory. If `interpolationpoints()` is called with `export = TRUE`, the function will write the data frame produced for each point into an **ascii** text file or a **rds** file. Metadata files will also be written, so that results can later be loaded in memory. Similarly, if `interpolationpixels()` or `interpolationgrid()` are called specifying `exportFile`, the functions will create and add data to a **netCDF** for each day being processed. These options becomes important when dealing with large spatial structures. 
 
 Functions `interpolation.calibration()` and `interpolation.cv()` are included in **meteoland** to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them.
 
