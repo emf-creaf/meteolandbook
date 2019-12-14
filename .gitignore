@@ -4,4 +4,5 @@
 .Ruserdata
 _book/*
 _bookdown_files/*
+_bookdown.yml
 Meteorology.Rnw
