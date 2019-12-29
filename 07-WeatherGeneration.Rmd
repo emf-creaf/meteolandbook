@@ -14,12 +14,16 @@ Three kinds of weather generation are offered:
 The algorithm is based on Apipattanavis et al. (2007) and combines a Markov Chain (MC) to generate the sequence of precipitation states with a *k*-nearest neighbor (*k*-NN) bootstrap resampler to generate multivariate and multisite weather variables. The MC is used to better represent wet and dry spell statistics while the *k*-NN bootstrap resampler preserves the covariance structure between weather variables and across space. 
 
 The weather generation approach is based on the common practice of first simulating precipitation occurence as a chain-dependent process. A three-state (dry / wet / extremely wet) Markov chain (MC) of order 1 is used to simulate an (area-averaged) precipitation state series. Nine transition probabilities are fit to the (area-averaged) input precipitation state series by month using maximum likelihood. A threshold of 0.3 mm (by default) is chosen to distinguish between dry and wet days, while the 80th percentile of precipitation (on wet days) is used as a threshold for extremely wet conditions. The fitted MC can be used to simulate (area-averaged) precipitation state series. A *k*-NN resampling algorithm of lag-1 is used
-to generate the values for all the weather variables (including disaggregation to locations). The *k*-NN bootstrap resampler algorithm follows six steps (description adapted from Steinschneider et al. 2013):
+to generate the values for all the weather variables, including disaggregation to $L$ locations. The *k*-NN bootstrap resampler algorithm follows six steps (description adapted from Steinschneider et al. 2013):
 
-1. Let $\bar{X}_{t-1}$ be a vector of (area-averaged) weather variables already simulated for day $t - 1$. Also assume that the MC has simulated precipitation state series for days $t-1$ and $t$.
-2. Partition the historic record to find all pairs of days in a 7-day window (by default) centered on the day of the year of day $t$ (i.e. if $t$ is 15 January, then the window includes days from 12 to 18 January) that has the same sequence of (area-averaged) precipitation states simulated by the MC for days $t-1$ and $t$. Assume there are $Q$ such pairs.
-3. 
-4. Order the distances $d_q$ from smallest to largests and select the $k$ smallest distances, where $k = \sqrt{Q}$. These corresponding $k$ neighbors are assigned weights $K$ using a discrete kernel function:
+1. Let $\bar{\bf{x}}_{t-1}$ be a vector of (area-averaged) weather variables already simulated for day $t - 1$. Also assume that the MC has simulated precipitation state series for days $t-1$ and $t$.
+2. Partition the historic record to find all pairs of consecutive days in a 7-day window (by default) centered on the day of the year of day $t$ (i.e. if $t$ is 15 January, then the window includes days from 12 to 18 January) that has the same sequence of (area-averaged) precipitation states simulated by the MC for days $t-1$ and $t$. Assume there are $Q$ such pairs.
+3. Compute the distance between vector $\bar{\bf{x}}_{t-1}$ and the vectors $\bar{\bf{x}}^{1}_{q}$ corresponding to the first day of each $q$ pair of consecutive days. The weighted Euclidean distance $d_q$ between vector $\bar{\bf{x}}_{t-1}$ and $\bar{\bf{x}}^{1}_{q}$ is calculated as:
+\begin{equation}
+d_q = \sqrt{\sum_{i=1}^{r}{w_i \cdot (\bar{x}_{i,t-1} - \bar{x}^{1}_{i,q})^2}}
+\end{equation}
+where $w_i$ is set to the inverse of the standard deviation of the $i$th weather variable. Here mean temperature and precipitation are used and we force a ten-fold weight for precipitation compared to temperature.
+4. Order the distances $d_q$ from smallest to largests and select the $k$ smallest distances, where $k = \sqrt{Q}$. These corresponding $k$ neighbors are assigned resapling weights $K$ using a discrete kernel function:
 \begin{equation}
 K[j] = \frac{1/j}{\sum_{j=1}^{k}{1/j}}
 \end{equation}
@@ -27,7 +31,7 @@ where $k$ indexes the $k$ neighbors.
 5. Sample one of the $k$ neighbors and record the historic date associated with that selected neigbor. Then, use vectors of weather variables on the successive day to the recorded date for each of the $L$ locations to simulate, multisite, weather for day $t$.
 6. Repeat steps 1-5 for all days of the simulation.
 
-To begin the resampling algorithm and generate initial (area-averaged) $\bar{X}_{1}$ values for all weather variables, data from a random day from the simulation starting month is selected from the historic record that is consistent with the first precipitation state simulated by the MC.
+To begin the resampling algorithm and generate initial (area-averaged) $\bar{\bf{x}}_{1}$ values for all weather variables, data from a random day from the simulation starting month is selected from the historic record that is consistent with the first precipitation state simulated by the MC.
 
 
 ## Conditional weather generation
