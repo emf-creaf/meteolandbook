@@ -1,15 +1,14 @@
 # Weather generation {#weathergeneration}
 
-Since version 0.8.6, **meteoland** incorporates the possibility of generating stochastic weather series. Stochastic weather generators are algorithms that produce series of synthetic daily weather data. The parameters of the model are conditioned on existing meteorological records to ensure the characteristics of input weather series emerge in the daily stochastic process. The algorithm available in **meteoland** is intended to be used to generate daily series of the same length as the input. It can be understood as a day resampling algorithm that tries to preserve some properties of the input series. The algorithm is semi-parametric and based on a first-order Markov chain for weather days (classified into dry/wet/extreme wet) along with k-nearest neighbour (KNN) resampling of input days and years. The approach implemented in **meteoland** can be applied to any spatial structure (points/pixels/grid) and it preserves the spatial correlation and multivariate covariance structure of weather series (because it works on area-averaged weather and the chosen resampled days are applied to all points/pixels). 
+Since version 0.8.6, **meteoland** incorporates the possibility of generating stochastic weather series. Stochastic weather generators are algorithms that produce series of synthetic daily weather data. The parameters of the model are conditioned on existing meteorological records to ensure the characteristics of input weather series emerge in the daily stochastic process. The weather generation approaches available in **meteoland** are intended to be used to generate daily series of the same length as the input. It can be understood as a bootstrap resampling algorithm that tries to preserve some properties of the original weather series.  The approach implemented in **meteoland** can be applied to any spatial structure (points/pixels/grid) and it preserves the spatial correlation and multivariate covariance structure of weather series (because it works on area-averaged weather and the chosen resampled days are applied to all points/pixels). 
 
-Three kinds of weather generation are offered:
+Two modes of weather generation are offered:
 
-1. **"none"** - Unconditional weather generation, which is based on a first order Markov chain (MC) to simulate weather states (dry/wet/extreme wet) and a K-nearest neighbour (KNN) algorithm to select pairs of days with the same transition and similar weather for the initial state.
-2. **"arima"** - Annual precipitation is conditioned using a stationary auto-regressive (ARIMA) model and then a K-nearest neighbour algorithm is used to select a set of years to train the MC-KNN algorithm (similar to Steinschneider et al. 2013). Recommended if low-frequency variation of annual precipitation is to be acounted for in long series.
-3. **"window"** - The MC-KNN algorithm is trained with the subset of the input data corresponding to a window around the target year. Annual precipitation is conditioned using a lognormal random trial of the precipitation corresponding to the selected years. Recommended to generate stochastic series from climate change projections.
+1. Unconditional weather generation is based on a first order Markov chain (MC) to simulate a series of precipitation states (dry/wet/extreme wet) and a K-nearest neighbor ($k$-NN) algorithm to select a pair of consecutive days with the same transition and similar weather for the first day.
+2. Conditional weather generation couples the former generation algorithm with a second algorithm to generate multiyear variation. 
 
 
-## MC-KNN weather generation
+## Unconditional weather generation algorithm
 
 The algorithm is based on Apipattanavis et al. (2007) and combines a Markov Chain (MC) to generate the sequence of precipitation states with a *k*-nearest neighbor (*k*-NN) bootstrap resampler to generate multivariate and multisite weather variables. The MC is used to better represent wet and dry spell statistics while the *k*-NN bootstrap resampler preserves the covariance structure between weather variables and across space. 
 
@@ -27,7 +26,7 @@ where $w_i$ is set to the inverse of the standard deviation of the $i$th weather
 \begin{equation}
 K[j] = \frac{1/j}{\sum_{j=1}^{k}{1/j}}
 \end{equation}
-where $k$ indexes the $k$ neighbors.
+where $j$ indexes the $k$ neighbors.
 5. Sample one of the $k$ neighbors and record the historic date associated with that selected neigbor. Then, use vectors of weather variables on the successive day to the recorded date for each of the $L$ locations to simulate, multisite, weather for day $t$.
 6. Repeat steps 1-5 for all days of the simulation.
 
@@ -35,3 +34,9 @@ To begin the resampling algorithm and generate initial (area-averaged) $\bar{\bf
 
 
 ## Conditional weather generation
+
+The algorithm described in the previous section allows generating intra-annual (i.e. seasonal) weather variation because of monthly calibration of the MC and $k$-NN selection of pairs of days on the basis of their day of the year. However, year-to-year variation in annual precipitation or mean temperature will arise due to stochasticity only. Multi-year variation (i.e. low-frequency periodic variations or long-term trends) cannot be simulated. Two alternative approaches are offered in **meteoland** to condition stochastic weather generation on multi-year variation.
+
+1. Annual precipitation can be conditioned by using a stationary auto-regressive (ARIMA) model annual precipitation and then using a $k$-nearest neighbor algorithm (similar to that of the previous section) to select years of the original weather series with annual precipitation similar to the simulated one and produce a bootstrap resample of weather data to train the MC-KNN algorithm (Steinschneider et al. 2013). This option is recommended if low-frequency variation of annual precipitation is to be acounted for in long series.
+
+2. Multi-year temperature or precipitation trends of the original series can be preserved by using a moving window. Each target year, a window around the target year is used to subset the original series. Annual precipitation to be simulated is then conditioned using a lognormal random trial of the precipitation corresponding to the selected years. Then, the same $k$-NN algorithm is used to produce a bootstrap resample of weather data from the years included in the moving window. This strategy is recommended to generate multiple stochastic series from (already corrected) climate change projections, as it preserves long-term trends.

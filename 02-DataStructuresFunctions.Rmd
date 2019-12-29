@@ -120,8 +120,7 @@ showClass("MeteorologyInterpolationData")
 ```
 When calling functions `interpolationpoints()`, `interpolationpixels()`, or `interpolationgrid()`, the user may require interpolation outputs to be written into the file system, instead of being stored in memory. If `interpolationpoints()` is called with `export = TRUE`, the function will write the data frame produced for each point into an **ascii** text file or a **rds** file. Metadata files will also be written, so that results can later be loaded in memory. Similarly, if `interpolationpixels()` or `interpolationgrid()` are called specifying `exportFile`, the functions will create and add data to a **netCDF** for each day being processed. These options becomes important when dealing with large spatial structures. 
 
-Functions `interpolation.calibration()` and `interpolation.cv()` are included in **meteoland** to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them.
-
+Functions `interpolation.calibration()` and `interpolation.cv()` are included in **meteoland** to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them. Details of interpolation routines are described in chapter \@ref(spatialinterpolation).
 
 ### Statistical correction
 
@@ -129,8 +128,12 @@ One function is available for statistical correction of meteorological data seri
 ```{r echo=FALSE}
 showClass("MeteorologyUncorrectedData")
 ```
-The reference (historical) period is compared with observed meteorological data of the same period, and the routine uses this information to correct the projected (e.g. future) period. Therefore, apart from the ``MeteorologyUncorrectedData'} object, the correction function requires accurate meteorological data (for a set of spatial points or a grid). Normally, these data will be the result of spatial interpolation.
+The reference (historical) period is compared with observed meteorological data of the same period, and the routine uses this information to correct the projected (e.g. future) period. Therefore, apart from the `MeteorologyUncorrectedData` object, the correction function requires accurate meteorological data (for a set of spatial points or a grid). Normally, these data will be the result of spatial interpolation.
 
 As before, when calling functions `correctionpoints()`, the user may require the outputs to be written into the file system, instead of being returned in memory. If `correctionpoints()` is called with `export = TRUE`, the function will write the data frame produced for each point into an *ascii* text file or a *rds* file. Metadata files will also be written, so that results can later be loaded in memory.
 
-Function `correctionpoints.errors()` was included in the package to evaluate the errors of the less accurate and more accurate series. Comparisons can be made before and after applying statistical corrections. In the latter case, cross-validation is also available.
+Function `correctionpoints.errors()` was included in the package to evaluate the errors of the less accurate and more accurate series. Comparisons can be made before and after applying statistical corrections. In the latter case, cross-validation is also available. Details of correction routines are described in chapter \@ref(statisticalcorrection).
+
+### Weather generation
+
+Function `weathergeneration()` can be used to generate synthetic weather series for a range of inputs, including a (non-spatial) data frame (corresponding to weather series of a single location) as well as objects of classes `SpatialPointsDataFrame`, `SpatialPixelsDataFrame` or `SpatialGridDataFrame`. The output of the function is of the same class as the input object. Weather generation algorithms are described in chapter \@ref(weathergeneration).
