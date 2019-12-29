@@ -1,1 +1,33 @@
 # Weather generation {#weathergeneration}
+
+Since version 0.8.6, **meteoland** incorporates the possibility of generating stochastic weather series. Stochastic weather generators are algorithms that produce series of synthetic daily weather data. The parameters of the model are conditioned on existing meteorological records to ensure the characteristics of input weather series emerge in the daily stochastic process. The algorithm available in **meteoland** is intended to be used to generate daily series of the same length as the input. It can be understood as a day resampling algorithm that tries to preserve some properties of the input series. The algorithm is semi-parametric and based on a first-order Markov chain for weather days (classified into dry/wet/extreme wet) along with k-nearest neighbour (KNN) resampling of input days and years. The approach implemented in **meteoland** can be applied to any spatial structure (points/pixels/grid) and it preserves the spatial correlation and multivariate covariance structure of weather series (because it works on area-averaged weather and the chosen resampled days are applied to all points/pixels). 
+
+Three kinds of weather generation are offered:
+
+1. **"none"** - Unconditional weather generation, which is based on a first order Markov chain (MC) to simulate weather states (dry/wet/extreme wet) and a K-nearest neighbour (KNN) algorithm to select pairs of days with the same transition and similar weather for the initial state.
+2. **"arima"** - Annual precipitation is conditioned using a stationary auto-regressive (ARIMA) model and then a K-nearest neighbour algorithm is used to select a set of years to train the MC-KNN algorithm (similar to Steinschneider et al. 2013). Recommended if low-frequency variation of annual precipitation is to be acounted for in long series.
+3. **"window"** - The MC-KNN algorithm is trained with the subset of the input data corresponding to a window around the target year. Annual precipitation is conditioned using a lognormal random trial of the precipitation corresponding to the selected years. Recommended to generate stochastic series from climate change projections.
+
+
+## MC-KNN weather generation
+
+The algorithm is based on Apipattanavis et al. (2007) and combines a Markov Chain (MC) to generate the sequence of precipitation states with a *k*-nearest neighbor (*k*-NN) bootstrap resampler to generate multivariate and multisite weather variables. The MC is used to better represent wet and dry spell statistics while the *k*-NN bootstrap resampler preserves the covariance structure between weather variables and across space. 
+
+The weather generation approach is based on the common practice of first simulating precipitation occurence as a chain-dependent process. A three-state (dry / wet / extremely wet) Markov chain (MC) of order 1 is used to simulate an (area-averaged) precipitation state series. Nine transition probabilities are fit to the (area-averaged) input precipitation state series by month using maximum likelihood. A threshold of 0.3 mm (by default) is chosen to distinguish between dry and wet days, while the 80th percentile of precipitation (on wet days) is used as a threshold for extremely wet conditions. The fitted MC can be used to simulate (area-averaged) precipitation state series. A *k*-NN resampling algorithm of lag-1 is used
+to generate the values for all the weather variables (including disaggregation to locations). The *k*-NN bootstrap resampler algorithm follows six steps (description adapted from Steinschneider et al. 2013):
+
+1. Let $\bar{X}_{t-1}$ be a vector of (area-averaged) weather variables already simulated for day $t - 1$. Also assume that the MC has simulated precipitation state series for days $t-1$ and $t$.
+2. Partition the historic record to find all pairs of days in a 7-day window (by default) centered on the day of the year of day $t$ (i.e. if $t$ is 15 January, then the window includes days from 12 to 18 January) that has the same sequence of (area-averaged) precipitation states simulated by the MC for days $t-1$ and $t$. Assume there are $Q$ such pairs.
+3. 
+4. Order the distances $d_q$ from smallest to largests and select the $k$ smallest distances, where $k = \sqrt{Q}$. These corresponding $k$ neighbors are assigned weights $K$ using a discrete kernel function:
+\begin{equation}
+K[j] = \frac{1/j}{\sum_{j=1}^{k}{1/j}}
+\end{equation}
+where $k$ indexes the $k$ neighbors.
+5. Sample one of the $k$ neighbors and record the historic date associated with that selected neigbor. Then, use vectors of weather variables on the successive day to the recorded date for each of the $L$ locations to simulate, multisite, weather for day $t$.
+6. Repeat steps 1-5 for all days of the simulation.
+
+To begin the resampling algorithm and generate initial (area-averaged) $\bar{X}_{1}$ values for all weather variables, data from a random day from the simulation starting month is selected from the historic record that is consistent with the first precipitation state simulated by the MC.
+
+
+## Conditional weather generation
