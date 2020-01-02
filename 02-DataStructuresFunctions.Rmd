@@ -16,6 +16,9 @@ Package **meteoland** assists in the estimation of the following variables over 
 + `WindDirection`: Wind direction (in degrees from North).
 + `PET`: Potential evapo-transpiration (in mm of water).
 
+Since specific humidity is often specified instead of relative humidity, the package also allows reading and using this variable, although it will not be written in files:
++ `SpecificHumidity`: Specific humidity (in kg/kg).
+
 The package deals with three kinds of spatial structures: individual points, a set of pixels from a spatial grid and full (i.e. complete) grids. The package includes six S4 spatial classes, which are defined as children of classes in package [**sp**](https://cran.r-project.org/package=sp). 
 
 ### Topography
@@ -71,8 +74,10 @@ Objects of class `SpatialPointsMeteorology` are stored in the disk using one dat
 
 The following functions are available for input/output of meteorology over a full grid or on a subset of grid cells:
 
-+ Functions `readmeteorologygrid()` and `readmeteorologypixels()` read the meteorological data stored in a **NetCDF** file and return an object of class `SpatialGridMeteorology` or `SpatialPixelsMeteorology`, respectively. Users can read subsets of the time period stored in **NetCDF** by specifying parameter `dates`.
++ Functions `readmeteorologygrid()` and `readmeteorologypixels()` read the meteorological data stored in a **NetCDF** file and return an object of class `SpatialGridMeteorology` or `SpatialPixelsMeteorology`, respectively. Users can read subsets of the time period stored in **NetCDF** by specifying parameter `dates`. Rotated grids should not be read using this functions.
++ Function `readmeteorologygridpoints()` allows reading grid pixels as points. It returns an object of class `SpatialPointsMeteorology`. This feature becomes useful to read data from rotated grids.
 + Functions `writemeteorologygrid()` and `writemeteorologypixels()`  write the meteorological data of the full grid or the subset of grid cells, for a **NetCDF**. The same functions allow adding and replacing data content in a previously existing **NetCDF**.
++ Function `writemeteorologygridpixel()` allows writing/replacing data for specific pixels in an existing **NetCDF**. 
 
 
 ## Visualizing input topography and meteorological data
@@ -85,16 +90,17 @@ Although very simple, the package provides two kinds of functions to visualize t
 Similarly, function `spplot()` also accepts objects of classes `SpatialGridTopography` and `SpatialPixelsTopography`, so that topography can also be easily displayed.
 
 
-## Manipulating and reshaping data structures
+## Manipulating data structures
 
-Following the design of package **sp**, package meteoland provides functions for switching between spatial structures. For example, it is possible to coerce an object of `SpatialPointsTopography` into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`. Subsetting is also allowed, so that estimations of daily meteorology can be performed in subsets of points or grids.
+Following the design of package **sp**, package meteoland provides functions for switching between spatial structures. 
 
-The package provides a few functions to extract/reshape meteorological data:
-
-+ Function `extractgridpoints()` extracts the meteorology of particular points in a grid. It accepts objects of `SpatialGridMeteorology` and `SpatialPixelsMeteorology` as input and it returns an object of `SpatialPointsMeteorology`.
-+ Function `extractpointdates()` extracts the meteorology of a set of dates from an object of class `SpatialPointsMeteorology`. It returns one data frame for each date, with points in rows and meteorology variables in columns.
-
-Additionally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes `SpatialPointsMeteoroloy`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` can be reshaped into objects of packages [**stars**](https://cran.r-project.org/package=stars) and [**spacetime**](https://cran.r-project.org/package=spacetime) by using calls like `as(x, "stars")` or `as(x, "STFDF")`.
+1. It is possible to coerce an object of `SpatialPointsTopography` into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`. 
+2. Subsetting (i.e.`[` operator) is also allowed, so that estimations of daily meteorology can be performed in subsets of points or grids.
+3. The package provides functions to extract meteorological data:
+  + Functions `extractgridindex()` extracts the meteorology of a particular pixel index from a grid and returns a data frame with dates in rows and variables in columns.
+  + Function `extractgridpoints()` extract the meteorology of point locations from a grid and returns an object of `SpatialPointsMeteorology`, similarly to the `[` operator.
+  + Function `extractpointdates()` extracts the meteorology of a set of dates from a `SpatialPointsMeteorology` and returns one data frame for each date, with points in rows and meteorology variables in columns.
+4. Additionally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes `SpatialPointsMeteoroloy`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` can be reshaped into objects of packages [**stars**](https://cran.r-project.org/package=stars) and [**spacetime**](https://cran.r-project.org/package=spacetime) by using calls like `as(x, "stars")` or `as(x, "STFDF")`.
 
 ## Summarizing meteorological data
 

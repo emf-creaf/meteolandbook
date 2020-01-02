@@ -15,10 +15,6 @@ National meteorological agencies are increasingly adopting an open data philosop
 
 **meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, two packages are supported, **worldmet** and **weathercan**, and the corresponding functions are called `reshapeworldmet()` and `reshapeweathercan()`, respectively.
 
-## Extraction of climatic netCDF data
-
-**NetCDF** is a standard data format for meteorological data. In particular, this format is used to store the predictions of global and regional climate models. Function `extractNetCDF()` parses a set of *NetCDFs* and extracts the daily meteorological data of a landscape boundary box for use within **meteoland**. The function first identifies which cells in NetCDF data should be extracted (according to the input boundary box), and the overall period. For each cell to be processed, the function loops over all files (which can describe different variables and time periods) and extracts the corresponding data. The function transforms units to the units used in meteoland. If specific humidity and mean temperature are available, the function also calculates mean relative humidity.
-
 ## Obtaining static wind fields
 
 External software is necessary to calculate the set of wind fields for the study area under different domain-level average situations. For this we recommend using [WindNinja](http://firelab.org/project/windninja), a computer program that calculates spatially varying wind fields for wildland fire applications. WindNinja allows simulating the spatial variation of wind for one instant in time. It was developed to be used by emergency responders within their typical operational constraints of fast simulation times (seconds), low CPU requirements (single processor laptops), and low technical expertise. WindNinja is typically run on domain sizes up to 50 kilometers by 50 kilometers and at resolutions of around 100 meters. The program is free and can be downloaded from (http://www.firemodels.org).
