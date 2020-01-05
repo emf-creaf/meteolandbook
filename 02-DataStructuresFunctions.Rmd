@@ -1,6 +1,7 @@
-# Data structures and functions {#datastructuresfunctions}
+# Data structures and main functions {#datastructuresfunctions}
 
-## Data structures
+## Meteorological variables
+
 Package **meteoland** assists in the estimation of the following variables over lanscapes (units in parentheses):
 
 + `DOY`: Day of the year ([1-365]).
@@ -16,7 +17,9 @@ Package **meteoland** assists in the estimation of the following variables over 
 + `WindDirection`: Wind direction (in degrees from North).
 + `PET`: Potential evapo-transpiration (in mm of water).
 
-The package deals with three kinds of spatial structures: individual points, a set of pixels from a spatial grid and full (i.e. complete) grids. The package includes six S4 spatial classes, which are defined as children of classes in package [**sp**](https://cran.r-project.org/package=sp). 
+## Spatial structures
+
+The package deals with three kinds of spatial structures: individual points, a set of pixels from a spatial grid and full (i.e. complete) grids. The package includes six S4 spatial classes, which are defined as children of classes in package [**sp**](https://cran.r-project.org/package=sp). Spatial structures are used to represent both topographical and meteorological data. These are described in the following subsections.
 
 ### Topography
 Three classes are defined to represent the variation of topographic features (i.e., elevation, slope and aspect) over space:
