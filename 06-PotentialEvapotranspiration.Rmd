@@ -1,6 +1,6 @@
 # Estimation of potential evapo-transpiration {#potentialevapotranspiration}
 
-Package **meteoland** allows calculating daily potential evapo-transpiration (PET) using Penman's formulation [@Penman1948; @Penman1956] or Penman-Monteith formulation. PET is automatically calculated after meteorological data have been interpolated (i.e. within functions `interpolationpoints()` and `interpolationgrid()`) or downscaled (i.e. within functions `correctionpoints()` and `correctiongrid()`), but PET values can also be calculated for a single point using functions `penman()` or `penmanmonteith()`. For other formulations of PET, the reader is referred to the R package [**Evapotranspiration**](https://cran.r-project.org/package=Evapotranspiration).
+Package **meteoland** allows calculating daily potential evapo-transpiration (PET) using Penman's formulation [@Penman1948; @Penman1956] or Penman-Monteith formulation. PET is automatically calculated after meteorological data have been interpolated (i.e. within functions `interpolationpoints()`, `interpolationpixels()` and `interpolationgrid()`) or bias-corrected (i.e. within function `correctionpoint()` or `correctionpoints()`), but PET values can also be calculated for a single point using functions `penman()` or `penmanmonteith()`. For other formulations of PET, the reader is referred to the R package [**Evapotranspiration**](https://cran.r-project.org/package=Evapotranspiration).
 
 ## Penman formulation
 
