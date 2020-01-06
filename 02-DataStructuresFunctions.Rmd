@@ -18,6 +18,7 @@ Package **meteoland** assists in the estimation of the following daily variables
 + `PET`: Potential evapo-transpiration (in mm of water).
 
 Since specific humidity is often specified instead of relative humidity, the package also allows reading and using this variable, although it will not be written in files:
+
 + `SpecificHumidity`: Specific humidity (in kg/kg).
 
 ## Spatial classes
