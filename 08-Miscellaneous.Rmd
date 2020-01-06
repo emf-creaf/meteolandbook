@@ -1,8 +1,14 @@
 # Miscellaneous functions {#miscellaneous}
 
-## Downloading data from station networks
+## Downloading data from weather station networks
 
-National meteorological agencies are increasingly adopting an open data philosophy and two of them are the Spanish meteorological bureau (Agencia Española de Meteorología, AEMET) and the Catalan meteorology service (Servei Català de Meteorologia, SMC). In **meteoland** we provide functions that retrieve AEMET and SMC data using their OpenData API (API keys need to be obtained from AEMET or SMC):
+National meteorological agencies are increasingly adopting an open data philosophy. Package **meteoland** is currently able to retrieve data from three agencies:
+
+1. The Spanish meteorological bureau (Agencia Española de Meteorología, AEMET)
+2. The Catalan meteorology service (Servei Català de Meteorologia, SMC). 
+3. The Galician meteorology agency (MeteoGalicia, MG)
+
+Functions that retrieve AEMET, SMC data use their OpenData application programming interface (API) and API keys need to be obtained from AEMET or SMC. These are:
 
 + `downloadAEMEThistoricalstationlist()` : Gets the list of AEMET stations from which historical daily meteorological data is available.
 + `downloadAEMEThistorical()` : Downloads historical daily meteorological data corresponding to a input set of AEMET stations and a given period.
@@ -11,9 +17,17 @@ National meteorological agencies are increasingly adopting an open data philosop
 + `downloadSMCcurrentday()` : Downloads the last 24h of meteorological data corresponding to a input set of SMC stations.
 + `downloadSMChistorical()` : Downloads historical daily meteorological data corresponding to a input set of SMC stations and a given period.
 
+Similar functions are provided to access data from MG without needing any key:
+
++ `downloadMGstationlist()` : Gets information of the list of MG stations that are presently in function.
++ `downloadMGcurrentday()` : Downloads the last 24h of meteorological data corresponding to a input set of MG stations.
++ `downloadMGhistorical()` : Downloads historical daily meteorological data corresponding to a input set of MG stations and a given period.
+
+Please, acknowledge the corresponding administration as source of information when using data downloaded by these functions.
+
 ## Reshaping data obtained from other packages
 
-**meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, two packages are supported, **worldmet** and **weathercan**, and the corresponding functions are called `reshapeworldmet()` and `reshapeweathercan()`, respectively.
+**meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, two packages are supported, [**worldmet**](https://cran.r-project.org/package=worldmet) and [**weathercan**](https://cran.r-project.org/package=weathercan), and the corresponding functions are called `reshapeworldmet()` and `reshapeweathercan()`, respectively.
 
 ## Obtaining static wind fields
 
