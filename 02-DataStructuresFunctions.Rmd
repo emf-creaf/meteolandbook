@@ -104,16 +104,40 @@ Similarly, function `spplot()` also accepts objects of classes `SpatialGridTopog
 
 ## Subsetting, merging and reshaping data
 
-Following the design of package **sp**, package meteoland provides several functions to manipulate spatio-temporal data structures. 
+A number of functions are available to manipulate data structures and to make them available for other R packages.
 
-1. It is possible to coerce objects between spatial classes using functions `as()`. For example, an object of `SpatialPointsTopography` can be coerced into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`.  
+### Subsetting and reshaping topography data
+
+Following the design of package **sp**, package meteoland provides several functions to manipulate topographic data structures (see fig. \@ref(fig:classconversiontopo)). 
+
+1. It is possible to coerce objects between from topography classes to the corresponding class in package **sp** using functions `as()`. This includes coercing to spatial objects with or without data columns. Additionally, an object of `SpatialPointsTopography` can be coerced into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`.  
+2. It is possible to coerce objects to the general-purpose class `sf` of package [**sf**](https://cran.r-project.org/package=sf) using `as(..., "sf")`. 
+3. Subsetting (i.e.`[` operator) is allowed on all three spatial topographic classes. The valid arguments of this function call depend on the kind of structure.
+
+```{r classconversiontopo, out.width='100%', fig.align="center", fig.cap="Conversion between meteoland classes for topography and classes from other packages", echo=FALSE}
+knitr::include_graphics("class_conversion_topo.jpg")
+```
+
+### Subsetting and reshaping meteorology data
+
+Analogously, package meteoland provides several functions to manipulate spatio-temporal data structures (see fig. \@ref(fig:classconversionmeteo)). 
+
+1. It is possible to coerce objects between spatial classes using functions `as()`. 
 2. Subsetting (i.e.`[` operator) is allowed on all six spatial classes (topographic or meteorological). The valid arguments of this function call depend on the kind of structure.
 3. The package provides functions to extract meteorological data (these allow reading data in memory or from the disk):
   + Functions `extractgridindex()` extracts the meteorology of a particular pixel index from a grid and returns a data frame with dates in rows and variables in columns.
   + Function `extractgridpoints()` extract the meteorology of point locations from a grid and returns an object of `SpatialPointsMeteorology`, similarly to the `[` operator.
-  + Function `extractpointdates()` extracts the meteorology of a set of dates from a `SpatialPointsMeteorology` and returns one `SpatialPointDataFrame` for each date, with points in rows and meteorology variables in columns.
-4. Functions `mergegrid()` and `mergepoints()` take any number of objects of the same spatial class and return a merged object.
-5. Finally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes `SpatialPointsMeteoroloy`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` can be reshaped into objects of packages [**stars**](https://cran.r-project.org/package=stars) and [**spacetime**](https://cran.r-project.org/package=spacetime) by using calls like `as(x, "stars")` or `as(x, "STFDF")`.
+  + Function `extractdates()` extracts the meteorology of a set of dates from a `SpatialPointsMeteorology`, (or `SpatialGridMeteorology` or `SpatialPixelsMeteorology`) and returns a `SpatialPointDataFrame` (or `SpatialGridDataFrame` or `SpatialPixelsDataFrame`) for each date in a named list. This kind of conversion is also useful to export meteoland outputs to package [**raster**](https://cran.r-project.org/package=raster), which provides wrappers for the abovementioned **sp** classes.
+4. Finally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes `SpatialPointsMeteoroloy`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` can be reshaped into objects of packages [**stars**](https://cran.r-project.org/package=stars) and [**spacetime**](https://cran.r-project.org/package=spacetime) by using calls like `as(x, "stars")` or `as(x, "STFDF")`.
+
+
+```{r classconversionmeteo, out.width='100%', fig.align="center", fig.cap="Conversion between meteoland classes for meteorology and classes from other packages", echo=FALSE}
+knitr::include_graphics("class_conversion_meteo.jpg")
+```
+
+### Merging meteorology data
+
+Functions `mergegrid()` and `mergepoints()` take any number of objects of the same spatial class and return a merged object. The functions pool over dates and variables, but the objects to merge should have the same spatial structures (points, grids, reference systems, ...). This is specially useful to merge data corresponding to different periods.
 
 ## Summarizing meteorological data
 
