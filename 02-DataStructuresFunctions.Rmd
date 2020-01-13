@@ -141,6 +141,8 @@ Functions `mergegrid()` and `mergepoints()` take any number of objects of the sa
 
 ## Summarizing meteorological data
 
+### Temporal summaries
+
 The package provides functions to generate *temporal* summaries of meteorological data. These accept meteorology objects as input and return their corresponding spatial dataframe structure with the summary statistics in columns:
 
 + Function `summarypoints()` summarizes the meteorology of spatial points. It accepts objects of `SpatialPointsMeteorology` as input and returns an object of `SpatialPointsDataFrame` with point summaries for the requested variable. Temporal summaries can be calculated for different periods and using different summarizing functions (e.g. mean, sum, minimum, maximum, etc.).
@@ -148,6 +150,8 @@ The package provides functions to generate *temporal* summaries of meteorologica
 + Function `summaryinterpolationdata()` works similarly to `summarypoints()`, but takes an object of class `MeteorologyInterpolationData` as input.
 
 All temporal summary functions except `summaryinterpolationdata()` accept a data file, or a metadata file as input. This allows, producing summaries lazily, without loading complete data structures in memory. Of course, this mode of producing summaries may be slower than operating on objects already loaded in memory.
+
+### Spatial summaries
 
 The package provides one function to produce *spatial* summaries. Function `averagearea()` averages the coordinates and meteorological values of any spatial meteorology object, returning an object of class `SpatialPointMeteorology` with a single point representing the average.
 
