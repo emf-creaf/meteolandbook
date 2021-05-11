@@ -2,7 +2,7 @@
 title: "The meteoland reference book"
 author: 
   name: "Miquel De Cáceres"
-  affiliation: "Ecosystem Modelling Facility (CREAF)"
+  affiliation: "Centre de Recerca en Ecologia i Aplicacions Forestals (CREAF)"
   email: "miquelcaceres@gmail.com"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
