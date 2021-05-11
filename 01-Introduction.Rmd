@@ -22,6 +22,6 @@ install.packages("meteoland")
 Users can also download and install the latest stable versions GitHub as follows (required package `devtools` should be installed/updated first):
 
 ```{r installation, eval = FALSE}
-devtools::install_github("vegmod/meteoland")
+devtools::install_github("emf-creaf/meteoland")
 ```
 
