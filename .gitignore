@@ -5,4 +5,5 @@
 _book/*
 _bookdown_files/*
 _bookdown.yml
+meteolandbook.log
 Meteorology.Rnw
