@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>The meteoland reference book</title>
+  <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="The meteoland reference book" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a reference book for data structures and functions included in package meteoland." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="The meteoland reference book" />
+  
+  <meta name="twitter:description" content="This is a reference book for data structures and functions included in package meteoland." />
+  
+
+
+
+<meta name="date" content="2021-05-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="intro.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The meteoland reference book</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-use-this-book"><i class="fa fa-check"></i>How to use this book</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#purpose"><i class="fa fa-check"></i><b>1.1</b> Purpose</a></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#package-installation"><i class="fa fa-check"></i><b>1.2</b> Package installation</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html"><i class="fa fa-check"></i><b>2</b> Data structures and main functions</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorological-variables"><i class="fa fa-check"></i><b>2.1</b> Meteorological variables</a></li>
+<li class="chapter" data-level="2.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-classes"><i class="fa fa-check"></i><b>2.2</b> Spatial classes</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#topography"><i class="fa fa-check"></i><b>2.2.1</b> Topography</a></li>
+<li class="chapter" data-level="2.2.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology"><i class="fa fa-check"></i><b>2.2.2</b> Meteorology</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#point-meteorology-asciirds-files"><i class="fa fa-check"></i><b>2.3.1</b> Point meteorology (ascii/rds files)</a></li>
+<li class="chapter" data-level="2.3.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#pointgridded-meteorology-netcdf"><i class="fa fa-check"></i><b>2.3.2</b> Point/gridded meteorology (netCDF)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#visualizing-input-topography-and-meteorological-data"><i class="fa fa-check"></i><b>2.4</b> Visualizing input topography and meteorological data</a></li>
+<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting, merging and reshaping data</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-topography-data"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting and reshaping topography data</a></li>
+<li class="chapter" data-level="2.5.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-meteorology-data"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting and reshaping meteorology data</a></li>
+<li class="chapter" data-level="2.5.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#merging-meteorology-data"><i class="fa fa-check"></i><b>2.5.3</b> Merging meteorology data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.6</b> Summarizing meteorological data</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#temporal-summaries"><i class="fa fa-check"></i><b>2.6.1</b> Temporal summaries</a></li>
+<li class="chapter" data-level="2.6.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-summaries"><i class="fa fa-check"></i><b>2.6.2</b> Spatial summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-estimation-functions"><i class="fa fa-check"></i><b>2.7</b> Meteorology estimation functions</a>
+<ul>
+<li class="chapter" data-level="2.7.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-interpolation"><i class="fa fa-check"></i><b>2.7.1</b> Spatial interpolation</a></li>
+<li class="chapter" data-level="2.7.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#statistical-correction"><i class="fa fa-check"></i><b>2.7.2</b> Statistical correction</a></li>
+<li class="chapter" data-level="2.7.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#weather-generation"><i class="fa fa-check"></i><b>2.7.3</b> Weather generation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html"><i class="fa fa-check"></i><b>3</b> Spatial interpolation of weather records</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#overview"><i class="fa fa-check"></i><b>3.1</b> Overview</a></li>
+<li class="chapter" data-level="3.2" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#interpolation-weights"><i class="fa fa-check"></i><b>3.2</b> Interpolation weights</a></li>
+<li class="chapter" data-level="3.3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#temperature"><i class="fa fa-check"></i><b>3.3</b> Temperature</a></li>
+<li class="chapter" data-level="3.4" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#relative-humidity"><i class="fa fa-check"></i><b>3.4</b> Relative humidity</a></li>
+<li class="chapter" data-level="3.5" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#precipitation"><i class="fa fa-check"></i><b>3.5</b> Precipitation</a></li>
+<li class="chapter" data-level="3.6" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#wind"><i class="fa fa-check"></i><b>3.6</b> Wind</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#interpolation-of-wind-speed"><i class="fa fa-check"></i><b>3.6.1</b> Interpolation of wind speed</a></li>
+<li class="chapter" data-level="3.6.2" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#interpolation-of-wind-vectors"><i class="fa fa-check"></i><b>3.6.2</b> Interpolation of wind vectors</a></li>
+<li class="chapter" data-level="3.6.3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html#interpolation-of-wind-vectors-using-wind-fields"><i class="fa fa-check"></i><b>3.6.3</b> Interpolation of wind vectors using wind fields</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="solarradiation.html"><a href="solarradiation.html"><i class="fa fa-check"></i><b>4</b> Estimation of solar radiation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="solarradiation.html"><a href="solarradiation.html#solar-declination-and-solar-constant"><i class="fa fa-check"></i><b>4.1</b> Solar declination and solar constant</a></li>
+<li class="chapter" data-level="4.2" data-path="solarradiation.html"><a href="solarradiation.html#day-length"><i class="fa fa-check"></i><b>4.2</b> Day length</a></li>
+<li class="chapter" data-level="4.3" data-path="solarradiation.html"><a href="solarradiation.html#potential-radiation"><i class="fa fa-check"></i><b>4.3</b> Potential radiation</a></li>
+<li class="chapter" data-level="4.4" data-path="solarradiation.html"><a href="solarradiation.html#incident-solar-radiation"><i class="fa fa-check"></i><b>4.4</b> Incident solar radiation</a></li>
+<li class="chapter" data-level="4.5" data-path="solarradiation.html"><a href="solarradiation.html#outgoing-longwave-radiation-and-net-radiation"><i class="fa fa-check"></i><b>4.5</b> Outgoing longwave radiation and net radiation</a></li>
+<li class="chapter" data-level="4.6" data-path="solarradiation.html"><a href="solarradiation.html#diurnal-trends-in-diffuse-and-direct-radiation"><i class="fa fa-check"></i><b>4.6</b> Diurnal trends in diffuse and direct radiation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="statisticalcorrection.html"><a href="statisticalcorrection.html"><i class="fa fa-check"></i><b>5</b> Statistical correction of weather data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="statisticalcorrection.html"><a href="statisticalcorrection.html#correction-methods"><i class="fa fa-check"></i><b>5.1</b> Correction methods</a></li>
+<li class="chapter" data-level="5.2" data-path="statisticalcorrection.html"><a href="statisticalcorrection.html#default-approaches-by-variable"><i class="fa fa-check"></i><b>5.2</b> Default approaches by variable</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="potentialevapotranspiration.html"><a href="potentialevapotranspiration.html"><i class="fa fa-check"></i><b>6</b> Estimation of potential evapo-transpiration</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="potentialevapotranspiration.html"><a href="potentialevapotranspiration.html#penman-formulation"><i class="fa fa-check"></i><b>6.1</b> Penman formulation</a></li>
+<li class="chapter" data-level="6.2" data-path="potentialevapotranspiration.html"><a href="potentialevapotranspiration.html#penman-monteith-formulation"><i class="fa fa-check"></i><b>6.2</b> Penman-Monteith formulation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="weathergeneration.html"><a href="weathergeneration.html"><i class="fa fa-check"></i><b>7</b> Weather generation</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="weathergeneration.html"><a href="weathergeneration.html#unconditional-weather-generation-algorithm"><i class="fa fa-check"></i><b>7.1</b> Unconditional weather generation algorithm</a></li>
+<li class="chapter" data-level="7.2" data-path="weathergeneration.html"><a href="weathergeneration.html#conditional-weather-generation"><i class="fa fa-check"></i><b>7.2</b> Conditional weather generation</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="miscellaneous.html"><a href="miscellaneous.html"><i class="fa fa-check"></i><b>8</b> Miscellaneous functions</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="miscellaneous.html"><a href="miscellaneous.html#downloading-data-from-weather-station-networks"><i class="fa fa-check"></i><b>8.1</b> Downloading data from weather station networks</a></li>
+<li class="chapter" data-level="8.2" data-path="miscellaneous.html"><a href="miscellaneous.html#reshaping-data-obtained-from-other-packages"><i class="fa fa-check"></i><b>8.2</b> Reshaping data obtained from other packages</a></li>
+<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#obtaining-static-wind-fields"><i class="fa fa-check"></i><b>8.3</b> Obtaining static wind fields</a></li>
+<li class="chapter" data-level="8.4" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.4</b> Physical utility functions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">The meteoland reference book</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">The meteoland reference book</h1>
+<p class="author" style="margin: 0.5em 0 -0.5em 0;"><em>Miquel De Cáceres</em></p>
+<address class="author_afil">
+Centre de Recerca en Ecologia i Aplicacions Forestals (CREAF)<br>
+<a class="author_email" href="mailto:#"><a href="mailto:miquelcaceres@gmail.com" class="email">miquelcaceres@gmail.com</a></a>
+</address>
+<p class="date" style="margin-top: 1.5em;"><em>2021-05-29</em></p>
+</div>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
+<p>This is a reference book for the data structures and functions implemented in <strong>meteoland</strong>, an R package that provides functions to estimate daily weather at any position over given terrains.</p>
+<div id="how-to-use-this-book" class="section level2 unnumbered">
+<h2>How to use this book</h2>
+<p>This reference book is meant to help you understand the data structures and functions included in package <strong>meteoland</strong> (ver. <strong>0.9.9</strong>). Hands-on user guides can be found as package vignettes within the package. As any reference book, you are not expected to read the book linearly, but to jump to sections whenever you have doubts about the design of the package or implementation of certain calculations.</p>
+<p>The first two chapters of the book present the package, its data structures and main function. Chapter 3 focuses on the functions supplied for interpolating weather records and chapter 4 explains how solar radiation is estimated. Chapter 5 is devoted to statistical correction of weather series (i.e. bias correction). The remaining chapters detail other functions meant to complete the package.</p>
+<p>In this book we use <code>objectname</code> or <code>variablename</code> to indicate R code or to refer to an R objects or a variable within data frames, and <code>functionname()</code> to refer to a package function. Whenever relevant, we indicate the correspondence between mathematical symbols, their units and the names used within the R package.</p>
+<p>The reference book describes in detail the design and functioning of the package. An introduction to the package was provided by De Cáceres et al. <span class="citation">(<a href="#ref-DeCaceres2018" role="doc-biblioref">2018</a>)</span> at the time of its presentation, but this reference book should be preferred for an up-to-date description of the package. Our aim is to update this reference book along with package developments, so that users have detailed and up-to-date information about the models at the time functions are run. As the book will not be static, after a given application we recommend users to store a <strong>PDF version</strong> of the reference book to be sure it matches the version the package reported in their application report or article.</p>
+<p><img src="LOGO_Group.png" width="20%" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+<h3>Bibliography</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-DeCaceres2018" class="csl-entry">
+De Cáceres, Miquel, Nicolas Martin-StPaul, Marco Turco, Antoine Cabon, and Victor Granda. 2018. <span>“<span class="nocase">Estimating daily meteorological data and downscaling climate models over landscapes</span>.”</span> <em>Environmental Modelling <span>&amp;</span> Software</em> 108 (August): 186–96. <a href="https://doi.org/10.1016/j.envsoft.2018.08.003">https://doi.org/10.1016/j.envsoft.2018.08.003</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["meteolandbook.pdf", "meteolandbook.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
