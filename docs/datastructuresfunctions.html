@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Data structures and main functions | The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Data structures and main functions | The meteoland reference book" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-05-29" />
+<meta name="date" content="2021-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="intro.html"/>
 <link rel="next" href="spatialinterpolation.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,7 +42,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -442,7 +442,7 @@ div.csl-indent {
 <li>It is possible to coerce objects to the general-purpose class <code>sf</code> of package <a href="https://cran.r-project.org/package=sf"><strong>sf</strong></a> using <code>as(..., "sf")</code>.</li>
 <li>Subsetting (i.e.<code>[</code> operator) is allowed on all three spatial topographic classes. The valid arguments of this function call depend on the kind of structure.</li>
 </ol>
-<div class="figure" style="text-align: center"><span id="fig:classconversiontopo"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:classconversiontopo"></span>
 <img src="class_conversion_topo.jpg" alt="Conversion between meteoland classes for topography and classes from other packages" width="100%" />
 <p class="caption">
 Figure 2.1: Conversion between meteoland classes for topography and classes from other packages
@@ -465,7 +465,7 @@ Figure 2.1: Conversion between meteoland classes for topography and classes from
 <ol start="4" style="list-style-type: decimal">
 <li>Finally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes <code>SpatialPointsMeteoroloy</code>, <code>SpatialGridMeteorology</code> and <code>SpatialPixelsMeteorology</code> can be reshaped into objects of packages <a href="https://cran.r-project.org/package=stars"><strong>stars</strong></a> and <a href="https://cran.r-project.org/package=spacetime"><strong>spacetime</strong></a> by using calls like <code>as(x, "stars")</code> or <code>as(x, "STFDF")</code>.</li>
 </ol>
-<div class="figure" style="text-align: center"><span id="fig:classconversionmeteo"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:classconversionmeteo"></span>
 <img src="class_conversion_meteo.jpg" alt="Conversion between meteoland classes for meteorology and classes from other packages" width="100%" />
 <p class="caption">
 Figure 2.2: Conversion between meteoland classes for meteorology and classes from other packages
@@ -542,12 +542,12 @@ Figure 2.2: Conversion between meteoland classes for meteorology and classes fro
 <pre><code>## Class &quot;MeteorologyUncorrectedData&quot; [package &quot;meteoland&quot;]
 ## 
 ## Slots:
-##                                                                                                       
-## Name:           coords  reference_data projection_data          params           dates            bbox
-## Class:          matrix             ANY             ANY            list            Date          matrix
-##                       
-## Name:      proj4string
-## Class:             CRS
+##                                                                                       
+## Name:           coords  reference_data projection_data          params           dates
+## Class:          matrix             ANY             ANY            list            Date
+##                                       
+## Name:             bbox     proj4string
+## Class:          matrix             CRS
 ## 
 ## Extends: 
 ## Class &quot;MeteorologyProcedureData&quot;, directly
@@ -573,7 +573,6 @@ Figure 2.2: Conversion between meteoland classes for meteorology and classes fro
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -613,6 +612,10 @@ gitbook.start({
 "text": null
 },
 "download": ["meteolandbook.pdf", "meteolandbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

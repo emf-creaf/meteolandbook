@@ -2,7 +2,7 @@
 
 ## Downloading data from weather station networks
 
-National meteorological agencies are increasingly adopting an open data philosophy. Package **meteoland** is currently able to retrieve data from three agencies:
+National meteorological agencies are increasingly adopting an open data philosophy. Package **meteoland** is able to retrieve data from three agencies:
 
 1. The Spanish meteorological bureau (Agencia Española de Meteorología, AEMET)
 2. The Catalan meteorology service (Servei Català de Meteorologia, SMC). 
@@ -23,11 +23,15 @@ Similar functions are provided to access data from MG without needing any key:
 + `downloadMGcurrentday()` : Downloads the last 24h of meteorological data corresponding to a input set of MG stations.
 + `downloadMGhistorical()` : Downloads historical daily meteorological data corresponding to a input set of MG stations and a given period.
 
-Please, acknowledge the corresponding administration as source of information when using data downloaded by these functions.
+Please, acknowledge the corresponding administration as source of information when using data downloaded by these functions. 
+
+IMPORTANT NOTE: The package functions listed above will not be maintained in releases of **meteoland** after version 1.0.1. Instead, the user is strongly recommended to use package [**meteospain**](https://cran.r-project.org/package=meteospain).
+
+
 
 ## Reshaping data obtained from other packages
 
-**meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, two packages are supported, [**worldmet**](https://cran.r-project.org/package=worldmet) and [**weathercan**](https://cran.r-project.org/package=weathercan), and the corresponding functions are called `reshapeworldmet()` and `reshapeweathercan()`, respectively.
+**meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, three packages are supported, [**meteospain**](https://cran.r-project.org/package=meteospain), [**worldmet**](https://cran.r-project.org/package=worldmet) and [**weathercan**](https://cran.r-project.org/package=weathercan). The corresponding data reshape functions are called `reshapemeteospain()`, `reshapeworldmet()` and `reshapeweathercan()`, respectively.
 
 ## Obtaining static wind fields
 

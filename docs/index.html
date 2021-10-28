@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="The meteoland reference book" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-05-29" />
+<meta name="date" content="2021-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 
 <link rel="next" href="intro.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,7 +42,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -267,19 +267,19 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">The meteoland reference book</h1>
-<p class="author" style="margin: 0.5em 0 -0.5em 0;"><em>Miquel De Cáceres</em></p>
+<p class="author multi-author"><em>Miquel De Cáceres</em></p>
 <address class="author_afil">
 Centre de Recerca en Ecologia i Aplicacions Forestals (CREAF)<br>
 <a class="author_email" href="mailto:#"><a href="mailto:miquelcaceres@gmail.com" class="email">miquelcaceres@gmail.com</a></a>
 </address>
-<p class="date" style="margin-top: 1.5em;"><em>2021-05-29</em></p>
+<p class="date"><em>2021-10-28</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered">
 <h1>Preface</h1>
 <p>This is a reference book for the data structures and functions implemented in <strong>meteoland</strong>, an R package that provides functions to estimate daily weather at any position over given terrains.</p>
 <div id="how-to-use-this-book" class="section level2 unnumbered">
 <h2>How to use this book</h2>
-<p>This reference book is meant to help you understand the data structures and functions included in package <strong>meteoland</strong> (ver. <strong>0.9.9</strong>). Hands-on user guides can be found as package vignettes within the package. As any reference book, you are not expected to read the book linearly, but to jump to sections whenever you have doubts about the design of the package or implementation of certain calculations.</p>
+<p>This reference book is meant to help you understand the data structures and functions included in package <strong>meteoland</strong> (ver. <strong>0.9.7</strong>). Hands-on user guides can be found as package vignettes within the package. As any reference book, you are not expected to read the book linearly, but to jump to sections whenever you have doubts about the design of the package or implementation of certain calculations.</p>
 <p>The first two chapters of the book present the package, its data structures and main function. Chapter 3 focuses on the functions supplied for interpolating weather records and chapter 4 explains how solar radiation is estimated. Chapter 5 is devoted to statistical correction of weather series (i.e. bias correction). The remaining chapters detail other functions meant to complete the package.</p>
 <p>In this book we use <code>objectname</code> or <code>variablename</code> to indicate R code or to refer to an R objects or a variable within data frames, and <code>functionname()</code> to refer to a package function. Whenever relevant, we indicate the correspondence between mathematical symbols, their units and the names used within the R package.</p>
 <p>The reference book describes in detail the design and functioning of the package. An introduction to the package was provided by De Cáceres et al. <span class="citation">(<a href="#ref-DeCaceres2018" role="doc-biblioref">2018</a>)</span> at the time of its presentation, but this reference book should be preferred for an up-to-date description of the package. Our aim is to update this reference book along with package developments, so that users have detailed and up-to-date information about the models at the time functions are run. As the book will not be static, after a given application we recommend users to store a <strong>PDF version</strong> of the reference book to be sure it matches the version the package reported in their application report or article.</p>
@@ -303,7 +303,6 @@ De Cáceres, Miquel, Nicolas Martin-StPaul, Marco Turco, Antoine Cabon, and Vict
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -343,6 +342,10 @@ gitbook.start({
 "text": null
 },
 "download": ["meteolandbook.pdf", "meteolandbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

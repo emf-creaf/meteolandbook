@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Miscellaneous functions | The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Miscellaneous functions | The meteoland reference book" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-05-29" />
+<meta name="date" content="2021-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
 <link rel="prev" href="weathergeneration.html"/>
 <link rel="next" href="bibliography.html"/>
-<script src="libs/header-attrs-2.8/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -41,7 +42,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -269,7 +269,7 @@ div.csl-indent {
 <h1><span class="header-section-number">Chapter 8</span> Miscellaneous functions</h1>
 <div id="downloading-data-from-weather-station-networks" class="section level2" number="8.1">
 <h2><span class="header-section-number">8.1</span> Downloading data from weather station networks</h2>
-<p>National meteorological agencies are increasingly adopting an open data philosophy. Package <strong>meteoland</strong> is currently able to retrieve data from three agencies:</p>
+<p>National meteorological agencies are increasingly adopting an open data philosophy. Package <strong>meteoland</strong> is able to retrieve data from three agencies:</p>
 <ol style="list-style-type: decimal">
 <li>The Spanish meteorological bureau (Agencia Española de Meteorología, AEMET)</li>
 <li>The Catalan meteorology service (Servei Català de Meteorologia, SMC).</li>
@@ -291,10 +291,11 @@ div.csl-indent {
 <li><code>downloadMGhistorical()</code> : Downloads historical daily meteorological data corresponding to a input set of MG stations and a given period.</li>
 </ul>
 <p>Please, acknowledge the corresponding administration as source of information when using data downloaded by these functions.</p>
+<p>IMPORTANT NOTE: The package functions listed above will not be maintained in releases of <strong>meteoland</strong> after version 1.0.1. Instead, the user is strongly recommended to use package <a href="https://cran.r-project.org/package=meteospain"><strong>meteospain</strong></a>.</p>
 </div>
 <div id="reshaping-data-obtained-from-other-packages" class="section level2" number="8.2">
 <h2><span class="header-section-number">8.2</span> Reshaping data obtained from other packages</h2>
-<p><strong>meteoland</strong> provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, two packages are supported, <a href="https://cran.r-project.org/package=worldmet"><strong>worldmet</strong></a> and <a href="https://cran.r-project.org/package=weathercan"><strong>weathercan</strong></a>, and the corresponding functions are called <code>reshapeworldmet()</code> and <code>reshapeweathercan()</code>, respectively.</p>
+<p><strong>meteoland</strong> provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, three packages are supported, <a href="https://cran.r-project.org/package=meteospain"><strong>meteospain</strong></a>, <a href="https://cran.r-project.org/package=worldmet"><strong>worldmet</strong></a> and <a href="https://cran.r-project.org/package=weathercan"><strong>weathercan</strong></a>. The corresponding data reshape functions are called <code>reshapemeteospain()</code>, <code>reshapeworldmet()</code> and <code>reshapeweathercan()</code>, respectively.</p>
 </div>
 <div id="obtaining-static-wind-fields" class="section level2" number="8.3">
 <h2><span class="header-section-number">8.3</span> Obtaining static wind fields</h2>
@@ -369,7 +370,6 @@ Sanjuan, Gemma, Carlos Brun, and Ana Cort. 2014. <span>“<span class="nocase">W
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -409,6 +409,10 @@ gitbook.start({
 "text": null
 },
 "download": ["meteolandbook.pdf", "meteolandbook.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
