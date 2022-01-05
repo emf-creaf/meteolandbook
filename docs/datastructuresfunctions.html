@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-10-28" />
+<meta name="date" content="2022-01-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -508,27 +508,21 @@ Figure 2.2: Conversion between meteoland classes for meteorology and classes fro
 <pre><code>## Class &quot;MeteorologyInterpolationData&quot; [package &quot;meteoland&quot;]
 ## 
 ## Slots:
-##                                                                                  
-## Name:                    coords                elevation                    slope
-## Class:                   matrix                  numeric                  numeric
-##                                                                                  
-## Name:                    aspect           MinTemperature           MaxTemperature
-## Class:                  numeric                   matrix                   matrix
-##                                                                                  
-## Name:     SmoothedPrecipitation            Precipitation SmoothedTemperatureRange
-## Class:                   matrix                   matrix                   matrix
-##                                                                                  
-## Name:          RelativeHumidity                Radiation                WindSpeed
-## Class:                   matrix                      ANY                      ANY
-##                                                                                  
-## Name:             WindDirection               WindFields                  WFIndex
-## Class:                      ANY                      ANY                      ANY
-##                                                                                  
-## Name:                  WFFactor                   params                    dates
-## Class:                      ANY                     list                     Date
-##                                                         
-## Name:                      bbox              proj4string
-## Class:                   matrix                      CRS
+##                                                                                                           
+## Name:                    coords                elevation                    slope                   aspect
+## Class:                   matrix                  numeric                  numeric                  numeric
+##                                                                                                           
+## Name:            MinTemperature           MaxTemperature    SmoothedPrecipitation            Precipitation
+## Class:                   matrix                   matrix                   matrix                   matrix
+##                                                                                                           
+## Name:  SmoothedTemperatureRange         RelativeHumidity                Radiation                WindSpeed
+## Class:                   matrix                   matrix                      ANY                      ANY
+##                                                                                                           
+## Name:             WindDirection               WindFields                  WFIndex                 WFFactor
+## Class:                      ANY                      ANY                      ANY                      ANY
+##                                                                                                           
+## Name:                    params                    dates                     bbox              proj4string
+## Class:                     list                     Date                   matrix                      CRS
 ## 
 ## Extends: 
 ## Class &quot;MeteorologyProcedureData&quot;, directly
@@ -542,12 +536,12 @@ Figure 2.2: Conversion between meteoland classes for meteorology and classes fro
 <pre><code>## Class &quot;MeteorologyUncorrectedData&quot; [package &quot;meteoland&quot;]
 ## 
 ## Slots:
-##                                                                                       
-## Name:           coords  reference_data projection_data          params           dates
-## Class:          matrix             ANY             ANY            list            Date
-##                                       
-## Name:             bbox     proj4string
-## Class:          matrix             CRS
+##                                                                                                       
+## Name:           coords  reference_data projection_data          params           dates            bbox
+## Class:          matrix             ANY             ANY            list            Date          matrix
+##                       
+## Name:      proj4string
+## Class:             CRS
 ## 
 ## Extends: 
 ## Class &quot;MeteorologyProcedureData&quot;, directly
