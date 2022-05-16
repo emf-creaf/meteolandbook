@@ -4,6 +4,7 @@
 
 National meteorological agencies are increasingly adopting an open data philosophy. Package **meteoland** is able to retrieve data from three agencies:
 
+
 1. The Spanish meteorological bureau (Agencia Española de Meteorología, AEMET)
 2. The Catalan meteorology service (Servei Català de Meteorologia, SMC). 
 3. The Galician meteorology agency (MeteoGalicia, MG)
