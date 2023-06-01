@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Data structures and main functions | The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Data structures and main functions | The meteoland reference book" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a reference book for data structures and functions included in package meteoland." />
   
@@ -23,7 +22,7 @@
 
 
 
-<meta name="date" content="2022-01-05" />
+<meta name="date" content="2023-06-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="intro.html"/>
 <link rel="next" href="spatialinterpolation.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -92,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -174,30 +177,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#topography"><i class="fa fa-check"></i><b>2.2.1</b> Topography</a></li>
 <li class="chapter" data-level="2.2.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology"><i class="fa fa-check"></i><b>2.2.2</b> Meteorology</a></li>
+<li class="chapter" data-level="2.2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#interpolator-objects"><i class="fa fa-check"></i><b>2.2.3</b> Interpolator objects</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#point-meteorology-asciirds-files"><i class="fa fa-check"></i><b>2.3.1</b> Point meteorology (ascii/rds files)</a></li>
-<li class="chapter" data-level="2.3.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#pointgridded-meteorology-netcdf"><i class="fa fa-check"></i><b>2.3.2</b> Point/gridded meteorology (netCDF)</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#visualizing-input-topography-and-meteorological-data"><i class="fa fa-check"></i><b>2.4</b> Visualizing input topography and meteorological data</a></li>
-<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting, merging and reshaping data</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-topography-data"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting and reshaping topography data</a></li>
-<li class="chapter" data-level="2.5.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-meteorology-data"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting and reshaping meteorology data</a></li>
-<li class="chapter" data-level="2.5.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#merging-meteorology-data"><i class="fa fa-check"></i><b>2.5.3</b> Merging meteorology data</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.6</b> Summarizing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.6.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#temporal-summaries"><i class="fa fa-check"></i><b>2.6.1</b> Temporal summaries</a></li>
-<li class="chapter" data-level="2.6.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-summaries"><i class="fa fa-check"></i><b>2.6.2</b> Spatial summaries</a></li>
-</ul></li>
-<li class="chapter" data-level="2.7" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-estimation-functions"><i class="fa fa-check"></i><b>2.7</b> Meteorology estimation functions</a>
-<ul>
-<li class="chapter" data-level="2.7.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-interpolation"><i class="fa fa-check"></i><b>2.7.1</b> Spatial interpolation</a></li>
-<li class="chapter" data-level="2.7.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#statistical-correction"><i class="fa fa-check"></i><b>2.7.2</b> Statistical correction</a></li>
-<li class="chapter" data-level="2.7.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#weather-generation"><i class="fa fa-check"></i><b>2.7.3</b> Weather generation</a></li>
-</ul></li>
+<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a></li>
+<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting, merging and reshaping data</a></li>
+<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.5</b> Summarizing meteorological data</a></li>
+<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-interpolation"><i class="fa fa-check"></i><b>2.6</b> Meteorology interpolation</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html"><i class="fa fa-check"></i><b>3</b> Spatial interpolation of weather records</a>
 <ul>
@@ -241,8 +226,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1" data-path="miscellaneous.html"><a href="miscellaneous.html#downloading-data-from-weather-station-networks"><i class="fa fa-check"></i><b>8.1</b> Downloading data from weather station networks</a></li>
 <li class="chapter" data-level="8.2" data-path="miscellaneous.html"><a href="miscellaneous.html#reshaping-data-obtained-from-other-packages"><i class="fa fa-check"></i><b>8.2</b> Reshaping data obtained from other packages</a></li>
-<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#obtaining-static-wind-fields"><i class="fa fa-check"></i><b>8.3</b> Obtaining static wind fields</a></li>
-<li class="chapter" data-level="8.4" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.4</b> Physical utility functions</a></li>
+<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.3</b> Physical utility functions</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
@@ -265,10 +249,10 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datastructuresfunctions" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Data structures and main functions</h1>
-<div id="meteorological-variables" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Meteorological variables</h2>
+<div id="datastructuresfunctions" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Data structures and main functions<a href="datastructuresfunctions.html#datastructuresfunctions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="meteorological-variables" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Meteorological variables<a href="datastructuresfunctions.html#meteorological-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Package <strong>meteoland</strong> assists in the estimation of the following daily variables over lanscapes (units in parentheses):</p>
 <ul>
 <li><code>DOY</code>: Day of the year ([1-366]).</li>
@@ -284,277 +268,41 @@ div.csl-indent {
 <li><code>WindDirection</code>: Wind direction (in degrees from North).</li>
 <li><code>PET</code>: Potential evapo-transpiration (in mm of water).</li>
 </ul>
-<p>Since specific humidity is often specified instead of relative humidity, the package also allows reading and using this variable, although it will not be written in files:</p>
-<ul>
-<li><code>SpecificHumidity</code>: Specific humidity (in kg/kg).</li>
-</ul>
 </div>
-<div id="spatial-classes" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Spatial classes</h2>
-<p>The package deals with three kinds of spatial structures: individual <strong>points</strong>, a set of <strong>pixels</strong> from a spatial grid and full (i.e. complete) <strong>grids</strong>. The package includes six S4 spatial classes, which are defined as children of classes in package <a href="https://cran.r-project.org/package=sp"><strong>sp</strong></a>. Spatial structures are used to represent both topographical and meteorological data. These are described in the following subsections.</p>
-<div id="topography" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Topography</h3>
-<p>Three classes are defined to represent the variation of topographic features (i.e., elevation, slope and aspect) over space:</p>
-<ul>
-<li>Class <code>SpatialPointsTopography</code> extends <code>SpatialPointsDataFrame</code> and represents the topographic features of a set of points in a landscape.</li>
-</ul>
-<pre><code>## Class &quot;SpatialPointsTopography&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                   
-## Name:         data  coords.nrs      coords        bbox proj4string
-## Class:  data.frame     numeric      matrix      matrix         CRS
-## 
-## Extends: 
-## Class &quot;SpatialPointsDataFrame&quot;, directly
-## Class &quot;SpatialPoints&quot;, by class &quot;SpatialPointsDataFrame&quot;, distance 2
-## Class &quot;Spatial&quot;, by class &quot;SpatialPointsDataFrame&quot;, distance 3
-## Class &quot;SpatialVector&quot;, by class &quot;SpatialPointsDataFrame&quot;, distance 3</code></pre>
-<ul>
-<li>Class <code>SpatialGridTopography</code> extends <code>SpatialGridDataFrame</code> and represents the continuous variation of topographic features over a full spatial grid.</li>
-</ul>
-<pre><code>## Class &quot;SpatialGridTopography&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                           
-## Name:          data         grid         bbox  proj4string
-## Class:   data.frame GridTopology       matrix          CRS
-## 
-## Extends: 
-## Class &quot;SpatialGridDataFrame&quot;, directly
-## Class &quot;SpatialGrid&quot;, by class &quot;SpatialGridDataFrame&quot;, distance 2
-## Class &quot;Spatial&quot;, by class &quot;SpatialGridDataFrame&quot;, distance 3</code></pre>
-<ul>
-<li>Class <code>SpatialPixelsTopography</code> extends <code>SpatialPixelsDataFrame</code> and represents the continuous variation of topographic features over a set if cells in a grid.</li>
-</ul>
-<pre><code>## Class &quot;SpatialPixelsTopography&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                                                  
-## Name:          data   coords.nrs         grid   grid.index       coords         bbox  proj4string
-## Class:   data.frame      numeric GridTopology      integer       matrix       matrix          CRS
-## 
-## Extends: 
-## Class &quot;SpatialPixelsDataFrame&quot;, directly
-## Class &quot;SpatialPixels&quot;, by class &quot;SpatialPixelsDataFrame&quot;, distance 2
-## Class &quot;SpatialPointsDataFrame&quot;, by class &quot;SpatialPixelsDataFrame&quot;, distance 2
-## Class &quot;SpatialPoints&quot;, by class &quot;SpatialPixelsDataFrame&quot;, distance 3
-## Class &quot;Spatial&quot;, by class &quot;SpatialPixelsDataFrame&quot;, distance 4
-## Class &quot;SpatialVector&quot;, by class &quot;SpatialPixelsDataFrame&quot;, distance 4</code></pre>
-<p>Although the three classes have the same slots as their parent S4 classes, data frames in <code>SpatialPointsTopography</code>, <code>SpatialGridTopography</code> and <code>SpatialPixelsTopography</code> objects have only three variables: <code>elevation</code> (in meters), <code>slope</code> (in degrees from the horizontal plane) and <code>aspect</code> (in degrees from North).</p>
+<div id="spatial-classes" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Spatial classes<a href="datastructuresfunctions.html#spatial-classes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>With the retirement of <strong>rgdal</strong>, <strong>rgeos</strong> and <strong>maptools</strong> R packages, a complete update of <strong>meteoland</strong> was necessary to remove the hard dependency that the package had with sp and raster R packages. Starting with <strong>version 2.0.0</strong> of meteoland, now <strong>sf</strong> and <strong>stars</strong> packages are internally used for working with simple features and raster data, respectively.</p>
+<div id="topography" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Topography<a href="datastructuresfunctions.html#topography" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Spatial variation of topography should be represented in <code>sf</code> and <code>stars</code> objects by the variables: <code>elevation</code> (in meters), <code>slope</code> (in degrees from the horizontal plane) and <code>aspect</code> (in degrees from North).</p>
 </div>
-<div id="meteorology" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Meteorology</h3>
-<p>Analogously to topography classes, three spatial classes are used to represent the variation of daily meteorology over space:</p>
-<ul>
-<li>Class <code>SpatialPointsMeteorology</code> extends <code>SpatialPoints</code> and represents daily meteorology series for a set of points in a landscape.</li>
-</ul>
-<pre><code>## Class &quot;SpatialPointsMeteorology&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                   
-## Name:        dates        data      coords        bbox proj4string
-## Class:        Date      vector      matrix      matrix         CRS
-## 
-## Extends: 
-## Class &quot;SpatialPoints&quot;, directly
-## Class &quot;Spatial&quot;, by class &quot;SpatialPoints&quot;, distance 2
-## Class &quot;SpatialVector&quot;, by class &quot;SpatialPoints&quot;, distance 2</code></pre>
-<ul>
-<li>Class <code>SpatialGridMeteorology</code> extends <code>SpatialGrid</code> and represents the continuous variation of daily meteorology across a grid of cells.</li>
-</ul>
-<pre><code>## Class &quot;SpatialGridMeteorology&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                        
-## Name:         dates         data         grid         bbox  proj4string
-## Class:         Date       vector GridTopology       matrix          CRS
-## 
-## Extends: 
-## Class &quot;SpatialGrid&quot;, directly
-## Class &quot;Spatial&quot;, by class &quot;SpatialGrid&quot;, distance 2</code></pre>
-<ul>
-<li>Class <code>SpatialPixelsMeteorology</code> extends <code>SpatialPixels</code> and represents the variation of daily meteorology for a set of pixels (cells) of a spatial grid.</li>
-</ul>
-<pre><code>## Class &quot;SpatialPixelsMeteorology&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                                                  
-## Name:         dates         data         grid   grid.index       coords         bbox  proj4string
-## Class:         Date       vector GridTopology      integer       matrix       matrix          CRS
-## 
-## Extends: 
-## Class &quot;SpatialPixels&quot;, directly
-## Class &quot;SpatialPoints&quot;, by class &quot;SpatialPixels&quot;, distance 2
-## Class &quot;Spatial&quot;, by class &quot;SpatialPixels&quot;, distance 3
-## Class &quot;SpatialVector&quot;, by class &quot;SpatialPixels&quot;, distance 3</code></pre>
-<p>In addition to their corresponding inherited slots, classes <code>SpatialPointsMeteorology</code>, <code>SpatialGridMeteorology</code> and <code>SpatialPixelsMeteorology</code> have two additional slots: <strong><code>dates</code></strong> (a vector of days specifying a time period), and <strong><code>data</code></strong> (a vector of data frames with the meteorological data). Although the three classes have a <code>data</code> slot containing data frames, meteorological data is in different form in each class. In objects of <code>SpatialPointsMeteorology</code>, there is one data frame for each point where variables are in columns and dates are in rows. In objects of <code>SpatialGridMeteorology</code> and <code>SpatialPixelsMeteorology</code>, each data frame describes the meteorology over a complete grid, or a subset of cells, for a single day. In these cases, the data frame has grid cells in rows and variables in columns.</p>
+<div id="meteorology" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Meteorology<a href="datastructuresfunctions.html#meteorology" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When using <code>sf</code> data structures, daily weather variables can be represented as columns of the corresponding data frame, whereas dates (i.e. <code>Date</code> or <code>POSIXct</code> objects) are specified in a column called <code>dates</code>. Interpolation results use also <code>sf</code> objects, but where weather data series for all variables are supplied in a column called <code>interpolated_data</code>.</p>
+<p>When using <code>stars</code> data structures, daily weather variables are represented as attributes and dates are represented as a time dimension.</p>
+</div>
+<div id="interpolator-objects" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Interpolator objects<a href="datastructuresfunctions.html#interpolator-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Since <strong>ver. 2.0.0</strong>, reference weather data is represented by interpolator objects of class <strong>stars</strong>, where the interpolation parameter list is included as an attribute <code>params</code>. Interpolator objects can be created using function <code>create_meteo_interpolator()</code>, and interpolation parameters are retrieved or modified using functions <code>get_interpolation_params()</code> and <code>set_interpolation_params()</code>, respectively.</p>
 </div>
 </div>
-<div id="reading-and-writing-meteorological-data" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Reading and writing meteorological data</h2>
-<div id="point-meteorology-asciirds-files" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Point meteorology (ascii/rds files)</h3>
-<p>Objects of class <code>SpatialPointsMeteorology</code> are stored in the disk using one data file for each of their spatial points. Files can be stored in <strong>ascii</strong> (i.e. text) format or <strong>rds</strong> (i.e. R data of a single object compressed) format. Package <strong>meteoland</strong> provides four input/output functions for point meteorology:</p>
-<ul>
-<li>Function <code>readmeteorologypoint()</code> reads the meteorological data stored in one <strong>ascii</strong>/<strong>rds</strong> data file and returns a data frame.</li>
-<li>Function <code>writemeteorologypoint()</code> writes the meteorological data of a single point as an <strong>ascii</strong>/<strong>rds</strong> file in the file system.</li>
-<li>Function <code>readmeteorologypointfiles()</code> reads several <strong>ascii</strong>/<strong>rds</strong> files and returns an object of class <code>SpatialPointsMeteorology</code>.</li>
-<li>Functions <code>writemeteorologypointfiles()</code> writes several <strong>ascii</strong>/<strong>rds</strong> files in the disk, one per spatial point. Metadata (i.e. the spatial coordinates of each point and the corresponding file path) is stored in an additional file.</li>
-</ul>
+<div id="reading-and-writing-meteorological-data" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Reading and writing meteorological data<a href="datastructuresfunctions.html#reading-and-writing-meteorological-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Since <strong>ver. 2.0.0</strong>, reading and writing meteorological data is no longer dealt within the package, but can be dealt with using the corresponding functions in packages <strong>sf</strong> and <strong>stars</strong>. The only exception are interpolator objects, which are stored as NetCDFs and have their own functions <code>read_interpolator()</code> and <code>write_interpolator()</code>.</p>
 </div>
-<div id="pointgridded-meteorology-netcdf" class="section level3" number="2.3.2">
-<h3><span class="header-section-number">2.3.2</span> Point/gridded meteorology (netCDF)</h3>
-<p><a href="https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_introduction.html"><strong>NetCDF</strong></a> is a set of libraries to write machine-independent data formats that support the creation and sharing of array-oriented scientific data. <strong>NetCDF</strong> is very useful useful to store spatio-temporal datasets, as it allows storing the grid topology, the time period being described and the spatial projection as well as the actual data all in the same file. Moreover, <strong>NetCDF</strong> can be read and written lazily, without having to load all the file in memory.</p>
-<p>Package <strong>meteoland</strong> allows objects of classes <code>SpatialPointsMeteorology</code>, <code>SpatialPixelsMeteorology</code> and <code>SpatialGridMeteorology</code> to be stored in the disk as <strong>NetCDF</strong> thanks to the functions provided by <a href="https://cran.r-project.org/package=ncdf4"><strong>ncdf4</strong></a> R package, which provides an interface to Unidata’s netCDF library (version 4 or earlier). We try to conform to CF specifications in files written by <strong>meteoland</strong>, but improvements can always be made.</p>
-<p>The following functions are available for input/output of point meteorology:</p>
-<ul>
-<li>Functions <code>writemeteorologypoints()</code> writes meteorological point data on a <strong>NetCDF</strong>.</li>
-<li>Function <code>readmeteorologypoints()</code> reads point meteorological data stored in one or several <strong>NetCDFs</strong> and returns an object of class <code>SpatialPointsMeteorology</code>. If several files are read, the function tries to merge the result.</li>
-</ul>
-<p>And the following functions are available for input/output of meteorology on pixels or full grids:</p>
-<ul>
-<li>Functions <code>readmeteorologygrid()</code> and <code>readmeteorologypixels()</code> read the meteorological data stored in one or several <strong>NetCDF</strong> file and return an object of class <code>SpatialGridMeteorology</code> or <code>SpatialPixelsMeteorology</code>, respectively. If several files are read, the function tries to merge the result. Rotated grids should not be read using this functions.</li>
-<li>Function <code>readmeteorologygridpoints()</code> allows reading grid pixels as points. It returns an object of class <code>SpatialPointsMeteorology</code>. This feature becomes useful to read data from rotated grids.</li>
-<li>Functions <code>writemeteorologygrid()</code> and <code>writemeteorologypixels()</code> write the meteorological data of the full grid or the subset of grid cells, for a <strong>NetCDF</strong>. The same functions allow adding and replacing data content in a previously existing <strong>NetCDF</strong>.</li>
-<li>Function <code>writemeteorologygridpixel()</code> allows writing/replacing data for specific pixels in an existing <strong>NetCDF</strong>.</li>
-</ul>
+<div id="subsetting-merging-and-reshaping-data" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Subsetting, merging and reshaping data<a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Since <strong>ver. 2.0.0</strong>, subsetting, merging and reshaping weather data is done using functions provided by packages <strong>sf</strong> and <strong>stars</strong>.</p>
 </div>
+<div id="summarizing-meteorological-data" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Summarizing meteorological data<a href="datastructuresfunctions.html#summarizing-meteorological-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Since <strong>ver. 2.0.0</strong> spatial or temporal summaries can be done using functions of packages <strong>sf</strong> and <strong>stars</strong>. Additionally, <strong>meteoland</strong> provides a helper function called <code>summarise_interpolated_data()</code> that accepts the objects returned by function <code>interpolation_data()</code>.</p>
 </div>
-<div id="visualizing-input-topography-and-meteorological-data" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Visualizing input topography and meteorological data</h2>
-<p>Although very simple, the package provides two kinds of functions to visualize the temporal and spatial variation of meteorology:</p>
-<ul>
-<li>Function <code>spplot()</code> has been redefined from package <strong>sp</strong> to draw maps of specific weather variables corresponding to specific dates. The function can be used on objects of class <code>SpatialGridMeteorology</code> and <code>SpatialPixelsMeteorology</code>.</li>
-<li>Function <code>meteoplot()</code> allows the temporal series of specific variables on specific spatial points to be plotted. The function can read the data from the disk or from objects of class <code>SpatialPointsMeteorology</code>.</li>
-</ul>
-<p>Similarly, function <code>spplot()</code> also accepts objects of classes <code>SpatialGridTopography</code> and <code>SpatialPixelsTopography</code>, so that topography can also be easily displayed.</p>
-</div>
-<div id="subsetting-merging-and-reshaping-data" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Subsetting, merging and reshaping data</h2>
-<p>A number of functions are available to manipulate data structures and to make them available for other R packages.</p>
-<div id="subsetting-and-reshaping-topography-data" class="section level3" number="2.5.1">
-<h3><span class="header-section-number">2.5.1</span> Subsetting and reshaping topography data</h3>
-<p>Following the design of package <strong>sp</strong>, package meteoland provides several functions to manipulate topographic data structures (see fig. <a href="datastructuresfunctions.html#fig:classconversiontopo">2.1</a>).</p>
-<ol style="list-style-type: decimal">
-<li>It is possible to coerce objects between from topography classes to the corresponding class in package <strong>sp</strong> using functions <code>as()</code>. This includes coercing to spatial objects with or without data columns. Additionally, an object of <code>SpatialPointsTopography</code> can be coerced into a <code>SpatialPixelsTopography</code> using a call like <code>as(x, "SpatialPixelsTopography")</code>.<br />
-</li>
-<li>It is possible to coerce objects to the general-purpose class <code>sf</code> of package <a href="https://cran.r-project.org/package=sf"><strong>sf</strong></a> using <code>as(..., "sf")</code>.</li>
-<li>Subsetting (i.e.<code>[</code> operator) is allowed on all three spatial topographic classes. The valid arguments of this function call depend on the kind of structure.</li>
-</ol>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:classconversiontopo"></span>
-<img src="class_conversion_topo.jpg" alt="Conversion between meteoland classes for topography and classes from other packages" width="100%" />
-<p class="caption">
-Figure 2.1: Conversion between meteoland classes for topography and classes from other packages
-</p>
-</div>
-</div>
-<div id="subsetting-and-reshaping-meteorology-data" class="section level3" number="2.5.2">
-<h3><span class="header-section-number">2.5.2</span> Subsetting and reshaping meteorology data</h3>
-<p>Analogously, package meteoland provides several functions to manipulate spatio-temporal data structures (see fig. <a href="datastructuresfunctions.html#fig:classconversionmeteo">2.2</a>).</p>
-<ol style="list-style-type: decimal">
-<li>It is possible to coerce objects between spatial classes using functions <code>as()</code>.</li>
-<li>Subsetting (i.e.<code>[</code> operator) is allowed on all six spatial classes (topographic or meteorological). The valid arguments of this function call depend on the kind of structure.</li>
-<li>The package provides functions to extract meteorological data (these allow reading data in memory or from the disk):</li>
-</ol>
-<ul>
-<li>Functions <code>extractgridindex()</code> extracts the meteorology of a particular pixel index from a grid and returns a data frame with dates in rows and variables in columns.</li>
-<li>Function <code>extractgridpoints()</code> extract the meteorology of point locations from a grid and returns an object of <code>SpatialPointsMeteorology</code>, similarly to the <code>[</code> operator.</li>
-<li>Functions <code>extractdates()</code> and <code>extractvars()</code> extract the meteorology of a set of dates (or variables, respectively) from a <code>SpatialPointsMeteorology</code> object, (or <code>SpatialGridMeteorology</code> or <code>SpatialPixelsMeteorology</code>) and returns a <code>SpatialPointDataFrame</code> (or <code>SpatialGridDataFrame</code> or <code>SpatialPixelsDataFrame</code>) for each date (resp. variable) in a named list. This kind of conversion is also useful to export meteoland outputs to package <a href="https://cran.r-project.org/package=raster"><strong>raster</strong></a>, which provides wrappers for the abovementioned <strong>sp</strong> classes.</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li>Finally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes <code>SpatialPointsMeteoroloy</code>, <code>SpatialGridMeteorology</code> and <code>SpatialPixelsMeteorology</code> can be reshaped into objects of packages <a href="https://cran.r-project.org/package=stars"><strong>stars</strong></a> and <a href="https://cran.r-project.org/package=spacetime"><strong>spacetime</strong></a> by using calls like <code>as(x, "stars")</code> or <code>as(x, "STFDF")</code>.</li>
-</ol>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:classconversionmeteo"></span>
-<img src="class_conversion_meteo.jpg" alt="Conversion between meteoland classes for meteorology and classes from other packages" width="100%" />
-<p class="caption">
-Figure 2.2: Conversion between meteoland classes for meteorology and classes from other packages
-</p>
-</div>
-</div>
-<div id="merging-meteorology-data" class="section level3" number="2.5.3">
-<h3><span class="header-section-number">2.5.3</span> Merging meteorology data</h3>
-<p>Functions <code>mergegrid()</code> and <code>mergepoints()</code> take any number of objects of the same spatial class and return a merged object. The functions pool over dates and variables, but the objects to merge should have the same spatial structures (points, grids, reference systems, …). This is specially useful to merge data corresponding to different periods.</p>
-</div>
-</div>
-<div id="summarizing-meteorological-data" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Summarizing meteorological data</h2>
-<div id="temporal-summaries" class="section level3" number="2.6.1">
-<h3><span class="header-section-number">2.6.1</span> Temporal summaries</h3>
-<p>The package provides functions to generate <em>temporal</em> summaries of meteorological data. These accept meteorology objects as input and return their corresponding spatial dataframe structure with the summary statistics in columns:</p>
-<ul>
-<li>Function <code>summarypoints()</code> summarizes the meteorology of spatial points. It accepts objects of <code>SpatialPointsMeteorology</code> as input and returns an object of <code>SpatialPointsDataFrame</code> with point summaries for the requested variable. Temporal summaries can be calculated for different periods and using different summarizing functions (e.g. mean, sum, minimum, maximum, etc.).</li>
-<li>Functions <code>summarygrid()</code> and <code>summarypixels()</code> summarize the meteorology of full grids or of subset of grid cells, respectively. They accept objects of <code>SpatialGridMeteorology</code> and <code>SpatialPixelsMeteorology</code>, respectively, as input and return an object of <code>SpatialGridDataFrame</code> and <code>SpatialPixelsDataFrame</code>, respectively, with temporal summaries for the requested variable over the range of dates indicated.</li>
-<li>Function <code>summaryinterpolationdata()</code> works similarly to <code>summarypoints()</code>, but takes an object of class <code>MeteorologyInterpolationData</code> as input.</li>
-</ul>
-<p>All temporal summary functions except <code>summaryinterpolationdata()</code> accept a data file, or a metadata file as input. This allows, producing summaries lazily, without loading complete data structures in memory. Of course, this mode of producing summaries may be slower than operating on objects already loaded in memory.</p>
-</div>
-<div id="spatial-summaries" class="section level3" number="2.6.2">
-<h3><span class="header-section-number">2.6.2</span> Spatial summaries</h3>
-<p>The package provides one function to produce <em>spatial</em> summaries. Function <code>averagearea()</code> averages the coordinates and meteorological values of any spatial meteorology object, returning an object of class <code>SpatialPointMeteorology</code> with a single point representing the average.</p>
-</div>
-</div>
-<div id="meteorology-estimation-functions" class="section level2" number="2.7">
-<h2><span class="header-section-number">2.7</span> Meteorology estimation functions</h2>
-<div id="spatial-interpolation" class="section level3" number="2.7.1">
-<h3><span class="header-section-number">2.7.1</span> Spatial interpolation</h3>
-<p>Package <strong>meteoland</strong> provides three functions for interpolating meteorological data (i.e., one for each data structure):</p>
-<ul>
-<li>Function <code>interpolationpoints()</code> interpolates weather for a set of locations given in <code>SpatialPointsTopography</code> and returns an object of class <code>SpatialPointsMeteorology</code>.</li>
-<li>Function <code>interpolationpixels()</code> interpolates weather for pixels in a grid specified in <code>SpatialPixelsTopography</code> and returns an object of class <code>SpatialPixelsMeteorology</code>.</li>
-<li>Function <code>interpolationgrid()</code> interpolates weather for a whole grid specified in <code>SpatialGridTopography</code> and returns an object of class <code>SpatialGridMeteorology</code>.</li>
-</ul>
-<p>Both functions require an object of class <code>MeteorologyInterpolationData</code>, which contains the X-Y coordinates, the meteorological data and topography of a set of weather stations as well as weather interpolation parameters.</p>
-<pre><code>## Class &quot;MeteorologyInterpolationData&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                                                           
-## Name:                    coords                elevation                    slope                   aspect
-## Class:                   matrix                  numeric                  numeric                  numeric
-##                                                                                                           
-## Name:            MinTemperature           MaxTemperature    SmoothedPrecipitation            Precipitation
-## Class:                   matrix                   matrix                   matrix                   matrix
-##                                                                                                           
-## Name:  SmoothedTemperatureRange         RelativeHumidity                Radiation                WindSpeed
-## Class:                   matrix                   matrix                      ANY                      ANY
-##                                                                                                           
-## Name:             WindDirection               WindFields                  WFIndex                 WFFactor
-## Class:                      ANY                      ANY                      ANY                      ANY
-##                                                                                                           
-## Name:                    params                    dates                     bbox              proj4string
-## Class:                     list                     Date                   matrix                      CRS
-## 
-## Extends: 
-## Class &quot;MeteorologyProcedureData&quot;, directly
-## Class &quot;Spatial&quot;, by class &quot;MeteorologyProcedureData&quot;, distance 2</code></pre>
-<p>When calling functions <code>interpolationpoints()</code>, <code>interpolationpixels()</code>, or <code>interpolationgrid()</code>, the user may require interpolation outputs to be written into the file system, instead of being stored in memory. For example, if <code>interpolationpoints()</code> is called with <code>export = TRUE</code> and a location directory, the function will write the data frame produced for each point into an <strong>ascii</strong> text file or a <strong>rds</strong> file. Metadata files will also be written, so that results can later be loaded in memory. Alternatively, <code>interpolationpoints()</code> can be forced to write results in a <strong>netCDF</strong> by specifying <code>export = TRUE</code> and <code>exportFile = &lt;filename&gt;</code>. Similarly, if <code>interpolationpixels()</code> or <code>interpolationgrid()</code> are called specifying <code>exportFile = &lt;filename&gt;</code>, the functions will create and add data to a <strong>netCDF</strong>. These options becomes important when dealing with very large spatial structures.</p>
-<p>Functions <code>interpolation.calibration()</code> and <code>interpolation.cv()</code> are included in <strong>meteoland</strong> to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them. Details of interpolation routines are described in chapter <a href="spatialinterpolation.html#spatialinterpolation">3</a>.</p>
-</div>
-<div id="statistical-correction" class="section level3" number="2.7.2">
-<h3><span class="header-section-number">2.7.2</span> Statistical correction</h3>
-<p>One function is available for statistical correction of meteorological data series (i.e., one function for each data structure). Function <code>correctionpoints()</code> performs statistical correction of weather data series on a set of locations and it returns an object of class <code>SpatialPointsMeteorology</code> containing corrected weather predictions. Statistical correction requires an object of class <code>MeteorologyUncorrectedData</code>, which contains the X-Y coordinates and the coarse-scale meteorological data to be corrected, which includes a reference (historic) period and projected (e.g. future) period:</p>
-<pre><code>## Class &quot;MeteorologyUncorrectedData&quot; [package &quot;meteoland&quot;]
-## 
-## Slots:
-##                                                                                                       
-## Name:           coords  reference_data projection_data          params           dates            bbox
-## Class:          matrix             ANY             ANY            list            Date          matrix
-##                       
-## Name:      proj4string
-## Class:             CRS
-## 
-## Extends: 
-## Class &quot;MeteorologyProcedureData&quot;, directly
-## Class &quot;Spatial&quot;, by class &quot;MeteorologyProcedureData&quot;, distance 2</code></pre>
-<p>The reference (historical) period is compared with observed meteorological data of the same period, and the routine uses this information to correct the projected (e.g. future) period. Therefore, apart from the <code>MeteorologyUncorrectedData</code> object, the correction function requires accurate meteorological data (for a set of spatial points or a grid). Normally, these data will be the result of spatial interpolation.</p>
-<p>As before, when calling functions <code>correctionpoints()</code>, the user may require the outputs to be written into the file system, instead of being returned in memory. The options are the same as described for interpolation.</p>
-<p>Function <code>correctionpoints.errors()</code> was included in the package to evaluate the errors of the less accurate and more accurate series. Comparisons can be made before and after applying statistical corrections. In the latter case, cross-validation is also available. Details of correction routines are described in chapter <a href="statisticalcorrection.html#statisticalcorrection">5</a>.</p>
-</div>
-<div id="weather-generation" class="section level3" number="2.7.3">
-<h3><span class="header-section-number">2.7.3</span> Weather generation</h3>
-<p>Function <code>weathergeneration()</code> can be used to generate synthetic weather series for a range of inputs, including a (non-spatial) data frame (corresponding to weather series of a single location) as well as objects of classes <code>SpatialPointsDataFrame</code>, <code>SpatialPixelsDataFrame</code> or <code>SpatialGridDataFrame</code>. The output of the function is of the same class as the input object. Weather generation algorithms are described in chapter <a href="weathergeneration.html#weathergeneration">7</a>.</p>
+<div id="meteorology-interpolation" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Meteorology interpolation<a href="datastructuresfunctions.html#meteorology-interpolation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Since <strong>ver. 2.0.0</strong>, package <strong>meteoland</strong> provides one single functions for interpolating meteorological data over landscapes. Function <code>interpolate_data()</code> interpolates weather for a set of locations, and accepts both <code>sf</code> and <code>stars</code> structures as input, but necessitates an interpolator object with the reference weather station data.</p>
+<p>Functions <code>interpolator_calibration()</code> and <code>interpolation_cross_validation()</code> are included in <strong>meteoland</strong> to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them. Details of interpolation routines are described in chapter <a href="spatialinterpolation.html#spatialinterpolation">3</a>.</p>
 
-</div>
 </div>
 </div>
             </section>
@@ -623,7 +371,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

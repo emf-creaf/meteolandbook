@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Spatial interpolation of weather records | The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Spatial interpolation of weather records | The meteoland reference book" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a reference book for data structures and functions included in package meteoland." />
   
@@ -23,7 +22,7 @@
 
 
 
-<meta name="date" content="2022-01-05" />
+<meta name="date" content="2023-06-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="datastructuresfunctions.html"/>
 <link rel="next" href="solarradiation.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -92,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -174,30 +177,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#topography"><i class="fa fa-check"></i><b>2.2.1</b> Topography</a></li>
 <li class="chapter" data-level="2.2.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology"><i class="fa fa-check"></i><b>2.2.2</b> Meteorology</a></li>
+<li class="chapter" data-level="2.2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#interpolator-objects"><i class="fa fa-check"></i><b>2.2.3</b> Interpolator objects</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#point-meteorology-asciirds-files"><i class="fa fa-check"></i><b>2.3.1</b> Point meteorology (ascii/rds files)</a></li>
-<li class="chapter" data-level="2.3.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#pointgridded-meteorology-netcdf"><i class="fa fa-check"></i><b>2.3.2</b> Point/gridded meteorology (netCDF)</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#visualizing-input-topography-and-meteorological-data"><i class="fa fa-check"></i><b>2.4</b> Visualizing input topography and meteorological data</a></li>
-<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting, merging and reshaping data</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-topography-data"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting and reshaping topography data</a></li>
-<li class="chapter" data-level="2.5.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-meteorology-data"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting and reshaping meteorology data</a></li>
-<li class="chapter" data-level="2.5.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#merging-meteorology-data"><i class="fa fa-check"></i><b>2.5.3</b> Merging meteorology data</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.6</b> Summarizing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.6.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#temporal-summaries"><i class="fa fa-check"></i><b>2.6.1</b> Temporal summaries</a></li>
-<li class="chapter" data-level="2.6.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-summaries"><i class="fa fa-check"></i><b>2.6.2</b> Spatial summaries</a></li>
-</ul></li>
-<li class="chapter" data-level="2.7" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-estimation-functions"><i class="fa fa-check"></i><b>2.7</b> Meteorology estimation functions</a>
-<ul>
-<li class="chapter" data-level="2.7.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-interpolation"><i class="fa fa-check"></i><b>2.7.1</b> Spatial interpolation</a></li>
-<li class="chapter" data-level="2.7.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#statistical-correction"><i class="fa fa-check"></i><b>2.7.2</b> Statistical correction</a></li>
-<li class="chapter" data-level="2.7.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#weather-generation"><i class="fa fa-check"></i><b>2.7.3</b> Weather generation</a></li>
-</ul></li>
+<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a></li>
+<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting, merging and reshaping data</a></li>
+<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.5</b> Summarizing meteorological data</a></li>
+<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-interpolation"><i class="fa fa-check"></i><b>2.6</b> Meteorology interpolation</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html"><i class="fa fa-check"></i><b>3</b> Spatial interpolation of weather records</a>
 <ul>
@@ -241,8 +226,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1" data-path="miscellaneous.html"><a href="miscellaneous.html#downloading-data-from-weather-station-networks"><i class="fa fa-check"></i><b>8.1</b> Downloading data from weather station networks</a></li>
 <li class="chapter" data-level="8.2" data-path="miscellaneous.html"><a href="miscellaneous.html#reshaping-data-obtained-from-other-packages"><i class="fa fa-check"></i><b>8.2</b> Reshaping data obtained from other packages</a></li>
-<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#obtaining-static-wind-fields"><i class="fa fa-check"></i><b>8.3</b> Obtaining static wind fields</a></li>
-<li class="chapter" data-level="8.4" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.4</b> Physical utility functions</a></li>
+<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.3</b> Physical utility functions</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
@@ -265,21 +249,21 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="spatialinterpolation" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Spatial interpolation of weather records</h1>
-<div id="overview" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Overview</h2>
-<p>Ecological research studies conducted for historical periods can be perfomed using meteorological records obtained from surface weather stations of the area under study. The general procedure for interpolation is very similar to the one that underpins the U.S. DAYMET dataset (<a href="https://daymet.ornl.gov/" class="uri">https://daymet.ornl.gov/</a>). For any target point, minimum temperature, maximum temperature and precipitation are interpolated from weather records using truncated Gaussian filters, while accounting for the relationship between these variables and elevation <span class="citation">(<a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White 1997</a>)</span>. Relative humidity can be either interpolated (in fact, dew-point temperature is the variable being interpolated) or predicted from temperature estimates, depending on whether it has been measured in weather stations or not. Potential (i.e. top-of-atmosphere) solar radiation is estimated taking into account latitude, seasonality, aspect and slope, following <span class="citation"><a href="#ref-Garnier1968" role="doc-biblioref">Garnier and Ohmura</a> (<a href="#ref-Garnier1968" role="doc-biblioref">1968</a>)</span>. Potential solar radiation is then corrected to account for atmosphere transmittance using the predictions of temperature range, relative humidity and precipitation <span class="citation">(<a href="#ref-Thornton1999" role="doc-biblioref">P. E. Thornton and Running 1999</a>)</span>. Finally, the wind vector (wind direction and wind speed) is interpolated by using weather station records and static wind fields.</p>
+<div id="spatialinterpolation" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Spatial interpolation of weather records<a href="spatialinterpolation.html#spatialinterpolation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="overview" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Overview<a href="spatialinterpolation.html#overview" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ecological research studies conducted for historical periods can be perfomed using meteorological records obtained from surface weather stations of the area under study. The general procedure for interpolation is very similar to the one that underpins the U.S. DAYMET dataset (<a href="https://daymet.ornl.gov/" class="uri">https://daymet.ornl.gov/</a>). For any target point, minimum temperature, maximum temperature and precipitation are interpolated from weather records using truncated Gaussian filters, while accounting for the relationship between these variables and elevation <span class="citation">(<a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White 1997</a>)</span>. Relative humidity can be either interpolated (in fact, dew-point temperature is the variable being interpolated) or predicted from temperature estimates, depending on whether it has been measured in weather stations or not. Potential (i.e. top-of-atmosphere) solar radiation is estimated taking into account latitude, seasonality, aspect and slope, following <span class="citation">Garnier and Ohmura (<a href="#ref-Garnier1968" role="doc-biblioref">1968</a>)</span>. Potential solar radiation is then corrected to account for atmosphere transmittance using the predictions of temperature range, relative humidity and precipitation <span class="citation">(<a href="#ref-Thornton1999" role="doc-biblioref">P. E. Thornton and Running 1999</a>)</span>. Finally, the wind vector (wind direction and wind speed) is interpolated by using weather station records and static wind fields.</p>
 <p>In the following sections we detail the general algorithm used to obtain interpolation weights and the interpolation procedure for temperature, precipitation, relative humidity and wind. The estimation of potential and actual solar radiation is explained in the next chapter.</p>
 </div>
-<div id="interpolation-weights" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Interpolation weights</h2>
-<p><span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> suggested interpolating meteorological data using a truncated Gaussian filter. Its form with respect to a central point <span class="math inline">\(p\)</span> is:
+<div id="interpolation-weights" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Interpolation weights<a href="spatialinterpolation.html#interpolation-weights" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> suggested interpolating meteorological data using a truncated Gaussian filter. Its form with respect to a central point <span class="math inline">\(p\)</span> is:
 <span class="math display">\[\begin{equation}
 W(r) = e^{-\alpha \cdot (r/R_p)^2} - e^{-\alpha}
 \end{equation}\]</span>
 if <span class="math inline">\(r \leq R_p\)</span> and <span class="math inline">\(W(r) = 0\)</span> otherwise. Here <span class="math inline">\(r\)</span> is the radial distance from <span class="math inline">\(p\)</span>, <span class="math inline">\(R_p\)</span> is the truncation distance and <span class="math inline">\(\alpha\)</span> is the shape parameter. The spatial convolution of this filter with a set of weather station locations results, for each target point, in a vector of weights associated with observations. The following figure illustrates the Gaussian filter for <span class="math inline">\(R_p = 500\)</span> and either <span class="math inline">\(\alpha = 3.0\)</span> (continuous line) or <span class="math inline">\(\alpha = 6.25\)</span> (dashed line):</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-12-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-4-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><span class="math inline">\(R_p\)</span> is automatically adjusted so that it has lower values in data-rich regions and is increased in data-poor regions. The method, however, requires the user to specify <span class="math inline">\(N\)</span>, the average number of observations to be included for each target point. <span class="math inline">\(R_p\)</span> is then varied as a smooth function of the local density in such a way that this average is achieved over the spatial domain. Estimation of <span class="math inline">\(R_p\)</span> is as follows:</p>
 <ol style="list-style-type: decimal">
 <li>A user-specified value is used to initialize <span class="math inline">\(R_p\)</span>.</li>
@@ -298,11 +282,11 @@ R_p = \sqrt{\frac{N^*}{D_p \cdot \pi}}
 where <span class="math inline">\(N^* = 2N\)</span> for the first <span class="math inline">\(I - 1\)</span> iterations, and <span class="math inline">\(N^* = N\)</span> for the final iteration.</li>
 <li>The new <span class="math inline">\(R_p\)</span> is substituted in step (2) and steps (2-4) are iterated a specified number of times <span class="math inline">\(I\)</span>. The final <span class="math inline">\(R_p\)</span> value is used to generate interpolation weights <span class="math inline">\(W_i\)</span>.</li>
 </ol>
-<p><span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> suggested to use this algorithm only once per point (and variable to be estimated), but since missing meteorological values can occur only in some days, we apply the algorithm for each target point and day. The interpolation method for a given set of observations is defined by four parameters <span class="math inline">\(R\)</span>, <span class="math inline">\(I\)</span>, <span class="math inline">\(N\)</span> and <span class="math inline">\(\alpha\)</span>. Following <span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span>, we set <span class="math inline">\(R = 140000\)</span> meters and <span class="math inline">\(I = 3\)</span> by default (see parameters <code>initial_Rp</code> and <code>iterations</code> given in function <code>defaultInterpolationParams()</code>). The other parameters (<span class="math inline">\(N\)</span> and <span class="math inline">\(\alpha\)</span>) depend on the variable to be interpolated.</p>
+<p><span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> suggested to use this algorithm only once per point (and variable to be estimated), but since missing meteorological values can occur only in some days, we apply the algorithm for each target point and day. The interpolation method for a given set of observations is defined by four parameters <span class="math inline">\(R\)</span>, <span class="math inline">\(I\)</span>, <span class="math inline">\(N\)</span> and <span class="math inline">\(\alpha\)</span>. Following <span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span>, we set <span class="math inline">\(R = 140000\)</span> meters and <span class="math inline">\(I = 3\)</span> by default (see parameters <code>initial_Rp</code> and <code>iterations</code> given in function <code>defaultInterpolationParams()</code>). The other parameters (<span class="math inline">\(N\)</span> and <span class="math inline">\(\alpha\)</span>) depend on the variable to be interpolated.</p>
 </div>
-<div id="temperature" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Temperature</h2>
-<p>Predictions for minimum temperature and maximum temperature are done in the same way, so we refer to a general variable <span class="math inline">\(T\)</span>. We focus on the prediction of <span class="math inline">\(T_p\)</span>, the temperature at a single target point <span class="math inline">\(p\)</span> and for a single day, based on observations <span class="math inline">\(T_i\)</span> and interpolation weights <span class="math inline">\(W_i\)</span> for the <span class="math inline">\(i = (1, ..., n)\)</span> weather stations. Prediction of <span class="math inline">\(T_p\)</span> requires a correction for the effects of elevation differences between observation points <span class="math inline">\(z_1, ..., z_n\)</span> and the prediction point <span class="math inline">\(z_p\)</span>. <span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> established the relationship between elevation and temperature using transformed variables (temporal or spatial moving window averages) for temperature and elevation, instead of the original variables, but we did not implement this feature here. A weighted least-squares regression is used to assess the relationship between temperature and elevation. Instead of regressing <span class="math inline">\(z_i\)</span> on <span class="math inline">\(T_i\)</span>, the independent variable is the difference in elevations associated with a pair of stations, and the dependent variable is the corresponding difference in temperatures. This gives a regression of the form:
+<div id="temperature" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Temperature<a href="spatialinterpolation.html#temperature" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Predictions for minimum temperature and maximum temperature are done in the same way, so we refer to a general variable <span class="math inline">\(T\)</span>. We focus on the prediction of <span class="math inline">\(T_p\)</span>, the temperature at a single target point <span class="math inline">\(p\)</span> and for a single day, based on observations <span class="math inline">\(T_i\)</span> and interpolation weights <span class="math inline">\(W_i\)</span> for the <span class="math inline">\(i = (1, ..., n)\)</span> weather stations. Prediction of <span class="math inline">\(T_p\)</span> requires a correction for the effects of elevation differences between observation points <span class="math inline">\(z_1, ..., z_n\)</span> and the prediction point <span class="math inline">\(z_p\)</span>. <span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> established the relationship between elevation and temperature using transformed variables (temporal or spatial moving window averages) for temperature and elevation, instead of the original variables, but we did not implement this feature here. A weighted least-squares regression is used to assess the relationship between temperature and elevation. Instead of regressing <span class="math inline">\(z_i\)</span> on <span class="math inline">\(T_i\)</span>, the independent variable is the difference in elevations associated with a pair of stations, and the dependent variable is the corresponding difference in temperatures. This gives a regression of the form:
 <span class="math display">\[\begin{equation}
 (T_1 - T_2) = \beta_0 + \beta_1 \cdot (z_1 - z_2)
 \end{equation}\]</span>
@@ -312,8 +296,8 @@ T_{p} = \frac{\sum_{i=1}^{n}{W_i\cdot (T_i + \beta_0 + \beta_1 \cdot(z_p - z_i))
 \end{equation}\]</span>
 where <span class="math inline">\(z_p\)</span> is the elevation of the target point and <span class="math inline">\(z_i\)</span> is the elevation of the weather station.</p>
 </div>
-<div id="relative-humidity" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Relative humidity</h2>
+<div id="relative-humidity" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Relative humidity<a href="spatialinterpolation.html#relative-humidity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Relative humidity is a parameter not always recorded in weather stations. When input station weather data does not include relative humidity, <strong>meteoland</strong> estimates it directly from minimum and maximum temperature <span class="citation">(<a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White 1997</a>)</span>. Assuming that minimum daily air temperature <span class="math inline">\(T_{min,p}\)</span> at the target point is a good surrogate of dew-point temperature <span class="math inline">\(T_{d,p}\)</span> (i.e. <span class="math inline">\(T_{d,p} = T_{min,p}\)</span>; note that this assumption may not be valid in arid climates), one can estimate actual vapor pressure <span class="math inline">\(e_{p}\)</span> (in kPa) as:
 <span class="math display">\[\begin{equation}
 e_{p} = 0.61078 \cdot e^{\left(\frac{17.269\cdot T_{d,p}}{237.3+T_{d,p}}\right)}
@@ -340,14 +324,14 @@ T_{d,p} = \frac{\sum_{i=1}^{n}{W_i\cdot T_{d,i}}}{\sum_{i=1}^{n}{W_i}}
 \end{equation}\]</span>
 From the interpolated dew-point temperature one can obtain actual vapour pressure <span class="math inline">\(e_{p}\)</span> and, together with saturated vapour pressure at point <span class="math inline">\(p\)</span>, one calculates relative humidity as indicated above. If saturated vapour pressure is referred to average temperature <span class="math inline">\(T_{a,p}\)</span>, then relative humidity is average relative humidity <span class="math inline">\(RH_{a,p}\)</span>. If, instead, one refers saturated vapour pressure to minimum and maximum daily temperatures one obtains, respectively, maximum and minimum relative humidity values (<span class="math inline">\(RH_{max,p}\)</span>, <span class="math inline">\(RH_{min,p}\)</span>). After their estimation, the routine checks that the predicted maximum and minimum relative humidity values stay within the physical limits 0% and 100%. Although interpolation of dew-point temperature does not account for elevation differences, interpolated values of relative humidity will normally exhibit a pattern following elevation differences because temperature is involved in the calculation of relative humidity.</p>
 </div>
-<div id="precipitation" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Precipitation</h2>
-<p>Predictions of precipitation are complicated by the need to predict both daily occurrence and, conditioned on this, daily precipitation amount. <span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> define a binomial predictor of spatial precipitation occurrence as a function of the weighted occurrence at surrounding stations. The precipitation occurrence probability <span class="math inline">\(POP_p\)</span> is:
+<div id="precipitation" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Precipitation<a href="spatialinterpolation.html#precipitation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Predictions of precipitation are complicated by the need to predict both daily occurrence and, conditioned on this, daily precipitation amount. <span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> define a binomial predictor of spatial precipitation occurrence as a function of the weighted occurrence at surrounding stations. The precipitation occurrence probability <span class="math inline">\(POP_p\)</span> is:
 <span class="math display">\[\begin{equation}
 POP_p = \frac{\sum_{i=1}^{n}{W_{o,i}\cdot PO_i}}{\sum_{i=1}^{n}{W_{o,i}}}
 \end{equation}\]</span>
 where <span class="math inline">\(PO_i\)</span> is the binomial precipitation occurrence in station <span class="math inline">\(i\)</span> (i.e., <span class="math inline">\(PO_i = 0\)</span> if <span class="math inline">\(P_i = 0\)</span> and <span class="math inline">\(PO_i = 1\)</span> if <span class="math inline">\(P_i &gt; 0\)</span>) and <span class="math inline">\(W_{o,i}\)</span> is the interpolation weight for precipitation occurrence. Once <span class="math inline">\(POP_p\)</span> is calculated, then precipitation occurs if <span class="math inline">\(POP_p\)</span> is smaller than a critical value (i.e. <span class="math inline">\(PO_p = 1\)</span> if <span class="math inline">\(POP_p &lt; POP_{crit}\)</span> and <span class="math inline">\(PO_p = 0\)</span> otherwise).</p>
-<p>Conditional on precipitation occurrence we calculate the prediction of daily total precipitation, <span class="math inline">\(P_p\)</span>. Like with temperature, <span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> established the relationship between elevation and precipitation using transformed variables (temporal or spatial moving window averages) for precipitation and elevation. Following their results, we transform precipitation values using a temporal window with side of 5 days. Weighted least-squares, where the weight associated with each point is the product of the interpolation weights associated with the stations in a pair, is used to account for elevation effects on precipitation. Unlike <span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span>, who use the same set of interpolation weights (i.e. <span class="math inline">\(W_{o,i}\)</span>) for precipitation occurrence and regression, we use a second set of interpolation weights <span class="math inline">\(W_{r,i}\)</span> for the calculation of regression weights. The dependent variable in the regression function is defined as the normalized difference of the precipitation observations <span class="math inline">\(P_i\)</span> for any given pair of stations:
+<p>Conditional on precipitation occurrence we calculate the prediction of daily total precipitation, <span class="math inline">\(P_p\)</span>. Like with temperature, <span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span> established the relationship between elevation and precipitation using transformed variables (temporal or spatial moving window averages) for precipitation and elevation. Following their results, we transform precipitation values using a temporal window with side of 5 days. Weighted least-squares, where the weight associated with each point is the product of the interpolation weights associated with the stations in a pair, is used to account for elevation effects on precipitation. Unlike <span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span>, who use the same set of interpolation weights (i.e. <span class="math inline">\(W_{o,i}\)</span>) for precipitation occurrence and regression, we use a second set of interpolation weights <span class="math inline">\(W_{r,i}\)</span> for the calculation of regression weights. The dependent variable in the regression function is defined as the normalized difference of the precipitation observations <span class="math inline">\(P_i\)</span> for any given pair of stations:
 <span class="math display">\[\begin{equation}
 \left(\frac{P_1 - P_2}{P_1 + P_2}\right) = \beta_0 + \beta_1 \cdot (z_1 - z_2)
 \end{equation}\]</span>
@@ -357,8 +341,8 @@ P_p = \frac{\sum_{i=1}^{n}{W_{o,i}\cdot P_i \cdot PO_i \cdot \left(\frac{1 + f}{
 \end{equation}\]</span>
 where <span class="math inline">\(f = \beta_0 + \beta_1 \cdot (z_p - z_i)\)</span>. Note the usage of interpolation weight <span class="math inline">\(W_{o,i}\)</span> (and not <span class="math inline">\(W_{r,i}\)</span>). The form of prediction requires that <span class="math inline">\(\lvert f \rvert &lt; 1\)</span>. A parameter <span class="math inline">\(f_{max}\)</span> (with default <span class="math inline">\(f_{max} = 0.95\)</span> ) is introduced to force <span class="math inline">\(\lvert f \rvert = f_{max}\)</span> whenever <span class="math inline">\(\lvert f \rvert &gt; f_{max}\)</span>.</p>
 </div>
-<div id="wind" class="section level2" number="3.6">
-<h2><span class="header-section-number">3.6</span> Wind</h2>
+<div id="wind" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Wind<a href="spatialinterpolation.html#wind" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Interpolation of wind characteristics depends on the amount of information available:</p>
 <ul>
 <li>Interpolation of wind speed only</li>
@@ -366,15 +350,15 @@ where <span class="math inline">\(f = \beta_0 + \beta_1 \cdot (z_p - z_i)\)</spa
 <li>Interpolation of wind vectors using wind fields</li>
 </ul>
 <p>The following subsections detail the calculations in each case.</p>
-<div id="interpolation-of-wind-speed" class="section level3" number="3.6.1">
-<h3><span class="header-section-number">3.6.1</span> Interpolation of wind speed</h3>
+<div id="interpolation-of-wind-speed" class="section level3 hasAnchor" number="3.6.1">
+<h3><span class="header-section-number">3.6.1</span> Interpolation of wind speed<a href="spatialinterpolation.html#interpolation-of-wind-speed" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The predicted wind speed <span class="math inline">\(u_{p}\)</span> for a target point <span class="math inline">\(p\)</span> is the weighted average of station wind speed values <span class="math inline">\(\{u_{i}\}\)</span> <span class="math inline">\(i=(1,... , n)\)</span> using the interpolation weights <span class="math inline">\(W_i\)</span> determined from the truncated Gaussian filter:
 <span class="math display">\[\begin{equation}
 u_{p} = \frac{\sum_{i=1}^{n}{W_i \cdot u_{i}}}{\sum_{i=1}^{n}{W_i}}
 \end{equation}\]</span></p>
 </div>
-<div id="interpolation-of-wind-vectors" class="section level3" number="3.6.2">
-<h3><span class="header-section-number">3.6.2</span> Interpolation of wind vectors</h3>
+<div id="interpolation-of-wind-vectors" class="section level3 hasAnchor" number="3.6.2">
+<h3><span class="header-section-number">3.6.2</span> Interpolation of wind vectors<a href="spatialinterpolation.html#interpolation-of-wind-vectors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Interpolation of wind vectors for a target point <span class="math inline">\(p\)</span> is as follows. Let <span class="math inline">\(\mathbf{v}_{i}\)</span> be the wind vector in weather station <span class="math inline">\(i\)</span>. <span class="math inline">\(\mathbf{v}_{i}\)</span> is initially expressed using polar coordinates. Indeed, we have <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(\theta_{i}\)</span>, the wind speed and wind direction, respectively. If we express <span class="math inline">\(\mathbf{v}_{i}\)</span> in cartesian coordinates we have:
 <span class="math display">\[\begin{equation}
 x_{i} = u_{i}\cdot \sin(\theta_{i}) \quad y_{i} = u_{i}\cdot \cos(\theta_{i})
@@ -388,8 +372,8 @@ The polar coordinates of the predicted wind vector <span class="math inline">\(\
 u_{p} = \sqrt{x^{2}_{p} + y^{2}_{p}} \quad \theta_{p} = \tan^{-1}(x_{p}/y_{p})
 \end{equation}\]</span></p>
 </div>
-<div id="interpolation-of-wind-vectors-using-wind-fields" class="section level3" number="3.6.3">
-<h3><span class="header-section-number">3.6.3</span> Interpolation of wind vectors using wind fields</h3>
+<div id="interpolation-of-wind-vectors-using-wind-fields" class="section level3 hasAnchor" number="3.6.3">
+<h3><span class="header-section-number">3.6.3</span> Interpolation of wind vectors using wind fields<a href="spatialinterpolation.html#interpolation-of-wind-vectors-using-wind-fields" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>More precise wind interpolation of wind vectors requires a set of static wind fields covering the landscape of interest. Each of these wind fields has been calculated assuming a domain-level combination of wind speed and wind direction. The set of domain-level combinations should cover all possible winds in the landscape under study. For example, one could decide to include the combinations of eight different wind directions (i.e., N, NE, E, SE, …) and three wind speed classes. The wind estimation of a given target point depends on both the wind observations at weather stations and these static wind fields.</p>
 <p>In a given day (and before processing target points) we begin by identifying, for each weather station <span class="math inline">\(i = (1, ... ,n)\)</span>, the wind field <span class="math inline">\(m_i\)</span> corresponding to a minimum difference between the observed wind vector <span class="math inline">\(\mathbf{v}_i\)</span> and the wind vector of the station in the wind field (i.e., minimum distance between the corresponding cartesian coordinates). The set of wind fields <span class="math inline">\(\{m_i\}\)</span> <span class="math inline">\(i = (1, ... ,n)\)</span> chosen for each weather station conform the information for wind interpolation in a given day.</p>
 <p>Actual wind interpolation details for a target point <span class="math inline">\(p\)</span> are as follows. We first draw for each <span class="math inline">\(i=(1,... , n)\)</span> the wind vector <span class="math inline">\(\mathbf{v}_{m_i,p}\)</span> corresponding to the location of the target point <span class="math inline">\(p\)</span> in wind fields <span class="math inline">\(m_i\)</span>. Let <span class="math inline">\(u_{m_i,p}\)</span> and <span class="math inline">\(\theta_{m_i,p}\)</span> be the wind speed and wind direction of <span class="math inline">\(\mathbf{v}_{m_i,p}\)</span>, respectively. The cartesian coordinates of <span class="math inline">\(\mathbf{v}_{m_i,p}\)</span> are:
@@ -405,7 +389,7 @@ The polar coordinates of the predicted wind vector <span class="math inline">\(\
 </div>
 </div>
 </div>
-<h3>Bibliography</h3>
+<h3>Bibliography<a href="bibliography.html#bibliography" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Garnier1968" class="csl-entry">
 Garnier, B. J., and Atsumu Ohmura. 1968. <span>“<span class="nocase">A method of calculating the direct shortwave radiation income of slopes</span>.”</span> <em>Journal of Applied Meteorology</em> 7 (5): 796–800. <a href="https://doi.org/10.1175/1520-0450(1968)007&lt;0796:AMOCTD&gt;2.0.CO;2">https://doi.org/10.1175/1520-0450(1968)007&lt;0796:AMOCTD&gt;2.0.CO;2</a>.
@@ -486,7 +470,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

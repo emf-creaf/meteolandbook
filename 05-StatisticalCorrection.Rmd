@@ -1,10 +1,7 @@
 # Statistical correction of weather data {#statisticalcorrection}
-```{r, echo = FALSE}
-data(exampleinterpolationdata)
-#Downscaling of future predictions (RCM models, year 2023)
-bc_dates = seq(as.Date("2023-01-01"), as.Date("2023-12-31"), by="day")
-predicted = correctionpoints(examplecorrectiondata, mp, spt@data, dates = bc_dates, verbose=FALSE)
-```
+
+
+**IMPORTANT NOTE**:  The functions to perform statistical correction of daily weather data have been *deprecated* since **ver. 2.0.0**. We still keep this theoretical explanation in case new functions are developed in the future.
 
 Statistical correction is necessary when meteorological data is available at a spatial scale that is too coarse for landscape-level analysis. This is usually the case when taking predictions from global or regional climate models. The general idea of correction to the landscape level is that a fine-scale meteorological series is to be compared to coarse-scale series for the a historical (reference) period. The result of this comparison can be used to correct coarse-scale meteorological series for other periods (normally future projections). 
 
@@ -34,84 +31,17 @@ Although users can choose their preferred correction method for each variable, m
 
 **Precipitation**
 
-By default, correction of precipitation is done using empirical quantile mapping. The following figures show the correction of RCM precipitation predictions for 2023 using interpolated data from 2002-2003 as observations for the reference period. Note that at least 15 years of observations (and not two!) would be needed for a correct estimation of monthly CDFs.
-
-```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=3.5}
-par(mfrow=c(1,2), mar=c(5,5,1,1))
-meteoplot(predicted, 1, "Precipitation", ylab="Precipitation (mm)", xlab="",ylim=c(0,80))
-#Add uncorrected mean temperature data (cell #5)
-lines(bc_dates,
-      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Precipitation"],
-      col="red", lty=3)
-legend("topleft", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,3), bty="n")
-plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Precipitation"], ylim=c(0,60), xlim=c(0,60),
-     predicted@data[[1]]$Precipitation, cex=0.1, asp=1,
-     ylab="Corrected precipitation (mm)", xlab="Uncorrected precipitation (mm)")
-abline(a=0,b=1,col="gray")
-```
-
+By default, correction of precipitation is done using empirical quantile mapping. 
 **Mean temperature**
 
-Unbiasing method is used by default to correct mean temperature. The following figures show the correction of RCM mean temperature predictions for 2023 using interpolated data from 2002-2003 as observations for the reference period:
-```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=3}
-par(mfrow=c(1,2), mar=c(5,5,1,1))
-#Plot predicted mean temperature for point 1
-meteoplot(predicted, 1, "MeanTemperature", ylab="Mean temperature (Celsius)", xlab="",ylim=c(-5,40))
-#Add uncorrected mean temperature data (cell #5)
-lines(bc_dates,
-      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MeanTemperature"],
-      col="red")
-legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
-plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MeanTemperature"],
-     predicted@data[[1]]$MeanTemperature, cex=0.1, asp=1,
-     ylab="Corrected mean temperature", xlab="Uncorrected mean temperature")
-abline(a=0,b=1,col="gray")
-```
-
+Unbiasing method is used by default to correct mean temperature. 
 **Minimum and maximum temperatures**
 
 To correct minimum (respectively maximum) temperature values, by default scaling is applied to the difference between minimum (resp. maximum) temperature and mean temperature. 
 
-```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=6}
-par(mfrow=c(2,2), mar=c(5,5,1,1))
-meteoplot(predicted, 1, "MinTemperature", ylab="Minimum temperature (Celsius)", xlab="",ylim=c(-10,25))
-lines(bc_dates,
-      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MinTemperature"],
-      col="red")
-legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
-plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MinTemperature"],
-     predicted@data[[1]]$MinTemperature, cex=0.1, asp=1,
-     ylab="Corrected minimum temperature", xlab="Uncorrected minimum temperature")
-abline(a=0,b=1,col="gray")
-meteoplot(predicted, 1, "MaxTemperature", ylab="Maximum temperature (Celsius)", xlab="",ylim=c(0,40))
-lines(bc_dates,
-      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MaxTemperature"],
-      col="red")
-legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
-plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"MaxTemperature"],
-     predicted@data[[1]]$MaxTemperature, cex=0.1, asp=1,
-     ylab="Corrected maximum temperature", xlab="Uncorrected maximum temperature")
-abline(a=0,b=1,col="gray")
-```
-
 **Radiation**
 
-Radiation is by default corrected using the unbiasing procedure. The following figures show the correction of RCM radiation predictions for 2023 using interpolated data from 2002-2003 as observations for the reference period:
-
-```{r, echo = FALSE, fig.align='center', fig.width=7, fig.height=3.5}
-par(mfrow=c(1,2), mar=c(5,5,1,1))
-meteoplot(predicted, 1, "Radiation", ylab="Radiation (MJ m-2)", xlab="",ylim=c(0,40))
-#Add uncorrected mean temperature data (cell #5)
-lines(bc_dates,
-      examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Radiation"],
-      col="red")
-legend("topright", legend=c("corrected","uncorrected"), col=c("black","red"), lty=c(1,1), bty="n")
-#Scatter plot
-plot(examplecorrectiondata@projection_data[[3]][as.character(bc_dates),"Radiation"],
-     predicted@data[[1]]$Radiation, cex=0.1, asp=1,
-     ylab="Corrected radiation", xlab="Uncorrected radiation")
-abline(a=0,b=1,col="gray")
-```
+Radiation is by default corrected using the unbiasing procedure. 
 
 **Relative humidity**
 

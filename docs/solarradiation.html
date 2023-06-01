@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Estimation of solar radiation | The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Estimation of solar radiation | The meteoland reference book" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a reference book for data structures and functions included in package meteoland." />
   
@@ -23,7 +22,7 @@
 
 
 
-<meta name="date" content="2022-01-05" />
+<meta name="date" content="2023-06-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="spatialinterpolation.html"/>
 <link rel="next" href="statisticalcorrection.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -92,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -174,30 +177,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#topography"><i class="fa fa-check"></i><b>2.2.1</b> Topography</a></li>
 <li class="chapter" data-level="2.2.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology"><i class="fa fa-check"></i><b>2.2.2</b> Meteorology</a></li>
+<li class="chapter" data-level="2.2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#interpolator-objects"><i class="fa fa-check"></i><b>2.2.3</b> Interpolator objects</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#point-meteorology-asciirds-files"><i class="fa fa-check"></i><b>2.3.1</b> Point meteorology (ascii/rds files)</a></li>
-<li class="chapter" data-level="2.3.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#pointgridded-meteorology-netcdf"><i class="fa fa-check"></i><b>2.3.2</b> Point/gridded meteorology (netCDF)</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#visualizing-input-topography-and-meteorological-data"><i class="fa fa-check"></i><b>2.4</b> Visualizing input topography and meteorological data</a></li>
-<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting, merging and reshaping data</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-topography-data"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting and reshaping topography data</a></li>
-<li class="chapter" data-level="2.5.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-meteorology-data"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting and reshaping meteorology data</a></li>
-<li class="chapter" data-level="2.5.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#merging-meteorology-data"><i class="fa fa-check"></i><b>2.5.3</b> Merging meteorology data</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.6</b> Summarizing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.6.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#temporal-summaries"><i class="fa fa-check"></i><b>2.6.1</b> Temporal summaries</a></li>
-<li class="chapter" data-level="2.6.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-summaries"><i class="fa fa-check"></i><b>2.6.2</b> Spatial summaries</a></li>
-</ul></li>
-<li class="chapter" data-level="2.7" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-estimation-functions"><i class="fa fa-check"></i><b>2.7</b> Meteorology estimation functions</a>
-<ul>
-<li class="chapter" data-level="2.7.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-interpolation"><i class="fa fa-check"></i><b>2.7.1</b> Spatial interpolation</a></li>
-<li class="chapter" data-level="2.7.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#statistical-correction"><i class="fa fa-check"></i><b>2.7.2</b> Statistical correction</a></li>
-<li class="chapter" data-level="2.7.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#weather-generation"><i class="fa fa-check"></i><b>2.7.3</b> Weather generation</a></li>
-</ul></li>
+<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a></li>
+<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting, merging and reshaping data</a></li>
+<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.5</b> Summarizing meteorological data</a></li>
+<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-interpolation"><i class="fa fa-check"></i><b>2.6</b> Meteorology interpolation</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html"><i class="fa fa-check"></i><b>3</b> Spatial interpolation of weather records</a>
 <ul>
@@ -241,8 +226,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1" data-path="miscellaneous.html"><a href="miscellaneous.html#downloading-data-from-weather-station-networks"><i class="fa fa-check"></i><b>8.1</b> Downloading data from weather station networks</a></li>
 <li class="chapter" data-level="8.2" data-path="miscellaneous.html"><a href="miscellaneous.html#reshaping-data-obtained-from-other-packages"><i class="fa fa-check"></i><b>8.2</b> Reshaping data obtained from other packages</a></li>
-<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#obtaining-static-wind-fields"><i class="fa fa-check"></i><b>8.3</b> Obtaining static wind fields</a></li>
-<li class="chapter" data-level="8.4" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.4</b> Physical utility functions</a></li>
+<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.3</b> Physical utility functions</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
@@ -265,24 +249,24 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="solarradiation" class="section level1" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Estimation of solar radiation</h1>
+<div id="solarradiation" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Estimation of solar radiation<a href="solarradiation.html#solarradiation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Incident daily solar radiation is not interpolated, but estimated from topography and measurements of temperature, humidity and precipitation.</p>
-<div id="solar-declination-and-solar-constant" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Solar declination and solar constant</h2>
-<p>The declination of the sun <span class="math inline">\(\delta\)</span> is the angle between the rays of the sun and the plan of the Earth’s equator. Solar declination varies with years and seasons. However, the Earth’s axial tilt changes slowly over thousands of years but it is nearly constant for shorter periods, so the change in solar declination during one year is nearly the same as during the next year. Solar constant (<span class="math inline">\(I_0\)</span>) is normally given a nominal value of 1.361 <span class="math inline">\(kW \cdot m^{-2}\)</span> but in fact it also varies through the year and over years. Both can be calculated from Julian day (<span class="math inline">\(J\)</span>), the number of days number of days since January 1, 4713 BCE at noon UTC. from Julian day. In <strong>meteoland</strong>, julian days, solar declination and solar constant are calculated using an adaptation of the code as in package <a href="https://CRAN.R-project.org/package=insol"><strong>insol</strong></a> by J.G. Corripio, which is based on <span class="citation"><a href="#ref-Danby1988" role="doc-biblioref">Danby</a> (<a href="#ref-Danby1988" role="doc-biblioref">1988</a>)</span> and <span class="citation"><a href="#ref-Reda2008" role="doc-biblioref">Reda and Nrel</a> (<a href="#ref-Reda2008" role="doc-biblioref">2008</a>)</span>.</p>
+<div id="solar-declination-and-solar-constant" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Solar declination and solar constant<a href="solarradiation.html#solar-declination-and-solar-constant" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The declination of the sun <span class="math inline">\(\delta\)</span> is the angle between the rays of the sun and the plan of the Earth’s equator. Solar declination varies with years and seasons. However, the Earth’s axial tilt changes slowly over thousands of years but it is nearly constant for shorter periods, so the change in solar declination during one year is nearly the same as during the next year. Solar constant (<span class="math inline">\(I_0\)</span>) is normally given a nominal value of 1.361 <span class="math inline">\(kW \cdot m^{-2}\)</span> but in fact it also varies through the year and over years. Both can be calculated from Julian day (<span class="math inline">\(J\)</span>), the number of days number of days since January 1, 4713 BCE at noon UTC. from Julian day. In <strong>meteoland</strong>, julian days, solar declination and solar constant are calculated using an adaptation of the code as in package <a href="https://CRAN.R-project.org/package=insol"><strong>insol</strong></a> by J.G. Corripio, which is based on <span class="citation">Danby (<a href="#ref-Danby1988" role="doc-biblioref">1988</a>)</span> and <span class="citation">Reda and Nrel (<a href="#ref-Reda2008" role="doc-biblioref">2008</a>)</span>.</p>
 <p>The following figures show the variation of solar declination and the value of solar constant over a year (see functions <code>radiation_solarDeclination()</code> and <code>radiation_solarConstant()</code>):</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="day-length" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Day length</h2>
+<div id="day-length" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Day length<a href="solarradiation.html#day-length" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Calculation of sunrise and sunset on a horizontal surface is rather straightforward. The hour angles of sunrise and sunset (<span class="math inline">\(sr\)</span> and <span class="math inline">\(ss\)</span>, both in radians) for a horizontal surface of latitude <span class="math inline">\(\phi\)</span> on a day with declination <span class="math inline">\(\delta\)</span> (both expressed in radians) are:
 <span class="math display">\[\begin{eqnarray}
 sr &amp;=&amp; T_1 = \cos^{-1}\left(\max(\min(-\tan(\phi) \cdot \tan(\delta),1),-1)\right) \\
 ss &amp;=&amp; T_0 = - T_1
 \end{eqnarray}\]</span>
 Knowing that each hour corresponds to 15 degrees of rotation, hour angles can be transformed to solar hours. The following figures show the seasonal variation of sunrise and sunset hours, as well as day length, for horizontal surfaces in three latitudes (40North, equator and 40South) (see functions <code>radiation_sunRiseSet()</code> and `radiation_daylength()}):</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>For inclinated slopes, the calculation of day length is based on the concept of equivalent slopes, which are places on earth where the slope of earth’s surface is equal to the slope of interest. The calculations start with the determination of the latitude <span class="math inline">\(L_1\)</span> of the equivalent slope:
 <span class="math display">\[\begin{eqnarray}
   L_1 &amp;=&amp; \sin^{-1}\left(\cos(Z_x)\cdot \sin(\phi)+\sin(Z_x) \cdot \cos(\phi) \cdot \cos(A)\right) \\
@@ -298,8 +282,8 @@ L_2 =  \tan^{-1}\left(\frac{\sin(Z_x) \cdot \sin(A)}{D}\right)
 \end{equation}\]</span>
 Once <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> are available, we can calculate solar hours on equivalent slopes:
 <span class="math display">\[\begin{eqnarray}
-  T_7 &amp;=&amp; \cos^{-1}\left(\max(\min(-\tan(L_1) \cdot \tan(\delta), 1),-1)\right)-L2 \\ 
-  T_6 &amp;=&amp; - \cos^{-1}\left(\max(\min(-\tan(L_1) \cdot \tan(\delta), 1),-1)\right) -L2 
+  T_7 &amp;=&amp; \cos^{-1}\left(\max(\min(-\tan(L_1) \cdot \tan(\delta), 1),-1)\right)-L2 \\
+  T_6 &amp;=&amp; - \cos^{-1}\left(\max(\min(-\tan(L_1) \cdot \tan(\delta), 1),-1)\right) -L2
 \end{eqnarray}\]</span>
 Being <span class="math inline">\(T_6\)</span> and <span class="math inline">\(T_7\)</span> the hour angle of sunrise and sunset on equivalent slopes, respectively.
 and the hour angles of sunrise (<span class="math inline">\(sr\)</span>) and sunset (<span class="math inline">\(ss\)</span>) on the slope (both in radians) are found comparing the hour angles on equivalent surfaces with the hour angles on the horizontal surface:
@@ -308,23 +292,23 @@ and the hour angles of sunrise (<span class="math inline">\(sr\)</span>) and sun
   ss &amp;=&amp; \min(T_1,T_7)
 \end{eqnarray}\]</span></p>
 <p>The following three figures show the seasonal variation of sunrise and sunset hours, as well as day length, for slopes of 30 inclination, facing to the four cardinal points. Curves for flat surfaces are shown for comparison. If the slopes are at latitude 40North:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>whereas if they are at Equator (i.e. <span class="math inline">\(\phi = 0\)</span>):</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>and if they are at latitude 40South:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="potential-radiation" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Potential radiation</h2>
-<p>Potential solar radiation is the radiation that a surface on earth would receive if atmosphere was not present (i.e. without the effects of cloud reflection, scattering, …). In <strong>meteoland</strong>, potential solar radiation is estimated from solar declination, latitude, aspect and slope according to <span class="citation"><a href="#ref-Garnier1968" role="doc-biblioref">Garnier and Ohmura</a> (<a href="#ref-Garnier1968" role="doc-biblioref">1968</a>)</span>. Daily potential radiation (<span class="math inline">\(R_{pot}\)</span>, in <span class="math inline">\(MJ \cdot m^{-2}\)</span>) is calculated by integrating instantaneous potential radiation <span class="math inline">\(R_{pot,s}\)</span> (in <span class="math inline">\(kW \cdot m^{-2}\)</span>) over the day between sunrise (<span class="math inline">\(sr\)</span>) and sunset (<span class="math inline">\(ss\)</span>), using 10 min (i.e. 600 sec) intervals:
+<div id="potential-radiation" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Potential radiation<a href="solarradiation.html#potential-radiation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Potential solar radiation is the radiation that a surface on earth would receive if atmosphere was not present (i.e. without the effects of cloud reflection, scattering, …). In <strong>meteoland</strong>, potential solar radiation is estimated from solar declination, latitude, aspect and slope according to <span class="citation">Garnier and Ohmura (<a href="#ref-Garnier1968" role="doc-biblioref">1968</a>)</span>. Daily potential radiation (<span class="math inline">\(R_{pot}\)</span>, in <span class="math inline">\(MJ \cdot m^{-2}\)</span>) is calculated by integrating instantaneous potential radiation <span class="math inline">\(R_{pot,s}\)</span> (in <span class="math inline">\(kW \cdot m^{-2}\)</span>) over the day between sunrise (<span class="math inline">\(sr\)</span>) and sunset (<span class="math inline">\(ss\)</span>), using 10 min (i.e. 600 sec) intervals:
 <span class="math display">\[\begin{equation}
 R_{pot} = \frac{1}{1000}\cdot \sum_{s = sr}^{ss}{600 \cdot R_{pot,s}}
 \end{equation}\]</span>
 In turn, instantaneous potential solar radiation <span class="math inline">\(R_{pot,s}\)</span> is calculated using:
 <span class="math display">\[\begin{eqnarray}
 R_{pot,s} &amp;=&amp; I_0 \cdot [(\sin{\phi}\cdot \cos{H})(-\cos{A}\cdot \sin{Z_x})  -\sin{H}\cdot (\sin{A}\cdot \sin{Z_x}) \nonumber \\
- &amp; &amp; + [(\cos{\phi}\cdot \cos{H})\cdot \cos{Z_x}]\cdot \cos{\delta} \nonumber \\
- &amp; &amp; + [\cos{\phi}\cdot (\cos{A}\cdot \sin{Z_x})+ \sin{\phi}\cdot \cos{Z_x}]\cdot \sin{\delta}]
+&amp; &amp; + [(\cos{\phi}\cdot \cos{H})\cdot \cos{Z_x}]\cdot \cos{\delta} \nonumber \\
+&amp; &amp; + [\cos{\phi}\cdot (\cos{A}\cdot \sin{Z_x})+ \sin{\phi}\cdot \cos{Z_x}]\cdot \sin{\delta}]
 \end{eqnarray}\]</span>
 where <span class="math inline">\(I_0\)</span> is the solar constant, <span class="math inline">\(\phi\)</span> is the latitude, <span class="math inline">\(H\)</span> is the hour angle measured from solar noon, positively towards the west, <span class="math inline">\(A\)</span> is the azimuth of the slope (aspect), <span class="math inline">\(Z_x\)</span> is the zenith angle of the vector normal to the slope (equal to the slope angle) and <span class="math inline">\(\delta\)</span> is the sun’s declination. Note that in the case of a flat surface the previous equation reduces to:
 <span class="math display">\[\begin{equation}
@@ -332,11 +316,11 @@ R_{pot,s} = I_0 \cdot [\cos{\phi}\cdot \cos{H}\cdot \cos{\delta} + \sin{\phi}\cd
 \end{equation}\]</span>
 where <span class="math inline">\(\beta\)</span> is called the solar elevation angle.</p>
 <p>The following figures illustrate seasonal variation of potential solar radiation for the horizontal inclinated surfaces presented above (see function <code>radiation_potentialRadiation()</code>):</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="incident-solar-radiation" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Incident solar radiation</h2>
-<p>Incident solar radiation is the amount of (direct) solar radiation reaching the surface after accounting for the atmosphere. Improving the method proposed in <span class="citation"><a href="#ref-Thornton1997" role="doc-biblioref">Peter E. Thornton, Running, and White</a> (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span>, <span class="citation"><a href="#ref-Thornton1999" role="doc-biblioref">P. E. Thornton and Running</a> (<a href="#ref-Thornton1999" role="doc-biblioref">1999</a>)</span> calculate incident daily total solar radiation <span class="math inline">\(R_{g}\)</span> as:
+<div id="incident-solar-radiation" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Incident solar radiation<a href="solarradiation.html#incident-solar-radiation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Incident solar radiation is the amount of (direct) solar radiation reaching the surface after accounting for the atmosphere. Improving the method proposed in <span class="citation">Peter E. Thornton, Running, and White (<a href="#ref-Thornton1997" role="doc-biblioref">1997</a>)</span>, <span class="citation">P. E. Thornton and Running (<a href="#ref-Thornton1999" role="doc-biblioref">1999</a>)</span> calculate incident daily total solar radiation <span class="math inline">\(R_{g}\)</span> as:
 <span class="math display">\[\begin{equation}
 R_g = R_{pot} \cdot T_{t,max} \cdot T_{f,max}
 \end{equation}\]</span>
@@ -359,13 +343,13 @@ B = b_0 + b_1 \cdot e^{-b_2 \cdot {\hat{\Delta T}}}
 with <span class="math inline">\(b_0 = 0.031\)</span>, <span class="math inline">\(b_1 = 0.201\)</span> and <span class="math inline">\(b_2 = 0.185\)</span>. In this last equation, <span class="math inline">\(\hat{\Delta T}\)</span> is a 30-day moving average for the temperature range <span class="math inline">\(\Delta T\)</span>. For computational reasons, we do not estimate <span class="math inline">\(\hat{\Delta T}\)</span> from the 30-day moving window average of predicted <span class="math inline">\(\Delta T\)</span> values, but from the interpolation of pre-calculated <span class="math inline">\(\hat{\Delta T}\)</span> values in weather stations. On wet days (i.e. if <span class="math inline">\(P_p &gt; 0\)</span>) the estimation of <span class="math inline">\(T_{f,max}\)</span> is multiplied by a factor of <span class="math inline">\(0.75\)</span> to account for clouds.</p>
 <p>Although the calculation of incident solar radiation can be done independently of interpolation (see function <code>radiation_solarRadiation()</code>), it is automatically done in functions <code>interpolationpoints()</code> and <code>interpolationgrid()</code>.</p>
 </div>
-<div id="outgoing-longwave-radiation-and-net-radiation" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Outgoing longwave radiation and net radiation</h2>
+<div id="outgoing-longwave-radiation-and-net-radiation" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Outgoing longwave radiation and net radiation<a href="solarradiation.html#outgoing-longwave-radiation-and-net-radiation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Potential and actual evapotranspiration calculations require estimating the energy actually absorved by evaporating surfaces. Daily net radiation <span class="math inline">\(R_n\)</span> (in <span class="math inline">\(MJ\cdot m^{-2}\cdot day^{-1}\)</span>) is calculated using:
 <span class="math display">\[\begin{equation}
 R_n = R_s\cdot (1 - \alpha) - R_{nl}
 \end{equation}\]</span>
-where <span class="math inline">\(R_s\)</span> is the input solar radiation (in <span class="math inline">\(MJ\cdot m^{-2}\cdot day^{-1}\)</span>), <span class="math inline">\(\alpha = 0.08\)</span> accounts for surface albedo, and <span class="math inline">\(R_{nl}\)</span> is the net longwave radiation. Outgoing longwave radiation is the radiation emitted by earth. Following <span class="citation"><a href="#ref-McMahon2013" role="doc-biblioref">McMahon et al.</a> (<a href="#ref-McMahon2013" role="doc-biblioref">2013</a>)</span> to obtain <span class="math inline">\(R_{nl}\)</span> one first calculates clear sky radiation <span class="math inline">\(R_{so}\)</span> using:
+where <span class="math inline">\(R_s\)</span> is the input solar radiation (in <span class="math inline">\(MJ\cdot m^{-2}\cdot day^{-1}\)</span>), <span class="math inline">\(\alpha = 0.08\)</span> accounts for surface albedo, and <span class="math inline">\(R_{nl}\)</span> is the net longwave radiation. Outgoing longwave radiation is the radiation emitted by earth. Following <span class="citation">McMahon et al. (<a href="#ref-McMahon2013" role="doc-biblioref">2013</a>)</span> to obtain <span class="math inline">\(R_{nl}\)</span> one first calculates clear sky radiation <span class="math inline">\(R_{so}\)</span> using:
 <span class="math display">\[\begin{equation}
   R_{so} = (0.75 + \cdot 0.00002 \cdot z) \cdot R_{pot}
 \end{equation}\]</span>
@@ -375,11 +359,11 @@ R_{nl} = \sigma \cdot (0.34 - 0.14 \cdot \sqrt{e}) \cdot \frac{T_{\max}^4 + T_{\
 \end{equation}\]</span>
 where <span class="math inline">\(e\)</span> is the actual vapor pressure (kPa), <span class="math inline">\(T_{\max}\)</span> and <span class="math inline">\(T_{\min}\)</span> are the maximum and minimum temperatures (in Kelvin) and <span class="math inline">\(\sigma = 4.903\cdot 10^{-9} MJ \cdot K^{-4} \cdot m^{-2}\)</span> is the Stephan-Boltzmann constant.</p>
 <p>The following figure shows an example of radiation balance for a whole year for a single site (see functions <code>radiation_outgoingLongwaveRadiation()</code> and <code>radiation_netRadiation()</code>):</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-20-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="diurnal-trends-in-diffuse-and-direct-radiation" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> Diurnal trends in diffuse and direct radiation</h2>
-<p>Ecological studies sometimes require radiation information at a subdaily scale. This is particularly true for modeling studies that need to calculate canopy photosynthesis. Although meteoland has been designed to assist studies requiring meteorological data at daily scale, a function called <code>radiation_directDiffuseDay()</code> is provided to divide daily radiation into instantaneous direct and diffuse radiation. Values of instantaneous direct and diffuse radiation (shortwave and photosynthetic active radiation) are calculated following <span class="citation"><a href="#ref-Spitters1986" role="doc-biblioref">Spitters, Toussaint, and Goudriaan</a> (<a href="#ref-Spitters1986" role="doc-biblioref">1986</a>)</span>. First, the ratio between daily diffuse and global radiation (<span class="math inline">\(R_{d}/R_{g}\)</span>) is inferred from the ratio between daily potential and global radiation (<span class="math inline">\(R_{g}/R_{pot}\)</span>):
+<div id="diurnal-trends-in-diffuse-and-direct-radiation" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Diurnal trends in diffuse and direct radiation<a href="solarradiation.html#diurnal-trends-in-diffuse-and-direct-radiation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ecological studies sometimes require radiation information at a subdaily scale. This is particularly true for modeling studies that need to calculate canopy photosynthesis. Although meteoland has been designed to assist studies requiring meteorological data at daily scale, a function called <code>radiation_directDiffuseDay()</code> is provided to divide daily radiation into instantaneous direct and diffuse radiation. Values of instantaneous direct and diffuse radiation (shortwave and photosynthetic active radiation) are calculated following <span class="citation">Spitters, Toussaint, and Goudriaan (<a href="#ref-Spitters1986" role="doc-biblioref">1986</a>)</span>. First, the ratio between daily diffuse and global radiation (<span class="math inline">\(R_{d}/R_{g}\)</span>) is inferred from the ratio between daily potential and global radiation (<span class="math inline">\(R_{g}/R_{pot}\)</span>):
 <span class="math display">\[\begin{eqnarray}
 R_{d}/R_{g} = 1 &amp; &amp; R_{g}/R_{pot}&lt;0.07\\
 R_{d}/R_{g} = 1-2.3\cdot (R_{g}/R_{pot}-0.7)^2 &amp; &amp; 0.07\leq R_{g}/R_{pot} &lt;0.35\\
@@ -388,11 +372,11 @@ R_{d}/R_{g} = 0.23 &amp; &amp; 0.75\leq R_{g}/R_{pot}
 \end{eqnarray}\]</span>
 In a clear day (e.g. not rainy) the ratio is modified to account for the circumsolar part of diffuse radiation:
 <span class="math display">\[\begin{equation}
-R&#39;_{d}/R_{g} = \frac{R_{d}/R_{g}}{1+(1- (R_{d}/R_{g})^2)\cdot \cos^2(\pi/4-\beta)\cdot \cos^3\beta} 
+R&#39;_{d}/R_{g} = \frac{R_{d}/R_{g}}{1+(1- (R_{d}/R_{g})^2)\cdot \cos^2(\pi/4-\beta)\cdot \cos^3\beta}
 \end{equation}\]</span>
 where <span class="math inline">\(\beta\)</span> is the solar elevation angle. Otherwise <span class="math inline">\(R&#39;_{d}/R_{g} = R_{d}/R_{g}\)</span>. The daily diffuse shortwave radiation (<span class="math inline">\(R_{d}\)</span>) is found by multiplying global radiation by the (modified) ratio:
 <span class="math display">\[\begin{equation}
-R_{d} = R_{g} \cdot (R&#39;_{d}/R_{g}) 
+R_{d} = R_{g} \cdot (R&#39;_{d}/R_{g})
 \end{equation}\]</span>
 The diurnal trend of the irradiance is derived from the daily global radiation and the daily course of potential (i.e. extra-terrestrial) radiation. If we assume that the atmospheric transmission is constant during the daylight period:
 <span class="math display">\[\begin{equation}
@@ -414,21 +398,21 @@ R_{PAR,d}/R_{PAR} = \left[1+0.3 \cdot (1- (R_{d}/R_{g})^2)\right]\cdot  (R&#39;_
 \end{equation}\]</span>
 The ratio <span class="math inline">\(R_{PAR,d}/R_{PAR}\)</span> is used to determine daily diffuse PAR and the calculation of instant rates are the same as for global radiation.</p>
 <p>To illustrate the above calculations, we assume a target location in a flat terrain located at 42ºN latitude and 100 m.a.s.l, having 7.2 MJ·m<span class="math inline">\(^{-2}\)</span> of daily global radiation on the 2001/January/15 in a clear day, the hourly variation in solar elevation, potential/global radiation and diffuse/direct light for PAR and SWR would be:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>For a flat surface, the extraterrestrial radiation is the same that potential radiation, so that direct and diffuse light start and end at the same hours. If the same plot was on a north-facing slope of 10 degrees the daily global radiation would be 4.06 <span class="math inline">\(MJ \cdot m^{-2}\)</span> and the extraterrestrial radiation is larger than potential (i.e., accounting for topography) radiation, which has been reduced because of the orientation of the slope:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In this situation, diffuse light should follow extraterrestrial radiation hours whereas direct light should follow potential radiation hours. Finally, if the same plot was on a north-facing slope of 30 degrees the daily global radiation would be 1.96 <span class="math inline">\(MJ·m^{-2}\)</span> and potential radiation would be 0. In this situation all radiation should correspond to diffuse radiation:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Let us now set the date to 15th of june, the flat surface would receive 27.7 <span class="math inline">\(MJ·m^{-2}\)</span> divided into:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>whereas the 10 degree north-facing slope would receive 27.3 <span class="math inline">\(MJ·m^{-2}\)</span> divided into:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>and the 30 degree slope would have 24.2 <span class="math inline">\(MJ·m^{-2}\)</span> and a repartition:</p>
-<p><img src="meteolandbook_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="meteolandbook_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
-<h3>Bibliography</h3>
+<h3>Bibliography<a href="bibliography.html#bibliography" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Danby1988" class="csl-entry">
 Danby, J. M. 1988. <em><span class="nocase">Fundamentals of Celestial Mechanics</span></em>. 2nd ed. Richmond, VA: Willmann-Bell.
@@ -518,7 +502,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -7,3 +7,4 @@ _bookdown_files/*
 _bookdown.yml
 meteolandbook.log
 Meteorology.Rnw
+interpolator_2000_calibrated.nc

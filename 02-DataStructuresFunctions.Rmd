@@ -17,173 +17,39 @@ Package **meteoland** assists in the estimation of the following daily variables
 + `WindDirection`: Wind direction (in degrees from North).
 + `PET`: Potential evapo-transpiration (in mm of water).
 
-Since specific humidity is often specified instead of relative humidity, the package also allows reading and using this variable, although it will not be written in files:
-
-+ `SpecificHumidity`: Specific humidity (in kg/kg).
 
 ## Spatial classes
 
-The package deals with three kinds of spatial structures: individual **points**, a set of **pixels** from a spatial grid and full (i.e. complete) **grids**. The package includes six S4 spatial classes, which are defined as children of classes in package [**sp**](https://cran.r-project.org/package=sp). Spatial structures are used to represent both topographical and meteorological data. These are described in the following subsections.
+With the retirement of **rgdal**, **rgeos** and **maptools** R packages, a complete update of **meteoland** was necessary to remove the hard dependency that the package had with sp and raster R packages. Starting with **version 2.0.0** of meteoland, now **sf** and **stars** packages are internally used for working with simple features and raster data, respectively.
 
 ### Topography
-Three classes are defined to represent the variation of topographic features (i.e., elevation, slope and aspect) over space:
 
-+ Class `SpatialPointsTopography` extends `SpatialPointsDataFrame` and represents the topographic features of a set of points in a landscape.
-```{r, echo = FALSE}
-showClass("SpatialPointsTopography")
-```
-+ Class `SpatialGridTopography` extends `SpatialGridDataFrame` and represents the continuous variation of topographic features over a full spatial grid.
-```{r, echo = FALSE}
-showClass("SpatialGridTopography")
-```
-+ Class `SpatialPixelsTopography` extends `SpatialPixelsDataFrame` and represents the continuous variation of topographic features over a set if cells in a grid.
-```{r, echo = FALSE}
-showClass("SpatialPixelsTopography")
-```
-
-Although the three classes have the same slots as their parent S4 classes, data frames in `SpatialPointsTopography`, `SpatialGridTopography` and `SpatialPixelsTopography` objects have only three variables: `elevation` (in meters), `slope` (in degrees from the horizontal plane) and `aspect` (in degrees from North).
-
+Spatial variation of topography should be represented in `sf` and `stars` objects by the variables: `elevation` (in meters), `slope` (in degrees from the horizontal plane) and `aspect` (in degrees from North).
 
 ### Meteorology
-Analogously to topography classes, three spatial classes are used to represent the variation of daily meteorology over space:
 
-+ Class `SpatialPointsMeteorology` extends `SpatialPoints` and represents daily meteorology series for a set of points in a landscape.
-```{r, echo = FALSE}
-showClass("SpatialPointsMeteorology")
-```
-+ Class `SpatialGridMeteorology` extends `SpatialGrid` and represents the continuous variation of daily meteorology across a grid of cells.
-```{r, echo = FALSE}
-showClass("SpatialGridMeteorology")
-```
-+ Class `SpatialPixelsMeteorology` extends `SpatialPixels` and represents the variation of daily meteorology for a set of pixels (cells) of a spatial grid.
-```{r, echo = FALSE}
-showClass("SpatialPixelsMeteorology")
-```
+When using `sf` data structures, daily weather variables can be represented as columns of the corresponding data frame, whereas dates (i.e. `Date` or `POSIXct` objects) are specified in a column called `dates`. Interpolation results use also `sf` objects, but where weather data series for all variables are supplied in a column called `interpolated_data`.
 
-In addition to their corresponding inherited slots, classes `SpatialPointsMeteorology`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` have two additional slots: **`dates`** (a vector of days specifying a time period), and **`data`** (a vector of data frames with the meteorological data). Although the three classes have a `data` slot containing data frames, meteorological data is in different form in each class. In objects of `SpatialPointsMeteorology`, there is one data frame for each point where variables are in columns and dates are in rows. In objects of `SpatialGridMeteorology` and `SpatialPixelsMeteorology`, each data frame describes the meteorology over a complete grid, or a subset of cells, for a single day. In these cases, the data frame has grid cells in rows and variables in columns.
+When using `stars` data structures, daily weather variables are represented as attributes and dates are represented as a time dimension.
 
+### Interpolator objects
+
+Since **ver. 2.0.0**, reference weather data is represented by interpolator objects of class **stars**, where the interpolation parameter list is included as an attribute `params`. Interpolator objects can be created using function `create_meteo_interpolator()`, and interpolation parameters are retrieved or modified using functions `get_interpolation_params()` and `set_interpolation_params()`, respectively.
 
 ## Reading and writing meteorological data
 
-### Point meteorology (ascii/rds files)
-Objects of class `SpatialPointsMeteorology` are stored in the disk using one data file for each of their spatial points. Files can be stored in **ascii** (i.e. text) format or **rds** (i.e. R data of a single object compressed) format. Package **meteoland** provides four input/output functions for point meteorology:
-
-+ Function `readmeteorologypoint()` reads the meteorological data stored in one **ascii**/**rds** data file and returns a data frame.
-+ Function `writemeteorologypoint()` writes the meteorological data of a single point as an **ascii**/**rds** file in the file system.
-+ Function `readmeteorologypointfiles()` reads several **ascii**/**rds** files and returns an object of class `SpatialPointsMeteorology`.
-+ Functions `writemeteorologypointfiles()` writes several **ascii**/**rds** files in the disk, one per spatial point. Metadata (i.e. the spatial coordinates of each point and the corresponding file path) is stored in an additional file.
-
-### Point/gridded meteorology (netCDF)
-
-[**NetCDF**](https://www.unidata.ucar.edu/software/netcdf/docs/netcdf_introduction.html) is a set of libraries to write machine-independent data formats that support the creation and sharing of array-oriented scientific data. **NetCDF**  is very useful useful to store spatio-temporal datasets, as it allows storing the grid topology, the time period being described and the spatial projection as well as the actual data all in the same file. Moreover, **NetCDF** can be read and written lazily, without having to load all the file in memory. 
-
-Package **meteoland** allows objects of classes `SpatialPointsMeteorology`, `SpatialPixelsMeteorology` and `SpatialGridMeteorology` to be stored in the disk as **NetCDF** thanks to the functions provided by [**ncdf4**](https://cran.r-project.org/package=ncdf4) R package, which provides an interface to Unidata's netCDF library (version 4 or earlier). We try to conform to CF specifications in files written by **meteoland**, but improvements can always be made.
-
-The following functions are available for input/output of point meteorology:
-
-+ Functions `writemeteorologypoints()` writes meteorological point data on a **NetCDF**. 
-+ Function `readmeteorologypoints()` reads point meteorological data stored in one or several **NetCDFs** and returns an object of class `SpatialPointsMeteorology`. If several files are read, the function tries to merge the result.
-
-And the following functions are available for input/output of meteorology on pixels or full grids:
-
-+ Functions `readmeteorologygrid()` and `readmeteorologypixels()` read the meteorological data stored in one or several **NetCDF** file and return an object of class `SpatialGridMeteorology` or `SpatialPixelsMeteorology`, respectively. If several files are read, the function tries to merge the result. Rotated grids should not be read using this functions.
-+ Function `readmeteorologygridpoints()` allows reading grid pixels as points. It returns an object of class `SpatialPointsMeteorology`. This feature becomes useful to read data from rotated grids.
-+ Functions `writemeteorologygrid()` and `writemeteorologypixels()`  write the meteorological data of the full grid or the subset of grid cells, for a **NetCDF**. The same functions allow adding and replacing data content in a previously existing **NetCDF**.
-+ Function `writemeteorologygridpixel()` allows writing/replacing data for specific pixels in an existing **NetCDF**. 
-
-
-## Visualizing input topography and meteorological data
-
-Although very simple, the package provides two kinds of functions to visualize the temporal and spatial variation of meteorology:
-
-+ Function `spplot()` has been redefined from package **sp** to draw maps of specific weather variables corresponding to specific dates. The function can be used on objects of class `SpatialGridMeteorology` and `SpatialPixelsMeteorology`.
-+ Function `meteoplot()` allows the temporal series of specific variables on specific spatial points to be plotted. The function can read the data from the disk or from objects of class `SpatialPointsMeteorology`.
-
-Similarly, function `spplot()` also accepts objects of classes `SpatialGridTopography` and `SpatialPixelsTopography`, so that topography can also be easily displayed.
-
+Since **ver. 2.0.0**, reading and writing meteorological data is no longer dealt within the package, but can be dealt with using the corresponding functions in packages **sf** and **stars**. The only exception are interpolator objects, which are stored as NetCDFs and have their own functions `read_interpolator()` and `write_interpolator()`.
 
 ## Subsetting, merging and reshaping data
 
-A number of functions are available to manipulate data structures and to make them available for other R packages.
-
-### Subsetting and reshaping topography data
-
-Following the design of package **sp**, package meteoland provides several functions to manipulate topographic data structures (see fig. \@ref(fig:classconversiontopo)). 
-
-1. It is possible to coerce objects between from topography classes to the corresponding class in package **sp** using functions `as()`. This includes coercing to spatial objects with or without data columns. Additionally, an object of `SpatialPointsTopography` can be coerced into a `SpatialPixelsTopography` using a call like `as(x, "SpatialPixelsTopography")`.  
-2. It is possible to coerce objects to the general-purpose class `sf` of package [**sf**](https://cran.r-project.org/package=sf) using `as(..., "sf")`. 
-3. Subsetting (i.e.`[` operator) is allowed on all three spatial topographic classes. The valid arguments of this function call depend on the kind of structure.
-
-```{r classconversiontopo, out.width='100%', fig.align="center", fig.cap="Conversion between meteoland classes for topography and classes from other packages", echo=FALSE}
-knitr::include_graphics("class_conversion_topo.jpg")
-```
-
-### Subsetting and reshaping meteorology data
-
-Analogously, package meteoland provides several functions to manipulate spatio-temporal data structures (see fig. \@ref(fig:classconversionmeteo)). 
-
-1. It is possible to coerce objects between spatial classes using functions `as()`. 
-2. Subsetting (i.e.`[` operator) is allowed on all six spatial classes (topographic or meteorological). The valid arguments of this function call depend on the kind of structure.
-3. The package provides functions to extract meteorological data (these allow reading data in memory or from the disk):
-  + Functions `extractgridindex()` extracts the meteorology of a particular pixel index from a grid and returns a data frame with dates in rows and variables in columns.
-  + Function `extractgridpoints()` extract the meteorology of point locations from a grid and returns an object of `SpatialPointsMeteorology`, similarly to the `[` operator.
-  + Functions `extractdates()` and `extractvars()` extract the meteorology of a set of dates (or variables, respectively) from a `SpatialPointsMeteorology` object, (or `SpatialGridMeteorology` or `SpatialPixelsMeteorology`) and returns a `SpatialPointDataFrame` (or `SpatialGridDataFrame` or `SpatialPixelsDataFrame`) for each date (resp. variable) in a named list. This kind of conversion is also useful to export meteoland outputs to package [**raster**](https://cran.r-project.org/package=raster), which provides wrappers for the abovementioned **sp** classes.
-4. Finally, the package provides some functions to reshape meteorological data structures into more general structures of spatio-temporal data, so that they can be more easily processed, combined and stored using other R packages. In particular, objects of classes `SpatialPointsMeteoroloy`, `SpatialGridMeteorology` and `SpatialPixelsMeteorology` can be reshaped into objects of packages [**stars**](https://cran.r-project.org/package=stars) and [**spacetime**](https://cran.r-project.org/package=spacetime) by using calls like `as(x, "stars")` or `as(x, "STFDF")`.
-
-
-```{r classconversionmeteo, out.width='100%', fig.align="center", fig.cap="Conversion between meteoland classes for meteorology and classes from other packages", echo=FALSE}
-knitr::include_graphics("class_conversion_meteo.jpg")
-```
-
-### Merging meteorology data
-
-Functions `mergegrid()` and `mergepoints()` take any number of objects of the same spatial class and return a merged object. The functions pool over dates and variables, but the objects to merge should have the same spatial structures (points, grids, reference systems, ...). This is specially useful to merge data corresponding to different periods.
+Since **ver. 2.0.0**, subsetting, merging and reshaping weather data is done using functions provided by packages **sf** and **stars**.
 
 ## Summarizing meteorological data
 
-### Temporal summaries
+Since **ver. 2.0.0** spatial or temporal summaries can be done using functions of packages **sf** and **stars**. Additionally, **meteoland** provides a helper function called `summarise_interpolated_data()` that accepts the objects returned by function `interpolation_data()`.
 
-The package provides functions to generate *temporal* summaries of meteorological data. These accept meteorology objects as input and return their corresponding spatial dataframe structure with the summary statistics in columns:
+## Meteorology interpolation
 
-+ Function `summarypoints()` summarizes the meteorology of spatial points. It accepts objects of `SpatialPointsMeteorology` as input and returns an object of `SpatialPointsDataFrame` with point summaries for the requested variable. Temporal summaries can be calculated for different periods and using different summarizing functions (e.g. mean, sum, minimum, maximum, etc.).
-+ Functions `summarygrid()` and `summarypixels()` summarize the meteorology of full grids or of subset of grid cells, respectively. They accept objects of `SpatialGridMeteorology` and `SpatialPixelsMeteorology`, respectively, as input and return an object of `SpatialGridDataFrame` and `SpatialPixelsDataFrame`, respectively, with temporal summaries for the requested variable over the range of dates indicated.
-+ Function `summaryinterpolationdata()` works similarly to `summarypoints()`, but takes an object of class `MeteorologyInterpolationData` as input.
+Since **ver. 2.0.0**, package **meteoland** provides one single functions for interpolating meteorological data over landscapes. Function `interpolate_data()` interpolates weather for a set of locations, and accepts both `sf` and `stars` structures as input, but necessitates an interpolator object with the reference weather station data.
 
-All temporal summary functions except `summaryinterpolationdata()` accept a data file, or a metadata file as input. This allows, producing summaries lazily, without loading complete data structures in memory. Of course, this mode of producing summaries may be slower than operating on objects already loaded in memory.
-
-### Spatial summaries
-
-The package provides one function to produce *spatial* summaries. Function `averagearea()` averages the coordinates and meteorological values of any spatial meteorology object, returning an object of class `SpatialPointMeteorology` with a single point representing the average.
-
-## Meteorology estimation functions
-
-### Spatial interpolation
-Package **meteoland** provides three functions for interpolating meteorological data (i.e., one for each data structure):
-
-+ Function `interpolationpoints()` interpolates weather for a set of locations given in `SpatialPointsTopography` and returns an object of class `SpatialPointsMeteorology`.
-+ Function `interpolationpixels()` interpolates weather for pixels in a grid specified in `SpatialPixelsTopography` and returns an object of class `SpatialPixelsMeteorology`.
-+ Function `interpolationgrid()` interpolates weather for a whole grid specified in `SpatialGridTopography` and returns an object of class `SpatialGridMeteorology`.
-
-Both functions require an object of class `MeteorologyInterpolationData`, which contains the X-Y coordinates, the meteorological data and topography of a set of weather stations as well as weather interpolation parameters.
-```{r, echo = FALSE}
-showClass("MeteorologyInterpolationData")
-```
-When calling functions `interpolationpoints()`, `interpolationpixels()`, or `interpolationgrid()`, the user may require interpolation outputs to be written into the file system, instead of being stored in memory. For example, if `interpolationpoints()` is called with `export = TRUE` and a location directory, the function will write the data frame produced for each point into an **ascii** text file or a **rds** file. Metadata files will also be written, so that results can later be loaded in memory. Alternatively, `interpolationpoints()` can be forced to write results in a **netCDF** by specifying `export = TRUE` and `exportFile = <filename>`. Similarly, if `interpolationpixels()` or `interpolationgrid()` are called specifying `exportFile = <filename>`, the functions will create and add data to a **netCDF**. These options becomes important when dealing with very large spatial structures. 
-
-Functions `interpolation.calibration()` and `interpolation.cv()` are included in **meteoland** to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them. Details of interpolation routines are described in chapter \@ref(spatialinterpolation).
-
-### Statistical correction
-
-One function is available for statistical correction of meteorological data series (i.e., one function for each data structure). Function `correctionpoints()` performs statistical correction of weather data series on a set of locations and it returns an object of class `SpatialPointsMeteorology` containing corrected weather predictions. Statistical correction requires an object of class `MeteorologyUncorrectedData`, which contains the X-Y coordinates and the coarse-scale meteorological data to be corrected, which includes a reference (historic) period and projected (e.g. future) period:
-```{r echo=FALSE}
-showClass("MeteorologyUncorrectedData")
-```
-The reference (historical) period is compared with observed meteorological data of the same period, and the routine uses this information to correct the projected (e.g. future) period. Therefore, apart from the `MeteorologyUncorrectedData` object, the correction function requires accurate meteorological data (for a set of spatial points or a grid). Normally, these data will be the result of spatial interpolation.
-
-As before, when calling functions `correctionpoints()`, the user may require the outputs to be written into the file system, instead of being returned in memory. The options are the same as described for interpolation.
-
-Function `correctionpoints.errors()` was included in the package to evaluate the errors of the less accurate and more accurate series. Comparisons can be made before and after applying statistical corrections. In the latter case, cross-validation is also available. Details of correction routines are described in chapter \@ref(statisticalcorrection).
-
-### Weather generation
-
-Function `weathergeneration()` can be used to generate synthetic weather series for a range of inputs, including a (non-spatial) data frame (corresponding to weather series of a single location) as well as objects of classes `SpatialPointsDataFrame`, `SpatialPixelsDataFrame` or `SpatialGridDataFrame`. The output of the function is of the same class as the input object. Weather generation algorithms are described in chapter \@ref(weathergeneration).
+Functions `interpolator_calibration()` and `interpolation_cross_validation()` are included in **meteoland** to calibrate interpolation parameters and evaluate predictive performance of interpolation routines before using them. Details of interpolation routines are described in chapter \@ref(spatialinterpolation).

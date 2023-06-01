@@ -1,9 +1,9 @@
 # Introduction {#intro}
 
 ## Purpose
-Reliable meteorological data are a basic requirement for hydrological and ecological studies at the landscape scale. Given the large variation of weather over complex terrains, meteorological records from a single weather station are often not representative of entire landscapes. Studies made on multiple sites over a landscape require different meteorological series for each site; and other studies may require meteorological data series for all grid cells of a landscape, in a continuous way. In these cases, spatial correlation between the meteorology series of different sites or cells must be taken into account. For example, the sequence of days with rain of contiguous cells will normally be the same or very similar, even if precipitation amounts may differ. Finally, studies addressing the impacts of climate change on forested landscapes require downscaling coarse-scale predictions  of global or regional climate models to the landscape scale. When downscaling predictions for several locations in a landscape, spatial correlation of predictions is also important.
+Reliable meteorological data are a basic requirement for hydrological and ecological studies at the landscape scale. Given the large variation of weather over complex terrains, meteorological records from a single weather station are often not representative of entire landscapes. Studies made on multiple sites over a landscape require different meteorological series for each site; and other studies may require meteorological data series for all grid cells of a landscape, in a continuous way. In these cases, spatial correlation between the meteorology series of different sites or cells must be taken into account. For example, the sequence of days with rain of contiguous cells will normally be the same or very similar, even if precipitation amounts may differ substantially. Finally, studies addressing the impacts of climate change on forested landscapes require downscaling and bias-correcting coarse-scale predictions of global or regional climate models to the landscape scale. When downscaling predictions for several locations in a landscape, spatial correlation of predictions is also important.
 
-With the aim to assist research of climatic impacts, the R package **meteoland** [@DeCaceres2018] provides utilities to estimate daily weather variables at any position over complex terrains. The package provide functions to assist the following tasks:
+With the aim to assist research of climatic impacts, the R package **meteoland** [@DeCaceres2018] provides utilities to estimate daily weather variables at any position over complex terrains. The package was desgined to provide functions to assist the following tasks:
 
 + Spatial interpolation of daily weather records from meteorological stations. 
 + Statistical correction of meteorological data series (e.g. from climate models).
@@ -11,6 +11,7 @@ With the aim to assist research of climatic impacts, the R package **meteoland**
 
 Spatial interpolation is required when meteorology for the area and period of interest cannot be obtained from local sensors. The nearest weather station may not have data for the period of interest or it may be located too far away to be representative of the target area. Correcting the biases of a meteorological data series containing biases using a more accurate meteorological series is necessary when the more accurate series does not cover the period of interest and the less accurate series does. The less accurate series may be at coarser scale, as with climate model predictions or climate reanalysis data. In this case one can speak of statistical correction and downscaling. However, one may also correct the predictions of climate models using reanalysis data estimated at the same spatial resolution. Finally, stochastic weather generators are algorithms that produce series of synthetic daily weather data. The parameters of the model are conditioned on existing meteorological records to ensure the characteristics of input weather series emerge in the daily stochastic process.
 
+**IMPORTANT NOTE**: Strong modifications of the spatial data structures in the package made starting in **ver. 2.0** have led to a completely new set of functions for **spatial interpolation**, which is the main use of the package. At the same time, previous functions for **statistical correction** and **weather generation** have been deprecated. Although the theory underlying these latter tasks is still described in this manual, and the future evolution of the package may lead to new functions being developed, users intending to perform those tasks should resort on other packages at present.
 
 ## Package installation
 
@@ -19,9 +20,9 @@ Package **meteoland** is officially distributed via [CRAN](https://CRAN.R-projec
 install.packages("meteoland")
 ```
 
-Users can also download and install the latest stable versions GitHub as follows (required package `devtools` should be installed/updated first):
+Users can also download and install the latest stable versions GitHub as follows (required package `remotes` should be installed/updated first):
 
 ```{r installation, eval = FALSE}
-devtools::install_github("emf-creaf/meteoland")
+remotes::install_github("emf-creaf/meteoland")
 ```
 

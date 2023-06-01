@@ -2,54 +2,13 @@
 
 ## Downloading data from weather station networks
 
-National meteorological agencies are increasingly adopting an open data philosophy. Package **meteoland** is able to retrieve data from three agencies:
-
-
-1. The Spanish meteorological bureau (Agencia Española de Meteorología, AEMET)
-2. The Catalan meteorology service (Servei Català de Meteorologia, SMC). 
-3. The Galician meteorology agency (MeteoGalicia, MG)
-
-Functions that retrieve AEMET, SMC data use their OpenData application programming interface (API) and API keys need to be obtained from AEMET or SMC. These are:
-
-+ `downloadAEMEThistoricalstationlist()` : Gets the list of AEMET stations from which historical daily meteorological data is available.
-+ `downloadAEMEThistorical()` : Downloads historical daily meteorological data corresponding to a input set of AEMET stations and a given period.
-+ `downloadAEMETcurrentday()` : Downloads the last 24h of meteorological data corresponding to a input set of AEMET stations.
-+ `downloadSMCvarmetadata()`: Downloads the definition of meteorological variables, their units and codes for SMC.
-+ `downloadSMCcurrentday()` : Downloads the last 24h of meteorological data corresponding to a input set of SMC stations.
-+ `downloadSMChistorical()` : Downloads historical daily meteorological data corresponding to a input set of SMC stations and a given period.
-
-Similar functions are provided to access data from MG without needing any key:
-
-+ `downloadMGstationlist()` : Gets information of the list of MG stations that are presently in function.
-+ `downloadMGcurrentday()` : Downloads the last 24h of meteorological data corresponding to a input set of MG stations.
-+ `downloadMGhistorical()` : Downloads historical daily meteorological data corresponding to a input set of MG stations and a given period.
-
-Please, acknowledge the corresponding administration as source of information when using data downloaded by these functions. 
-
-IMPORTANT NOTE: The package functions listed above will not be maintained in releases of **meteoland** after version 1.0.1. Instead, the user is strongly recommended to use package [**meteospain**](https://cran.r-project.org/package=meteospain).
-
+National meteorological agencies are increasingly adopting an open data philosophy. Previous versions of **meteoland** included functions for accessing daily weather data from different meteorological agencies in Spain. Since **ver. 2.0.0** these functions have been deprecated. Instead, the user is strongly recommended to use package [**meteospain**](https://cran.r-project.org/package=meteospain).
 
 
 ## Reshaping data obtained from other packages
 
-**meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. So far, three packages are supported, [**meteospain**](https://cran.r-project.org/package=meteospain), [**worldmet**](https://cran.r-project.org/package=worldmet) and [**weathercan**](https://cran.r-project.org/package=weathercan). The corresponding data reshape functions are called `reshapemeteospain()`, `reshapeworldmet()` and `reshapeweathercan()`, respectively.
+**meteoland** provides functions to facilitate reshaping weather data acquired using other R packages into the meteoland format. At present, two packages are supported, [**meteospain**](https://cran.r-project.org/package=meteospain), [**worldmet**](https://cran.r-project.org/package=worldmet). The corresponding data reshape functions are called `meteospain2meteoland()` and `worldmet2meteoland()`.
 
-## Obtaining static wind fields
-
-External software is necessary to calculate the set of wind fields for the study area under different domain-level average situations. For this we recommend using [WindNinja](http://firelab.org/project/windninja), a computer program that calculates spatially varying wind fields for wildland fire applications. WindNinja allows simulating the spatial variation of wind for one instant in time. It was developed to be used by emergency responders within their typical operational constraints of fast simulation times (seconds), low CPU requirements (single processor laptops), and low technical expertise. WindNinja is typically run on domain sizes up to 50 kilometers by 50 kilometers and at resolutions of around 100 meters. The program is free and can be downloaded from (http://www.firemodels.org).
-
-The inputs for a basic run of WindNinja are an elevation data file for the study area, a domain-averaged input wind speed and direction and a specification of the dominant vegetation in the area. In order to obtain a set of pre-computed rasters of wind direction and speed, we suggest the following procedure:
-
-+ Export the elevation raster of the study area in one of the file formats accepted by WindNinja (*.asc*, *.tif* or *.img*). In the case of a large study area (e.g. > 100 x 100 km) one should run WindNinja in subsets of the area and then integrate the results [@Sanjuan2014].
-+ Run WindNinja, using the elevation of the study area, for all combinations of wind direction and wind speed class (for each wind speed class an mean class value has to be chosen). Several combinations of domain-level wind speed and wind direction can be specified for a single run, and the program can also be run in batch mode.
-+ Read raster files created by WindNinja (a wind speed file, a wind direction file) for each combination of domain-level wind speed and direction.
-
-Function `readWindNinjaOutput()` can be used to conduct this last step. The function allows parsing all the ASCII raster files produced by WindNinja for combinations of wind direction (e.g., 0, 45, 90, 135, 180, 225, 270 and 315 degrees) and wind speed (e.g., 2, 7 and 10 m/s). The function returns a list with the following elements:
-
-+ The vector of domain-level wind directions corresponding to WindNinja Runs
-+ The vector of domain-level wind speed corresponding to WindNinja Runs
-+ An object `SpatialGridDataFrame` containing the wind directions (in degrees from North) for all WindNinja runs.
-+ An object `SpatialGridDataFrame` containing the wind speeds (in m/s) for all WindNinja runs.
 
 ## Physical utility functions {#physicalutils}
 

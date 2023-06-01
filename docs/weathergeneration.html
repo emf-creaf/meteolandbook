@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Weather generation | The meteoland reference book</title>
   <meta name="description" content="This is a reference book for data structures and functions included in package meteoland." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Weather generation | The meteoland reference book" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a reference book for data structures and functions included in package meteoland." />
   
@@ -23,7 +22,7 @@
 
 
 
-<meta name="date" content="2022-01-05" />
+<meta name="date" content="2023-06-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="potentialevapotranspiration.html"/>
 <link rel="next" href="miscellaneous.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -92,7 +91,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +104,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -174,30 +177,12 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.2.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#topography"><i class="fa fa-check"></i><b>2.2.1</b> Topography</a></li>
 <li class="chapter" data-level="2.2.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology"><i class="fa fa-check"></i><b>2.2.2</b> Meteorology</a></li>
+<li class="chapter" data-level="2.2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#interpolator-objects"><i class="fa fa-check"></i><b>2.2.3</b> Interpolator objects</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#point-meteorology-asciirds-files"><i class="fa fa-check"></i><b>2.3.1</b> Point meteorology (ascii/rds files)</a></li>
-<li class="chapter" data-level="2.3.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#pointgridded-meteorology-netcdf"><i class="fa fa-check"></i><b>2.3.2</b> Point/gridded meteorology (netCDF)</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#visualizing-input-topography-and-meteorological-data"><i class="fa fa-check"></i><b>2.4</b> Visualizing input topography and meteorological data</a></li>
-<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.5</b> Subsetting, merging and reshaping data</a>
-<ul>
-<li class="chapter" data-level="2.5.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-topography-data"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting and reshaping topography data</a></li>
-<li class="chapter" data-level="2.5.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-and-reshaping-meteorology-data"><i class="fa fa-check"></i><b>2.5.2</b> Subsetting and reshaping meteorology data</a></li>
-<li class="chapter" data-level="2.5.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#merging-meteorology-data"><i class="fa fa-check"></i><b>2.5.3</b> Merging meteorology data</a></li>
-</ul></li>
-<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.6</b> Summarizing meteorological data</a>
-<ul>
-<li class="chapter" data-level="2.6.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#temporal-summaries"><i class="fa fa-check"></i><b>2.6.1</b> Temporal summaries</a></li>
-<li class="chapter" data-level="2.6.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-summaries"><i class="fa fa-check"></i><b>2.6.2</b> Spatial summaries</a></li>
-</ul></li>
-<li class="chapter" data-level="2.7" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-estimation-functions"><i class="fa fa-check"></i><b>2.7</b> Meteorology estimation functions</a>
-<ul>
-<li class="chapter" data-level="2.7.1" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#spatial-interpolation"><i class="fa fa-check"></i><b>2.7.1</b> Spatial interpolation</a></li>
-<li class="chapter" data-level="2.7.2" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#statistical-correction"><i class="fa fa-check"></i><b>2.7.2</b> Statistical correction</a></li>
-<li class="chapter" data-level="2.7.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#weather-generation"><i class="fa fa-check"></i><b>2.7.3</b> Weather generation</a></li>
-</ul></li>
+<li class="chapter" data-level="2.3" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#reading-and-writing-meteorological-data"><i class="fa fa-check"></i><b>2.3</b> Reading and writing meteorological data</a></li>
+<li class="chapter" data-level="2.4" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#subsetting-merging-and-reshaping-data"><i class="fa fa-check"></i><b>2.4</b> Subsetting, merging and reshaping data</a></li>
+<li class="chapter" data-level="2.5" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#summarizing-meteorological-data"><i class="fa fa-check"></i><b>2.5</b> Summarizing meteorological data</a></li>
+<li class="chapter" data-level="2.6" data-path="datastructuresfunctions.html"><a href="datastructuresfunctions.html#meteorology-interpolation"><i class="fa fa-check"></i><b>2.6</b> Meteorology interpolation</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="spatialinterpolation.html"><a href="spatialinterpolation.html"><i class="fa fa-check"></i><b>3</b> Spatial interpolation of weather records</a>
 <ul>
@@ -241,8 +226,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="8.1" data-path="miscellaneous.html"><a href="miscellaneous.html#downloading-data-from-weather-station-networks"><i class="fa fa-check"></i><b>8.1</b> Downloading data from weather station networks</a></li>
 <li class="chapter" data-level="8.2" data-path="miscellaneous.html"><a href="miscellaneous.html#reshaping-data-obtained-from-other-packages"><i class="fa fa-check"></i><b>8.2</b> Reshaping data obtained from other packages</a></li>
-<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#obtaining-static-wind-fields"><i class="fa fa-check"></i><b>8.3</b> Obtaining static wind fields</a></li>
-<li class="chapter" data-level="8.4" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.4</b> Physical utility functions</a></li>
+<li class="chapter" data-level="8.3" data-path="miscellaneous.html"><a href="miscellaneous.html#physicalutils"><i class="fa fa-check"></i><b>8.3</b> Physical utility functions</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
@@ -265,17 +249,18 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="weathergeneration" class="section level1" number="7">
-<h1><span class="header-section-number">Chapter 7</span> Weather generation</h1>
-<p>Since version 0.8.6, <strong>meteoland</strong> incorporates the possibility of generating stochastic weather series. Stochastic weather generators are algorithms that produce series of synthetic daily weather data. The parameters of the model are conditioned on existing meteorological records to ensure the characteristics of input weather series emerge in the daily stochastic process. The weather generation approaches available in <strong>meteoland</strong> are intended to be used to generate daily series of the same length as the input. It can be understood as a bootstrap resampling algorithm that tries to preserve some properties of the original weather series. The approach implemented in <strong>meteoland</strong> can be applied to any spatial structure (points/pixels/grid) and it preserves the spatial correlation and multivariate covariance structure of weather series (because it works on area-averaged weather and the chosen resampled days are applied to all points/pixels).</p>
+<div id="weathergeneration" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Weather generation<a href="weathergeneration.html#weathergeneration" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>IMPORTANT NOTE</strong>: In version 0.8.6, <strong>meteoland</strong> incorporated the possibility of generating stochastic weather series. Note, however, that the corresponding functions have been <em>deprecated</em> since <strong>ver. 2.0.0</strong>. We still keep this theoretical explanation in case new functions are developed in the future.</p>
+<p>Stochastic weather generators are algorithms that produce series of synthetic daily weather data. The parameters of the model are conditioned on existing meteorological records to ensure the characteristics of input weather series emerge in the daily stochastic process. The weather generation approaches available in <strong>meteoland</strong> are intended to be used to generate daily series of the same length as the input. It can be understood as a bootstrap resampling algorithm that tries to preserve some properties of the original weather series. The approach implemented in <strong>meteoland</strong> can be applied to any spatial structure and it preserves the spatial correlation and multivariate covariance structure of weather series (because it works on area-averaged weather and the chosen resampled days are applied to all points/pixels).</p>
 <p>Two modes of weather generation are offered:</p>
 <ol style="list-style-type: decimal">
 <li>Unconditional weather generation is based on a first order Markov chain (MC) to simulate a series of precipitation states (dry/wet/extreme wet) and a K-nearest neighbor (<span class="math inline">\(k\)</span>-NN) algorithm to select a pair of consecutive days with the same transition and similar weather for the first day.</li>
 <li>Conditional weather generation couples the former generation algorithm with a second algorithm to generate multiyear variation.</li>
 </ol>
-<div id="unconditional-weather-generation-algorithm" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Unconditional weather generation algorithm</h2>
-<p>The algorithm is based on <span class="citation"><a href="#ref-Apipattanavis2007" role="doc-biblioref">Apipattanavis et al.</a> (<a href="#ref-Apipattanavis2007" role="doc-biblioref">2007</a>)</span> and combines a Markov Chain (MC) to generate the sequence of precipitation states with a <em>k</em>-nearest neighbor (<em>k</em>-NN) bootstrap resampler to generate multivariate and multisite weather variables. The MC is used to better represent wet and dry spell statistics while the <em>k</em>-NN bootstrap resampler preserves the covariance structure between weather variables and across space.</p>
+<div id="unconditional-weather-generation-algorithm" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Unconditional weather generation algorithm<a href="weathergeneration.html#unconditional-weather-generation-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The algorithm is based on <span class="citation">Apipattanavis et al. (<a href="#ref-Apipattanavis2007" role="doc-biblioref">2007</a>)</span> and combines a Markov Chain (MC) to generate the sequence of precipitation states with a <em>k</em>-nearest neighbor (<em>k</em>-NN) bootstrap resampler to generate multivariate and multisite weather variables. The MC is used to better represent wet and dry spell statistics while the <em>k</em>-NN bootstrap resampler preserves the covariance structure between weather variables and across space.</p>
 <p>The weather generation approach is based on the common practice of first simulating precipitation occurence as a chain-dependent process. A three-state (dry / wet / extremely wet) Markov chain (MC) of order 1 is used to simulate an (area-averaged) precipitation state series. Nine transition probabilities are fit to the (area-averaged) input precipitation state series by month using maximum likelihood. A threshold of 0.3 mm (by default) is chosen to distinguish between dry and wet days, while the 80th percentile of precipitation (on wet days) is used as a threshold for extremely wet conditions. The fitted MC can be used to simulate (area-averaged) precipitation state series. A <em>k</em>-NN resampling algorithm of lag-1 is used
 to generate the values for all the weather variables, including disaggregation to <span class="math inline">\(L\)</span> locations. The <em>k</em>-NN bootstrap resampler algorithm follows six steps (description adapted from Steinschneider et al. 2013):</p>
 <ol style="list-style-type: decimal">
@@ -296,8 +281,8 @@ where <span class="math inline">\(j\)</span> indexes the <span class="math inlin
 </ol>
 <p>To begin the resampling algorithm and generate initial (area-averaged) <span class="math inline">\(\bar{\bf{x}}_{1}\)</span> values for all weather variables, data from a random day from the simulation starting month is selected from the historic record that is consistent with the first precipitation state simulated by the MC.</p>
 </div>
-<div id="conditional-weather-generation" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Conditional weather generation</h2>
+<div id="conditional-weather-generation" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Conditional weather generation<a href="weathergeneration.html#conditional-weather-generation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The algorithm described in the previous section allows generating intra-annual (i.e. seasonal) weather variation because of monthly calibration of the MC and <span class="math inline">\(k\)</span>-NN selection of pairs of days on the basis of their day of the year. However, year-to-year variation in annual precipitation or mean temperature will arise due to stochasticity only. Multi-year variation (i.e. low-frequency periodic variations or long-term trends) cannot be simulated. Two alternative approaches are offered in <strong>meteoland</strong> to condition stochastic weather generation on multi-year variation.</p>
 <ol style="list-style-type: decimal">
 <li><p>Annual precipitation can be conditioned by using a stationary auto-regressive (ARIMA) model annual precipitation and then using a <span class="math inline">\(k\)</span>-nearest neighbor algorithm (similar to that of the previous section) to select years of the original weather series with annual precipitation similar to the simulated one and produce a bootstrap resample of weather data to train the MC-KNN algorithm <span class="citation">(<a href="#ref-Steinschneider2013" role="doc-biblioref">Steinschneider and Brown 2013</a>)</span>. This option is recommended if low-frequency variation of annual precipitation is to be acounted for in long series.</p></li>
@@ -306,7 +291,7 @@ where <span class="math inline">\(j\)</span> indexes the <span class="math inlin
 
 </div>
 </div>
-<h3>Bibliography</h3>
+<h3>Bibliography<a href="bibliography.html#bibliography" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Apipattanavis2007" class="csl-entry">
 Apipattanavis, Somkiat, Guillermo Podestá, Balaji Rajagopalan, and Richard W. Katz. 2007. <span>“<span class="nocase">A semiparametric multivariate and multisite weather generator</span>.”</span> <em>Water Resources Research</em> 43 (11). <a href="https://doi.org/10.1029/2006WR005714">https://doi.org/10.1029/2006WR005714</a>.
@@ -381,7 +366,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -1,5 +1,3 @@
-fig:classconversiontopo
-fig:classconversionmeteo
 intro
 purpose
 package-installation
@@ -8,21 +6,11 @@ meteorological-variables
 spatial-classes
 topography
 meteorology
+interpolator-objects
 reading-and-writing-meteorological-data
-point-meteorology-asciirds-files
-pointgridded-meteorology-netcdf
-visualizing-input-topography-and-meteorological-data
 subsetting-merging-and-reshaping-data
-subsetting-and-reshaping-topography-data
-subsetting-and-reshaping-meteorology-data
-merging-meteorology-data
 summarizing-meteorological-data
-temporal-summaries
-spatial-summaries
-meteorology-estimation-functions
-spatial-interpolation
-statistical-correction
-weather-generation
+meteorology-interpolation
 spatialinterpolation
 overview
 interpolation-weights
@@ -52,5 +40,4 @@ conditional-weather-generation
 miscellaneous
 downloading-data-from-weather-station-networks
 reshaping-data-obtained-from-other-packages
-obtaining-static-wind-fields
 physicalutils
