@@ -22,7 +22,7 @@
 
 
 
-<meta name="date" content="2023-06-01" />
+<meta name="date" content="2023-06-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -254,7 +254,7 @@ div.csl-indent {
 <div id="purpose" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Purpose<a href="intro.html#purpose" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Reliable meteorological data are a basic requirement for hydrological and ecological studies at the landscape scale. Given the large variation of weather over complex terrains, meteorological records from a single weather station are often not representative of entire landscapes. Studies made on multiple sites over a landscape require different meteorological series for each site; and other studies may require meteorological data series for all grid cells of a landscape, in a continuous way. In these cases, spatial correlation between the meteorology series of different sites or cells must be taken into account. For example, the sequence of days with rain of contiguous cells will normally be the same or very similar, even if precipitation amounts may differ substantially. Finally, studies addressing the impacts of climate change on forested landscapes require downscaling and bias-correcting coarse-scale predictions of global or regional climate models to the landscape scale. When downscaling predictions for several locations in a landscape, spatial correlation of predictions is also important.</p>
-<p>With the aim to assist research of climatic impacts, the R package <strong>meteoland</strong> <span class="citation">(<a href="#ref-DeCaceres2018" role="doc-biblioref">De Cáceres et al. 2018</a>)</span> provides utilities to estimate daily weather variables at any position over complex terrains. The package was desgined to provide functions to assist the following tasks:</p>
+<p>With the aim to assist research of climatic impacts, the R package <strong>meteoland</strong> <span class="citation">(<a href="#ref-DeCaceres2018">De Cáceres et al. 2018</a>)</span> provides utilities to estimate daily weather variables at any position over complex terrains. The package was desgined to provide functions to assist the following tasks:</p>
 <ul>
 <li>Spatial interpolation of daily weather records from meteorological stations.</li>
 <li>Statistical correction of meteorological data series (e.g. from climate models).</li>
@@ -266,9 +266,9 @@ div.csl-indent {
 <div id="package-installation" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Package installation<a href="intro.html#package-installation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Package <strong>meteoland</strong> is officially distributed via <a href="https://CRAN.R-project.org/package=meteoland">CRAN</a>. Hence, it can be installed using:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;meteoland&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;meteoland&quot;</span>)</span></code></pre></div>
 <p>Users can also download and install the latest stable versions GitHub as follows (required package <code>remotes</code> should be installed/updated first):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="intro.html#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;emf-creaf/meteoland&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="intro.html#cb2-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;emf-creaf/meteoland&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

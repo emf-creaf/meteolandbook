@@ -22,7 +22,7 @@
 
 
 
-<meta name="date" content="2023-06-01" />
+<meta name="date" content="2023-06-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -251,10 +251,10 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="potentialevapotranspiration" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Estimation of potential evapo-transpiration<a href="potentialevapotranspiration.html#potentialevapotranspiration" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Package <strong>meteoland</strong> allows calculating daily potential evapo-transpiration (PET) using Penman’s formulation <span class="citation">(<a href="#ref-Penman1948" role="doc-biblioref">Penman 1948</a>, <a href="#ref-Penman1956" role="doc-biblioref">1956</a>)</span> or Penman-Monteith formulation. PET is automatically calculated after meteorological data have been interpolated (i.e. within function <code>interpolate_data()</code>), but PET values can also be calculated for a single point using functions <code>penman()</code> or <code>penmanmonteith()</code>. For other formulations of PET, the reader is referred to the R package <a href="https://cran.r-project.org/package=Evapotranspiration"><strong>Evapotranspiration</strong></a>.</p>
+<p>Package <strong>meteoland</strong> allows calculating daily potential evapo-transpiration (PET) using Penman’s formulation <span class="citation">(<a href="#ref-Penman1948">Penman 1948</a>, <a href="#ref-Penman1956">1956</a>)</span> or Penman-Monteith formulation. PET is automatically calculated after meteorological data have been interpolated (i.e. within function <code>interpolate_data()</code>), but PET values can also be calculated for a single point using functions <code>penman()</code> or <code>penmanmonteith()</code>. For other formulations of PET, the reader is referred to the R package <a href="https://cran.r-project.org/package=Evapotranspiration"><strong>Evapotranspiration</strong></a>.</p>
 <div id="penman-formulation" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Penman formulation<a href="potentialevapotranspiration.html#penman-formulation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Penman <span class="citation">(<a href="#ref-Penman1948" role="doc-biblioref">1948</a>)</span> proposed an equation to calculate daily potential evaporation that combined an energy equation based on net incoming radiation with an aerodynamic approach. The Penman or Penman combination equation is:
+<p>Penman <span class="citation">(<a href="#ref-Penman1948">1948</a>)</span> proposed an equation to calculate daily potential evaporation that combined an energy equation based on net incoming radiation with an aerodynamic approach. The Penman or Penman combination equation is:
 <span class="math display">\[\begin{equation}
 E_{pot} = \frac{\Delta}{\Delta+\gamma}\cdot \frac{R_n}{\lambda}+\frac{\lambda}{\Delta + \lambda}\cdot E_a
 \end{equation}\]</span>
@@ -262,14 +262,14 @@ where <span class="math inline">\(PET\)</span> is the daily potential evaporatio
 <span class="math display">\[\begin{equation}
 E_a = f(u) \cdot D = f(u) \cdot (v_a^*-v_a)
 \end{equation}\]</span>
-where <span class="math inline">\(v_a^*\)</span> is the saturation vapour pressure (<span class="math inline">\(kPa\)</span>) and <span class="math inline">\(v_a\)</span> the actual vapour pressure (<span class="math inline">\(kPa\)</span>) and <span class="math inline">\(f(u)\)</span> is a function of wind speed, for which there are two alternatives <span class="citation">(<a href="#ref-Penman1948" role="doc-biblioref">Penman 1948</a>, <a href="#ref-Penman1956" role="doc-biblioref">1956</a>)</span>:
+where <span class="math inline">\(v_a^*\)</span> is the saturation vapour pressure (<span class="math inline">\(kPa\)</span>) and <span class="math inline">\(v_a\)</span> the actual vapour pressure (<span class="math inline">\(kPa\)</span>) and <span class="math inline">\(f(u)\)</span> is a function of wind speed, for which there are two alternatives <span class="citation">(<a href="#ref-Penman1948">Penman 1948</a>, <a href="#ref-Penman1956">1956</a>)</span>:
 <span class="math display">\[\begin{eqnarray}
 f(u) &amp;=&amp; 1.313 + 1.381 \cdot u\\
 f(u) &amp;=&amp; 2.626 + 1.381 \cdot u
 \end{eqnarray}\]</span>
-If wind speed is not available, an alternative formulation for <span class="math inline">\(E_{pot}\)</span> is used as an approximation <span class="citation">(<a href="#ref-Valiantzas2006" role="doc-biblioref">Valiantzas 2006</a>)</span>:
+If wind speed is not available, an alternative formulation for <span class="math inline">\(E_{pot}\)</span> is used as an approximation <span class="citation">(<a href="#ref-Valiantzas2006">Valiantzas 2006</a>)</span>:
 <span class="math display">\[\begin{equation}
-PET \simeq 0.047\cdot R_s \cdot (T_a+9.5)^{0.5}-2.4\cdot (\frac{R_s}{R_{pot}})^2+0.09\cdot(T_a-20)\cdot(1-\frac{RH_{mean}}{100})
+PET \simeq 0.047\cdot R_s \cdot (T_a+9.5)^{0.5}-2.4\cdot \left(\frac{R_s}{R_{pot}} \right)^2+0.09\cdot(T_a-20)\cdot \left(1-\frac{RH_{mean}}{100} \right)
 \end{equation}\]</span>
 where <span class="math inline">\(R_s\)</span> is the incoming solar radiation (in <span class="math inline">\(MJ\cdot m^{-2}\cdot day^{-1}\)</span>), <span class="math inline">\(T_a\)</span> is the mean daily temperature (in <span class="math inline">\(^\circ C\)</span>), <span class="math inline">\(R_{pot}\)</span> is the potential (i.e. extraterrestrial) solar radiation (in <span class="math inline">\(MJ\cdot m^{-2}\cdot day^{-1}\)</span>) and <span class="math inline">\(RH_{mean}\)</span> is the mean relative humidity (in percent).</p>
 </div>
